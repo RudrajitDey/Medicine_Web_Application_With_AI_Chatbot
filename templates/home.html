@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% block title %}Medi Clinic{% endblock title %}
+
+<link rel="stylesheet" href="{% static 'home.css' %}">
+
+{% block content %}
+
+<section class="hero-section">
+  <div class="hero-content">
+    <h1 id="text1">Affordable Solutions for</h1>
+    <h1 id="text2">Everyday Care</h1>
+    <p>Order medicines, consult doctors, and use AI chatbot instantly.</p>
+    <a href="{% url 'all_medicines' %}"><button>Shop Now</button></a>
+  </div>
+
+  <div class="hero-image">
+    <img src="{% static 'hero_image.png' %}" alt="Hero Image">
+  </div>
+</section>
+
+<div class="order-whatsapp">
+  <div class="text-left"><h2>Place <span>Your Order Via</span></h2>
+  </div>
+  <div class="text-right">
+    <h2>Call Us On <span>+=9863217669</span></h2>
+  </div>
+</div>
+
+<div class="product-ad">
+  <div class="left-ad">
+  <img src="{% static 'pr1.jpg' %}" alt="">
+  </div>
+  <div class="right-ad">
+  <img src="{% static 'pr2.jpg' %}" alt="">
+  </div>
+</div>
+
+<div class="content-section">
+  <div class="title">
+    <p>Shop By Categories</p>
+    <p id="offer-tag">Save Upto 60% on your Medicines</p>
+  </div>
+
+  <div class="categories">
+  {% for cat in categories %}
+  
+    <div class="full-box" onclick="filterCategory('{{ cat.id }}', this)">
+      
+      <div class="box">
+        <img src="{{ cat.category_image.url }}" alt="">
+      </div>
+
+      <p>{{ cat.category_name }}</p>
+
+    </div>
+
+  {% endfor %}
+</div>
+
+  <div class="all-product">
+
+  {% for item in category_data %}
+    {% for product in item.products %}
+    
+    <div class="card-box" data-category="{{ item.category.id }}">
+      
+      <div class="product-img">
+        <img src="{{ product.product_image.url }}" alt="">
+      </div>
+
+      <div class="product-name">
+        <p>{{ product.product_name }}</p>
+      </div>
+
+    </div>
+
+    {% endfor %}
+  {% endfor %}
+  </div>
+</div>
+<div class="full-faq">
+  <div class="faq-title">
+    <h2>FAQs</h2>
+  </div>
+  <div class="faq-section">
+  
+    <div class="faq-container">
+
+      {% for faq in faqs %}
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span>{{faq.faq_question}}</span>
+              <span class="icon">⌃</span>
+          </div>
+          <div class="faq-answer">
+            <p>{{faq.faq_answer}}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="bottom-section">
+  <div class="text-section">
+    Order medicines online from Truemeds at the best prices.
+    <div class="lower-text">
+      An online pharmacy you can trust.
+    </div>
+  </div>
+  <div class="image-section">
+    <img src="{% static 'pherma.png' %}" alt="">
+  </div>
+</div>
+
+<div class="footer">
+  
+</div>
+
+<script>
+function toggleMenu() {
+  document.getElementById("navMenu").classList.toggle("active");
+}
+
+function filterCategory(categoryId, element) {
+    let products = document.querySelectorAll('.card-box');
+    let categories = document.querySelectorAll('.full-box');
+
+    // remove active
+    categories.forEach(c => c.classList.remove('active'));
+
+    // highlight clicked
+    element.classList.add('active');
+
+    // filter
+    products.forEach(product => {
+        if (product.getAttribute('data-category') == categoryId) {
+            product.style.display = "block";
+        } else {
+            product.style.display = "none";
+        }
+    });
+}
+
+function toggleFAQ(element) {
+    let item = element.parentElement;
+
+    document.querySelectorAll('.faq-item').forEach(faq => {
+        if (faq !== item) {
+            faq.classList.remove('active');
+        }
+    });
+
+    item.classList.toggle('active');
+}
+</script>
+{% endblock content %}
+

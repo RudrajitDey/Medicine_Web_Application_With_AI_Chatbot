@@ -1,0 +1,23 @@
+<!-- templates/become_seller.html -->
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <input type="text" name="username" placeholder="Username" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="password" name="password" placeholder="Password" required>
+
+    <input type="text" name="shop_name" placeholder="Shop Name" required>
+    <input type="text" name="owner_name" placeholder="Owner Name">
+
+    <input type="text" name="phone" placeholder="Phone">
+
+    <input type="text" name="gst" placeholder="GST Number">
+    <input type="text" name="license" placeholder="Drug License">
+    <input type="text" name="city" placeholder="City">
+
+    <input type="file" name="gst_file" placeholder="gst">
+    <input type="file" name="license_file">
+    <input type="file" name="id_proof">
+
+    <button type="submit">Submit</button>
+</form>

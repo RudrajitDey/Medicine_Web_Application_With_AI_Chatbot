@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Seller Add Product{% endblock title %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Product</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            margin: 0;
+            
+        }
+
+        .form-container {
+            background: #fff;
+            padding: 25px;
+            margin: 30px auto;
+            max-width: 700px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #3498db;
+        }
+
+        #mybtn {
+            width: 100%;
+            padding: 12px;
+            background: #3498db;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        #mybtn:hover {
+            background: #2980b9;
+        }
+
+        .success {
+            color: green;
+            text-align: center;
+        }
+
+        label {
+            font-weight: 510;
+            margin-top: 10px;
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Add Product</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p class="success">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Product Name -->
+        <label>Product Name</label>
+        <input type="text" name="name" placeholder="Enter product name" required>
+
+        <!-- Description -->
+        <label>Description</label>
+        <textarea name="description" placeholder="Enter description"></textarea>
+
+        <!-- Category -->
+        <label>Category</label>
+        <input type="text" name="category" placeholder="Enter category">
+
+        <!-- Brand -->
+        <label>Brand</label>
+        <input type="text" name="brand" placeholder="Enter brand">
+
+        <!-- Price -->
+        <label>Price</label>
+        <input type="number" name="price" placeholder="Enter price" required>
+
+        <!-- Discount Price -->
+        <label>Discount Price</label>
+        <input type="number" name="discount_price" placeholder="Enter discount price">
+
+        <!-- Stock -->
+        <label>Stock</label>
+        <input type="number" name="stock" placeholder="Enter stock" required>
+
+        <!-- Expiry Date -->
+        <label>Expiry Date</label>
+        <input type="date" name="expiry_date">
+
+        <!-- Image -->
+        <label>Product Image</label>
+        <input type="file" name="image">
+
+        <!-- Availability -->
+        <label>Availability</label>
+        <select name="is_available">
+            <option value="True">Available</option>
+            <option value="False">Not Available</option>
+        </select>
+
+        <button id="mybtn" type="submit">Add Product</button>
+    </form>
+</div>
+
+</body>
+</html>
+
+{% endblock content %}

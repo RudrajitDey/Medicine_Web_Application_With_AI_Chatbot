@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Admin Deshboard{% endblock title %}
+
+<link rel="stylesheet" href="{% static 'vendor_dashboard/vendor_dashboard.css' %}">
+
+{% block content %}
+
+<div class="container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Biko</h2>
+        <ul>
+            <li class="active">Dashboard</li>
+            <li>My Medicine Store</li>
+            <li>Orders</li>
+            <li>Customers</li>
+            <li><a href="{% url 'product_page' %}">Products</a></li>
+            <li>Invoices</li>
+            <li>Settings</li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+
+        <!-- Header -->
+        <div class="header">
+            <h3>Good morning, {{vendor.shop_name}}</h3>
+            <input type="text" placeholder="Search...">
+        </div>
+
+        <!-- Cards -->
+        <div class="cards">
+            <div class="card">
+                <h2>{{total_customers}}</h2>
+                <p>Total Customers</p>
+            </div>
+            <div class="card">
+                <h2>45,580</h2>
+                <p>Total Orders</p>
+            </div>
+            <div class="card">
+                <h2>8,580</h2>
+                <p>Pending Orders</p>
+            </div>
+            <div class="card">
+                <h2>$51,580</h2>
+                <p>Total Earnings</p>
+            </div>
+        </div>
+
+        <!-- Chart Section -->
+        <div class="chart">
+            <h3>Revenue Report</h3>
+            <div class="graph"></div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-section">
+            <h3>Best Selling Products</h3>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Brand</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                </tr>
+                <tr>
+                    <td>#1</td>
+                    <td>DJI Mavic Pro</td>
+                    <td>Tech</td>
+                    <td>Apple</td>
+                    <td>$990</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td>#2</td>
+                    <td>iPad Pro</td>
+                    <td>Tech</td>
+                    <td>LG</td>
+                    <td>$230</td>
+                    <td>20</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock content%}

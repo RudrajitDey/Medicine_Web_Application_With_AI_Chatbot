@@ -1,0 +1,124 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Web Store With Ai Assistent</title>
+    <link rel="stylesheet" href="{% static 'home.css' %}?v=1.0">
+    <link rel="stylesheet" href="{% static 'admin/admin_dashboard.css' %}?v=2.0">
+    <link rel="stylesheet" href="{% static 'admin/seller/seller_list.css' %}">
+
+
+    
+</head>
+<body>
+    <nav class="navbar">
+
+  <!-- LEFT -->
+  <div class="nav-left">
+    <div class="logo">PlatinumRx</div>
+    <div class="location">Bengaluru ▼</div>
+  </div>
+
+  <!-- MENU ICON -->
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+  <!-- RIGHT -->
+  <div class="nav-right" id="navMenu">
+    <a href="#" class="nav-link">Download App</a>
+    
+    <!-- AI CHATBOT -->
+    <a href="{% url 'chatbot' %}"><button class="chatbot-btn">AI Chatbot</button></a>
+
+    <a href="{% url 'login' %}"><button class="login-btn">Login</button></a>
+    <div class="cart">🛒</div>
+  </div>
+
+</nav>
+
+{% block content %}
+{% endblock content %}
+
+<footer class="footer-Section">
+  <div class="outer-footer">
+    <div class="footer-logo-section">
+      <div class="outer-logo">
+        <div class="full-logo">
+          <img src="{% static 'pherma.png' %}" alt="">
+          <p>PlatinumRX</p>
+        </div>
+      </div>
+      <p>RUDRAJIT PRIVATE LIMITED</p>
+    </div>
+    <div class="footer-allitem">
+      <div class="footer-item-box">
+        <div class="item-title">
+          <p>Know Us</p>
+        </div>
+       <div class="all-item">
+          <ul>
+            <li><a href="{% url 'become_seller' %}">Start Selling</a></li>
+            <li><a href="#">How to buy Medicines</a></li>
+            <li><a href="#">Terms & Conditions</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Editorial Policy</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>  
+      </div>
+
+      <div class="footer-item-box">
+        <div class="item-title">
+          <p>Health Resources</p>
+        </div>
+        <div class="all-item">
+          <ul>
+            <li><a href="">All Blogs</a></li>
+            <li><a href="">All Salts</a></li>
+            <li><a href="">All Diseases</a></li>
+            <li><a href="">All Brands</a></li>
+            <li><a href="">All Medicines</a></li>
+            <li><a href="">All Health Products</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-item-box">
+        <div class="item-title">
+          <p>Health Resources</p>
+        </div>
+        <div class="all-item">
+          <ul>
+            <li><a href="">All Blogs</a></li>
+            <li><a href="">All Salts</a></li>
+            <li><a href="">All Diseases</a></li>
+            <li><a href="">All Brands</a></li>
+            <li><a href="">All Medicines</a></li>
+            <li><a href="">All Health Products</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-item-box">
+        <div class="item-title">
+          <p>Health Resources</p>
+        </div>
+        <div class="all-item">
+          <ul>
+            <li><a href="">All Blogs</a></li>
+            <li><a href="">All Salts</a></li>
+            <li><a href="">All Diseases</a></li>
+            <li><a href="">All Brands</a></li>
+            <li><a href="">All Medicines</a></li>
+            <li><a href="">All Health Products</a></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</footer>
+

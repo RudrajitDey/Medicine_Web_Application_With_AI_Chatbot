@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Seller List{% endblock title %}
+
+<link rel="stylesheet" href="{% static 'admin/seller/seller_list.css' %}">
+
+{% block content %}
+<h2>Vendor Management</h2>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Owner</th>
+                <th>Phone</th>
+                <th>City</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for p in seller_products %}
+            <tr>
+                <td>{{ p.id }}</td>
+                <td>{{ p.name }}</td>
+                <td>{{ p.price }}</td>
+                <td>{{ v.phone }}</td>
+                <td>{{ v.gst_number }}</td>
+                <td>{{ v.city }}</td>
+
+                <td>
+                    {% if p.status == 'approved' %}
+                        <span class="badge approved">Approved</span>
+                    {% elif p.status == 'pending' %}
+                        <span class="badge pending">Pending</span>
+                    {% else %}
+                        <span class="badge rejected">Rejected</span>
+                    {% endif %}
+                </td>
+
+                
+
+                <td>
+                    <a href="{% url 'approve_product' p.id %}" class="btn btn-approve">Approve</a>
+                    <a href="{% url 'reject_product' p.id %}" class="btn btn-reject">Reject</a>
+                    <a href="{% url 'delete_product' p.id %}" 
+                       class="btn btn-delete"
+                       onclick="return confirm('Delete this vendor?')">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+
+{% endblock content %}

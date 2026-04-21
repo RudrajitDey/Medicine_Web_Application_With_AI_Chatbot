@@ -1,0 +1,225 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medical AI Assistant</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: auto;
+            padding-top: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: #bbb;
+            margin-bottom: 30px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .tabs button {
+            padding: 12px 25px;
+            border: none;
+            margin: 5px;
+            cursor: pointer;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .tabs button:hover {
+            background: #00d4ff;
+        }
+
+        /* Card */
+        .card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            margin-top: 20px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        button.submit-btn {
+            background: #00d4ff;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button.submit-btn:hover {
+            background: #00aacc;
+        }
+
+        .response-box {
+        width: 75%;
+        margin: 40px auto;
+        background: #212121;
+        padding: 30px;
+        border-radius: 14px;
+        line-height: 1.8;
+        font-size: 16px;
+        color: #e6e6e6;
+    }
+
+    /* Headings like ChatGPT */
+    .response-box h3 {
+        font-size: 22px;
+        margin-top: 25px;
+        margin-bottom: 10px;
+        color: #ffffff;
+        font-weight: 600;
+    }
+
+    .response-box h4 {
+        font-size: 18px;
+        margin-top: 15px;
+        color: #cccccc;
+    }
+
+    /* Paragraph spacing */
+    .response-box p {
+        margin: 12px 0;
+    }
+
+    /* Bullet points */
+    .response-box ul {
+        margin: 10px 0 10px 25px;
+    }
+
+    .response-box li {
+        margin-bottom: 8px;
+    }
+
+    /* Bold text */
+    .response-box strong {
+        color: #ffffff;
+    }
+
+/* Section spacing */
+.response-box hr {
+    border: none;
+    border-top: 1px solid #444;
+    margin: 20px 0;
+}
+
+        /* Loader */
+        .loader {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+    </style>
+
+    <script>
+        function openTab(tab) {
+            document.getElementById("imageTab").style.display = "none";
+            document.getElementById("textTab").style.display = "none";
+
+            document.getElementById(tab).style.display = "block";
+        }
+
+        function showLoader() {
+            document.getElementById("loader").style.display = "block";
+        }
+    </script>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🧠 MEDICAL AI Assistant</h1>
+    <p class="subtitle">Analyze medical images & get health insights instantly</p>
+
+    <div class="tabs">
+        <button onclick="openTab('imageTab')">🖼 Image Analysis</button>
+        <button onclick="openTab('textTab')">💬 Text Query</button>
+    </div>
+
+    <!-- IMAGE TAB -->
+    <div id="imageTab" class="card">
+        <h2>Upload Medical Image</h2>
+
+        <form method="POST" enctype="multipart/form-data" onsubmit="showLoader()">
+            {% csrf_token %}
+            <input type="file" name="image" required>
+            <button class="submit-btn" type="submit">Analyze Image</button>
+        </form>
+    </div>
+
+    <!-- TEXT TAB -->
+    <div id="textTab" class="card" style="display:none;">
+        <h2>Ask Medical Question</h2>
+
+        <form method="POST" onsubmit="showLoader()">
+            {% csrf_token %}
+            <textarea name="query" placeholder="Describe symptoms, medicine, or condition..." required></textarea>
+            <button class="submit-btn" type="submit">Get Answer</button>
+        </form>
+    </div>
+
+    <!-- Loader -->
+    <div id="loader" class="loader">
+        ⏳ Processing... Please wait
+    </div>
+
+    <!-- RESPONSE -->
+    {% if response %}
+    <div class="response-box">
+        {{ response|safe }}
+    </div>
+    {% endif %}
+
+</div>
+
+<script>
+    openTab('imageTab');
+</script>
+
+</body>
+</html>

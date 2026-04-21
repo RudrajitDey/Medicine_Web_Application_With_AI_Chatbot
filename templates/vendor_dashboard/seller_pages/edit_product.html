@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Product{% endblock title %}
+
+{% block content %}
+<style>
+    body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 10px;
+    color: #2c3e50;
+}
+
+form {
+    width: 700px;
+    margin: 30px auto;
+    background: #ffffff;
+    padding: 25px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 600;
+    color: #34495e;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+textarea {
+    resize: none;
+    height: 80px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+img {
+    margin-top: 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+input[type="file"] {
+    margin-top: 10px;
+}
+
+#mybtn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background: #27ae60;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#mybtn:hover {
+    background: #219150;
+}
+
+#mybtn:active {
+    transform: scale(0.98);
+}
+</style>
+
+
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h2>Edit Product</h2>
+    <label>Name</label>
+    <input type="text" name="name" value="{{ product.name }}">
+
+    <label>Description</label>
+    <textarea name="description">{{ product.description }}</textarea>
+
+    <label>Category</label>
+    <input type="text" name="category" value="{{ product.category }}">
+
+    <label>Brand</label>
+    <input type="text" name="brand" value="{{ product.brand }}">
+
+    <label>Price</label>
+    <input type="number" name="price" value="{{ product.price }}">
+
+    <label>Discount Price</label>
+    <input type="number" name="discount_price" value="{{ product.discount_price }}">
+
+    <label>Stock</label>
+    <input type="number" name="stock" value="{{ product.stock }}">
+
+    <label>Expiry Date</label>
+    <input type="date" name="expiry_date" value="{{ product.expiry_date|date:'Y-m-d' }}">
+
+    <label>Image</label><br>
+    {% if product.image %}
+        <img src="{{ product.image.url }}" width="80"><br>
+    {% endif %}
+    <input type="file" name="image">
+
+    <label>Availability</label>
+    <select name="is_available">
+        <option value="True" {% if product.is_available %}selected{% endif %}>Available</option>
+        <option value="False" {% if not product.is_available %}selected{% endif %}>Not Available</option>
+    </select>
+
+    <button id="mybtn" type="submit">Update Product</button>
+</form>
+
+{% endblock content %}
