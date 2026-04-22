@@ -10,6 +10,7 @@ urlpatterns = [
     path('login/', views.seller_login, name="login"),
     path('vendor_dashboard/', views.vendor_dashboard, name="vendor_dashboard"),
     path('all_medicines/', views.all_medicines, name="all_medicines"),
+    path('all_medicines/<slug:slug>/', views.product_detail, name='product_detail')
 ]
 
 if settings.DEBUG:

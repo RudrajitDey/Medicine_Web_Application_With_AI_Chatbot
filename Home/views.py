@@ -152,4 +152,12 @@ def vendor_dashboard(request):
 
 def all_medicines(request):
     seller_products = seller_Product.objects.filter(status='approved')
-    return render(request, 'all_medicines.html',{'seller_products':seller_products})
+    return render(request, 'products/all_medicines.html',{'seller_products':seller_products})
+
+def product_detail(request, slug):
+    product = get_object_or_404(seller_Product, slug=slug)
+    related_products = seller_Product.objects.exclude(id=product.id)[:10]
+    return render(request, 'products/product_detail.html', {
+        'product': product,
+        'related_products': related_products
+     })

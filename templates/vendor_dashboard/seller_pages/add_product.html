@@ -127,9 +127,69 @@
             <option value="False">Not Available</option>
         </select>
 
+
+        <hr>
+<h3>Medicine Details</h3>
+
+<div id="content-wrapper">
+
+    <div class="content-block">
+        <label>Section Type</label>
+        <select name="section_type[]">
+            <option value="uses">Uses</option>
+            <option value="dosage">Dosage</option>
+            <option value="side_effects">Side Effects</option>
+            <option value="warnings">Warnings</option>
+            <option value="precautions">Precautions</option>
+            <option value="interactions">Interactions</option>
+            <option value="storage">Storage</option>
+            <option value="quick_tips">Quick Tips</option>
+        </select>
+
+        <label>Title</label>
+        <input type="text" name="section_title[]" placeholder="Optional title">
+
+        <label>Content (One point per line)</label>
+        <textarea name="section_content[]" placeholder="Enter details"></textarea>
+    </div>
+
+</div>
+
+<button type="button" onclick="addMore()">+ Add More Section</button>
+
+
         <button id="mybtn" type="submit">Add Product</button>
     </form>
 </div>
+
+
+<script>
+function addMore() {
+    let html = `
+    <div class="content-block" style="margin-top:15px;">
+        <label>Section Type</label>
+        <select name="section_type[]">
+            <option value="uses">Uses</option>
+            <option value="dosage">Dosage</option>
+            <option value="side_effects">Side Effects</option>
+            <option value="warnings">Warnings</option>
+            <option value="precautions">Precautions</option>
+            <option value="interactions">Interactions</option>
+            <option value="storage">Storage</option>
+            <option value="quick_tips">Quick Tips</option>
+        </select>
+
+        <label>Title</label>
+        <input type="text" name="section_title[]">
+
+        <label>Content</label>
+        <textarea name="section_content[]"></textarea>
+    </div>
+    `;
+
+    document.getElementById('content-wrapper').insertAdjacentHTML('beforeend', html);
+}
+</script>
 
 </body>
 </html>

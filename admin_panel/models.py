@@ -41,6 +41,7 @@ class vendor(models.Model):
 class seller_Product(models.Model):
     vendor = models.ForeignKey(vendor, on_delete = models.CASCADE)
     name = models.CharField(max_length=100,blank=True, null=True)
+    slug = models.SlugField(max_length=200, unique=True, null=True)
     price = models.FloatField(blank=True, null=True)
     discount_price = models.FloatField(blank=True, null=True)
     stock = models.IntegerField(blank=True, null=True)
@@ -60,6 +61,39 @@ class seller_Product(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+class ProductContent(models.Model):
+    SECTION_CHOICES = [
+        ('uses', 'Uses'),
+        ('dosage', 'Dosage'),
+        ('side_effects', 'Side Effects'),
+        ('warnings', 'Warnings'),
+        ('precautions', 'Precautions'),
+        ('interactions', 'Interactions'),
+        ('storage', 'Storage'),
+        ('quick_tips', 'Quick Tips'),
+        ('faq', 'FAQs'),
+        ('lifestyle', 'Lifestyle Recommendation'),
+    ]
+
+    product_s = models.ForeignKey(seller_Product, on_delete=models.CASCADE, related_name='contents')
+    section_type = models.CharField(max_length=50, choices=SECTION_CHOICES)
+    title = models.CharField(max_length=255, blank=True, null=True)
+    content = models.TextField()
+
+    def __str__(self):
+        return f"{self.product_s.name} - {self.section_type}"
+    
+
+
+class ProductPoint(models.Model):
+    content = models.ForeignKey(ProductContent, on_delete=models.CASCADE, related_name='points')
+    text = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.text
+
     
 class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)

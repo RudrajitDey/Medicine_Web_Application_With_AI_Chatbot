@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.contrib import messages
-from .models import vendor, seller_Product
+from .models import vendor, seller_Product, ProductContent, ProductPoint
 from django.contrib.auth.decorators import login_required
+from django.utils.text import slugify
 
 # Create your views here.
 
@@ -119,9 +120,10 @@ def add_product(request):
         discount_price = request.POST.get('discount_price')
         is_available=True if request.POST.get('is_available') == "True" else False
 
-        seller_Product.objects.create(
+        product = seller_Product.objects.create(
             vendor=vendor_obj,
             name=name,
+            slug=slugify(name),
             description=description,
             category=category,
             brand=brand,
@@ -132,6 +134,31 @@ def add_product(request):
             discount_price=discount_price,
             is_available=is_available
         )
+
+
+
+        # 👉 Handle dynamic sections
+        section_types = request.POST.getlist('section_type[]')
+        titles = request.POST.getlist('section_title[]')
+        contents = request.POST.getlist('section_content[]')
+
+        for i in range(len(section_types)):
+            if contents[i]:  # avoid empty
+                content_obj = ProductContent.objects.create(
+                    product_s=product,
+                    section_type=section_types[i],
+                    title=titles[i],
+                    content=contents[i]
+                )
+
+                # 👉 Convert lines to bullet points
+                lines = contents[i].split("\n")
+                for line in lines:
+                    if line.strip():
+                        ProductPoint.objects.create(
+                            content=content_obj,
+                            text=line.strip()
+                        )
 
         messages.success(request, "Product added successfully ✅")
         return redirect('add_product')  # reload page
