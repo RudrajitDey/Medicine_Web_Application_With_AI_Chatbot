@@ -10,115 +10,128 @@
 <head>
     <meta charset="UTF-8">
     <title>Shopping Cart</title>
-    <link rel="stylesheet" href="{% static 'cart/cart.css' %}?v=2">
+    <link rel="stylesheet" href="{% static 'cart/cart.css' %}?v=1.0">
 </head>
 <body>
 
+
+{% if not items %}
+<div class="empty-cart">
+    <img src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png" alt="Empty Cart">
+
+    <h2>Your Cart is Empty 🛒</h2>
+    <p>Looks like you haven’t added anything yet.</p>
+
+    <a href="{% url 'home' %}">
+        <button class="shop-btn">Start Shopping</button>
+    </a>
+</div>
+{% endif %}
 <div class="cart-container">
-
-    <!-- LEFT SIDE (Products) -->
+    <!-- LEFT SIDE -->
     <div class="cart-items">
-
         <h2>Shopping Cart</h2>
 
-        <!-- ITEM -->
-        <div class="cart-item">
-            <img src="https://via.placeholder.com/80" alt="product">
+        {% if items %}
+            {% for item in items %}
+                {% with product=item.get_product %}
+                
+                <div class="cart-item">
 
-            <div class="item-details">
-                <h4>Camera Canon EOS M50 Kit</h4>
-                <p>Matrix: 25 MP</p>
-                <p>Brand: Canon</p>
-            </div>
+                    <!-- IMAGE -->
+                    <a href="
+                        {% if item.store_product %}
+                            {% url 'store_product_detail' product.slug %}
+                        {% else %}
+                            {% url 'product_detail' product.slug %}
+                        {% endif %}
+                    ">
+                        <img src="{{ item.get_image.url }}" alt="{{ product.name }}">
+                    </a>
+                    <!-- DETAILS -->
+                    <div class="item-details">
+                        
+                        <a href="
+                        {% if item.store_product %}
+                                {% url 'store_product_detail' product.slug %}
+                            {% else %}
+                                {% url 'product_detail' product.slug %}
+                            {% endif %}
+                        ">
 
-            <div class="quantity-box">
-                <button>-</button>
-                <input type="text" value="1">
-                <button>+</button>
-            </div>
+                        <h4>{{ item.get_product_name }}</h4>
 
-            <div class="price">
-                <h4>$1156.00</h4>
-                <small>$315.20 each</small>
-            </div>
+                        {% if product.brand %}
+                            <p>Brand: {{ product.brand }}</p>
+                        {% endif %}
 
-            <button class="remove-btn">Remove</button>
-        </div>
+                        {% if product.description %}
+                            <p>{{ product.description|truncatewords:8 }}</p>
+                        {% endif %}
+                    </div>
+                    </a>
 
-        <!-- ITEM -->
-        <div class="cart-item">
-            <img src="https://via.placeholder.com/80" alt="product">
+                    <!-- QUANTITY -->
+                    <div class="quantity-box">
+                        <a href="{% url 'decrease_quantity' item.id %}">
+                            <button>-</button>
+                        </a>
 
-            <div class="item-details">
-                <h4>ADATA Premier ONE microSDXC</h4>
-                <p>Size: 256 GB</p>
-                <p>Brand: ADATA</p>
-            </div>
+                        <input type="text" value="{{ item.quantity }}" readonly>
 
-            <div class="quantity-box">
-                <button>-</button>
-                <input type="text" value="1">
-                <button>+</button>
-            </div>
+                        <a href="{% url 'increase_quantity' item.id %}">
+                            <button>+</button>
+                        </a>
+                    </div>
 
-            <div class="price">
-                <h4>$149.97</h4>
-                <small>$75.00 each</small>
-            </div>
+                    <!-- PRICE -->
+                    <div class="price">
+                        <h4>₹{{ item.total_price }}</h4>
+                        <small>₹{{ product.price }} each</small>
+                    </div>
 
-            <button class="remove-btn">Remove</button>
-        </div>
+                    <!-- REMOVE -->
+                    <a href="{% url 'remove_item' item.id %}">
+                        <button class="remove-btn">Remove</button>
+                    </a>
 
-        <!-- ITEM -->
-        <div class="cart-item">
-            <img src="https://via.placeholder.com/80" alt="product">
+                </div>
 
-            <div class="item-details">
-                <h4>Logitech headset for gaming</h4>
-                <p>Version: CUH-ZCT2E</p>
-                <p>Brand: Sony</p>
-            </div>
-
-            <div class="quantity-box">
-                <button>-</button>
-                <input type="text" value="1">
-                <button>+</button>
-            </div>
-
-            <div class="price">
-                <h4>$98.00</h4>
-                <small>$57.00 each</small>
-            </div>
-
-            <button class="remove-btn">Remove</button>
-        </div>
+                {% endwith %}
+            {% endfor %}
+        {% else %}
+            <p>Your cart is empty</p>
+        {% endif %}
 
     </div>
 
 
-    <!-- RIGHT SIDE (Summary) -->
+    <!-- RIGHT SIDE -->
     <div class="cart-summary">
         <h3>Order Summary</h3>
 
         <div class="summary-row">
             <span>Total price:</span>
-            <span>$69.97</span>
+            <span>₹{{ total }}</span>
         </div>
 
         <div class="summary-row">
-            <span>Tax:</span>
-            <span>$10.00</span>
+            <span>Tax (5%):</span>
+            <span>₹{{ tax }}</span>
         </div>
 
         <hr>
 
         <div class="summary-row total">
             <span>Total:</span>
-            <span>$59.97</span>
+            <span>₹{{ grand_total }}</span>
         </div>
 
         <button class="checkout-btn">Checkout</button>
-        <button class="continue-btn">Continue Shopping</button>
+
+        <a href="{% url 'home' %}">
+            <button class="continue-btn">Continue Shopping</button>
+        </a>
     </div>
 
 </div>

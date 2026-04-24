@@ -64,9 +64,27 @@ body {
   background: white;
 }
 
+.cart-wrapper {
+    position: relative;
+    text-decoration: none;
+}
+
 .cart {
-  font-size: 25px;
-  cursor: pointer;
+    font-size: 24px;
+    position: relative;
+}
+
+/* 🔴 Counter Badge */
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: red;
+    color: white;
+    font-size: 12px;
+    padding: 3px 7px;
+    border-radius: 50%;
+    font-weight: bold;
 }
 
 /* AI CHATBOT BUTTON */

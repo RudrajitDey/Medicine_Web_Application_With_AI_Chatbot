@@ -126,7 +126,7 @@
 
             <p class="price">₹{{ product.price }}</p>
 
-            <button class="btn">Add to Cart</button>
+            <a href="{% url 'add_to_cart' product.id 'seller' %}"><button class="btn">Add to Cart</button></a>
         </div>
 
         <div class="right-box">

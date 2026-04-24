@@ -42,6 +42,7 @@ class Product(models.Model):
     product_name = models.CharField(max_length=100)
     product_image = models.ImageField(upload_to="products/")
     slug = models.SlugField(blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
