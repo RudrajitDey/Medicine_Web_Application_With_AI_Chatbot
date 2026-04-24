@@ -23,10 +23,10 @@
     <p>Looks like you haven’t added anything yet.</p>
 
     <a href="{% url 'home' %}">
-        <button class="shop-btn">Start Shopping</button>
+        <button class="shop-btn">Get Medicines</button>
     </a>
 </div>
-{% endif %}
+{% else %}
 <div class="cart-container">
     <!-- LEFT SIDE -->
     <div class="cart-items">
@@ -106,6 +106,7 @@
     </div>
 
 
+
     <!-- RIGHT SIDE -->
     <div class="cart-summary">
         <h3>Order Summary</h3>
@@ -135,6 +136,7 @@
     </div>
 
 </div>
+{% endif %}
 
 </body>
 </html>
