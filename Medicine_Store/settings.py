@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'Home',
     'Chatbot',
     'admin_panel',
+    'cart',
 ]
 
 MIDDLEWARE = [

@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Category, Product, faq
+from .models import Category, Product,SubCategory, faq
 
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
@@ -10,23 +10,21 @@ from django.contrib import messages
 # Create your views here.
 
 def home(request):
-    categories = Category.objects.all()
-
-    category_data = []
-    for category in categories:
-        products = Product.objects.filter(category=category)
-        category_data.append({
-            'category': category,
-            'products': products
-        })
-
+    categories = Category.objects.prefetch_related('subcategories')
     faqs = faq.objects.all()
 
     return render(request, "home.html", {
-        'categories' : categories,
-        'category_data': category_data,
+        'categories': categories,
         'faqs': faqs,
-})
+    })
+def subcategory_products(request, slug):
+    subcategory = get_object_or_404(SubCategory, slug=slug)
+    products = subcategory.products.all()
+
+    return render(request, 'products/subcategory_products.html', {
+        'subcategory': subcategory,
+        'products': products
+    })
 
 
 def become_seller(request):
@@ -161,3 +159,15 @@ def product_detail(request, slug):
         'product': product,
         'related_products': related_products
      })
+
+def store_product_detail(request, slug):
+    product = get_object_or_404(Product, slug=slug)
+
+    related_products = Product.objects.filter(
+        subcategory=product.subcategory
+    ).exclude(id=product.id)[:8]
+
+    return render(request, 'products/store_product_detail.html', {
+        'product': product,
+        'related_products': related_products
+    })

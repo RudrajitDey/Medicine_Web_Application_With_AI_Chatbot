@@ -5,21 +5,38 @@
 
 {% block title %}Medi Clinic{% endblock title %}
 
-<link rel="stylesheet" href="{% static 'home.css' %}">
+<link rel="stylesheet" href="{% static 'home.css' %}?v=2">
 
 {% block content %}
 
-<section class="hero-section">
-  <div class="hero-content">
-    <h1 id="text1">Affordable Solutions for</h1>
-    <h1 id="text2">Everyday Care</h1>
-    <p>Order medicines, consult doctors, and use AI chatbot instantly.</p>
-    <a href="{% url 'all_medicines' %}"><button>Shop Now</button></a>
+<section class="hero">
+
+  <div class="hero-inner">
+
+    <!-- LEFT CONTENT -->
+    <div class="hero-text">
+      <h1>Say GoodBye to high medicine prices</h1>
+      <p>Compare prices and save up to 51%</p>
+
+      <!-- SEARCH BAR -->
+      <div class="search-box">
+        <input type="text" placeholder="Search for medicines...">
+        <button class="search-btn">🔍</button>
+      </div>
+
+      <!-- SHOP NOW BUTTON -->
+      <a href="{% url 'all_medicines' %}">
+        <button class="shop-btn">Shop Now</button>
+      </a>
+    </div>
+
+    <!-- RIGHT IMAGE -->
+    <div class="hero-img">
+      <img src="{% static 'pherma1.png' %}" alt="Doctor">
+    </div>
+
   </div>
 
-  <div class="hero-image">
-    <img src="{% static 'hero_image.png' %}" alt="Hero Image">
-  </div>
 </section>
 
 <div class="order-whatsapp">
@@ -45,41 +62,46 @@
     <p id="offer-tag">Save Upto 60% on your Medicines</p>
   </div>
 
+  <!-- ✅ CATEGORY SECTION -->
   <div class="categories">
-  {% for cat in categories %}
-  
-    <div class="full-box" onclick="filterCategory('{{ cat.id }}', this)">
-      
-      <div class="box">
-        <img src="{{ cat.category_image.url }}" alt="">
-      </div>
-
-      <p>{{ cat.category_name }}</p>
-
-    </div>
-
-  {% endfor %}
-</div>
-
-  <div class="all-product">
-
-  {% for item in category_data %}
-    {% for product in item.products %}
+    {% for cat in categories %}
     
-    <div class="card-box" data-category="{{ item.category.id }}">
-      
-      <div class="product-img">
-        <img src="{{ product.product_image.url }}" alt="">
-      </div>
+      <div class="full-box" onclick="filterCategory('{{ cat.id }}', this)">
+        
+        <div class="box">
+          <img src="{{ cat.category_image.url }}" alt="">
+        </div>
 
-      <div class="product-name">
-        <p>{{ product.product_name }}</p>
-      </div>
+        <p>{{ cat.category_name }}</p>
 
-    </div>
+      </div>
 
     {% endfor %}
-  {% endfor %}
+  </div>
+
+  <!-- ✅ SUBCATEGORY CARDS (IMPORTANT CHANGE) -->
+  <div class="all-product">
+
+    {% for cat in categories %}
+      {% for sub in cat.subcategories.all %}
+      
+        <a href="{% url 'subcategory_products' sub.slug %}">
+          <div class="card-box" data-category="{{ cat.id }}">
+            
+            <div class="product-img">
+              <img src="{{ sub.image.url }}" alt="">
+            </div>
+
+            <div class="product-name">
+              <p>{{ sub.name }}</p>
+            </div>
+
+          </div>
+        </a>
+
+      {% endfor %}
+    {% endfor %}
+
   </div>
 </div>
 <div class="full-faq">

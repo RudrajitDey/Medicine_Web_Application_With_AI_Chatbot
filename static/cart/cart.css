@@ -1,0 +1,140 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f6fa;
+    margin: 0px;
+
+}
+
+.cart-container {
+    display: flex;
+    gap: 20px;
+}
+
+/* LEFT SIDE */
+.cart-items {
+    flex: 3;
+    background: #fff;
+    padding: 20px;
+    margin: 30px;
+    border-radius: 8px;
+    border: 1px solid rgb(168, 168, 251);
+}
+
+.cart-items h2 {
+    margin-bottom: 20px;
+}
+
+/* ITEM */
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+}
+
+.cart-item img {
+    width: 80px;
+    border-radius: 6px;
+}
+
+.item-details {
+    width: 200px;
+    margin-left: 10px;
+}
+
+.item-details h4 {
+    margin: 0;
+}
+
+.item-details p {
+    margin: 3px 0;
+    color: #777;
+    font-size: 14px;
+}
+
+/* QUANTITY */
+.quantity-box {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-box button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: #ddd;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.quantity-box input {
+    width: 40px;
+    text-align: center;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    height: 30px;
+}
+
+/* PRICE */
+.price {
+    text-align: right;
+    margin-left: 20px;
+}
+
+.price small {
+    color: #777;
+}
+
+/* REMOVE BUTTON */
+.remove-btn {
+    background: #ff4d4d;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* RIGHT SIDE */
+.cart-summary {
+    flex: 1;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    height: fit-content;
+    margin: 30px;
+    border: 1px solid rgb(170, 170, 249);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.summary-row.total {
+    font-weight: bold;
+}
+
+/* BUTTONS */
+.checkout-btn {
+    width: 100%;
+    padding: 10px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    margin-top: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.continue-btn {
+    width: 100%;
+    padding: 10px;
+    background: #eee;
+    border: none;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
