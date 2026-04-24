@@ -19,10 +19,18 @@
       <p>Compare prices and save up to 51%</p>
 
       <!-- SEARCH BAR -->
-      <div class="search-box">
-        <input type="text" placeholder="Search for medicines...">
-        <button class="search-btn">🔍</button>
-      </div>
+    <div class="search-box">
+      <form action="{% url 'search' %}" method="GET">
+        <input 
+          type="text" 
+          name="q" 
+          value="{{ request.GET.q }}" 
+          placeholder="Search medicines, brands, categories..."
+          autocomplete="off"
+        >
+        <button type="submit" class="search-btn">🔍</button>
+      </form>
+    </div>
 
       <!-- SHOP NOW BUTTON -->
       <a href="{% url 'all_medicines' %}">

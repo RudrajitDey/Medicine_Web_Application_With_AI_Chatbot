@@ -162,34 +162,71 @@ body {
   color: #666;
 }
 
-/* SEARCH BAR */
+/* SEARCH BOX CONTAINER */
 .search-box {
-  display: flex;
-  align-items: center;
-  background: #fff;
-  border-radius: 50px;
-  padding: 8px 15px;
   width: 100%;
-  max-width: 500px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  max-width: 550px;
 }
 
+/* FORM STYLE */
+.search-box form {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50px;
+  padding: 6px 10px 6px 18px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+/* HOVER EFFECT */
+.search-box form:hover {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+/* INPUT FIELD */
 .search-box input {
   flex: 1;
   border: none;
   outline: none;
-  font-size: 16px;
+  font-size: 15px;
+  background: transparent;
+  color: #333;
 }
 
+/* PLACEHOLDER */
+.search-box input::placeholder {
+  color: #888;
+}
+
+/* SEARCH BUTTON */
 .search-btn {
-  background: #2d6cdf;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
   color: white;
   border: none;
-  padding: 10px 14px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
 }
 
+/* BUTTON HOVER */
+.search-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+/* FOCUS EFFECT */
+.search-box form:focus-within {
+  border: 2px solid #3b82f6;
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+}
 /* SHOP BUTTON */
 .shop-btn {
   margin-top: 20px;

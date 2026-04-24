@@ -13,6 +13,7 @@ urlpatterns = [
     path('all_medicines/<slug:slug>/', views.product_detail, name='product_detail'),
     path('subcategory/<slug:slug>/', views.subcategory_products, name='subcategory_products'),
     path('product/<slug:slug>/', views.store_product_detail, name='store_product_detail'),
+    path('search/', views.search, name='search'),
 ]
 
 if settings.DEBUG:

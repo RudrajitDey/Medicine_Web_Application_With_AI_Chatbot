@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from admin_panel.models import vendor, seller_Product, OrderItem
 from django.contrib import messages
+from django.db.models import Q
+
 
 
 # Create your views here.
@@ -170,4 +172,30 @@ def store_product_detail(request, slug):
     return render(request, 'products/store_product_detail.html', {
         'product': product,
         'related_products': related_products
+    })
+
+
+
+def search(request):
+    query = request.GET.get('q')
+    results = []
+
+    if query:
+        store_products = Product.objects.filter(
+            Q(product_name__icontains=query)
+        )
+
+        seller_products = seller_Product.objects.filter(
+            Q(name__icontains=query)
+        )
+
+        # Combine both
+        results = list(store_products) + list(seller_products)
+
+        total_results = len(results) 
+
+    return render(request, 'products/search_results.html', {
+        'query': query,
+        'results': results,
+        'total_results':  total_results,
     })
