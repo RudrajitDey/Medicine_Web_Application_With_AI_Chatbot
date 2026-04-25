@@ -6,45 +6,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medicine Web Store With Ai Assistent</title>
-    <link rel="stylesheet" href="{% static 'home.css' %}?v=3.0">
-    <link rel="stylesheet" href="{% static 'admin/admin_dashboard.css' %}?v=2.0">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'home.css' %}?v=6.0">
+    <link rel="stylesheet" href="{% static 'admin/admin_dashboard.css' %}?v=3.0">
     <link rel="stylesheet" href="{% static 'admin/seller/seller_list.css' %}">
-  <link rel="stylesheet" href="{% static 'search/search_results.css' %}?v=1.0">
+  <link rel="stylesheet" href="{% static 'search/search_results.css' %}?v=2.0">
 
     
 </head>
 <body>
-    <nav class="navbar">
-
-  <!-- LEFT -->
-  <div class="nav-left">
-    <div class="logo">PlatinumRx</div>
-    <div class="location">Bengaluru ▼</div>
-  </div>
-
-  <!-- MENU ICON -->
-  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-
-  <!-- RIGHT -->
-  <div class="nav-right" id="navMenu">
-    <a href="#" class="nav-link">Download App</a>
     
-    <!-- AI CHATBOT -->
-    <a href="{% url 'chatbot' %}"><button class="chatbot-btn">AI Chatbot</button></a>
+  <nav class="navbar">
 
-    <a href="{% url 'login' %}"><button class="login-btn">Login</button></a>
-    
-    <a href="{% url 'cart' %}" class="cart-wrapper">
-    <div class="cart">
-      🛒
-      {% if cart_count > 0 %}
-        <span class="cart-count">{{ cart_count }}</span>
-      {% endif %}
+  <div class="top-navbar">
+
+   <!-- LEFT -->
+    <div class="nav-left">
+      <i class="fa fa-bars toggle-btn"></i>
+      <img src="{% static 'images/logor.png' %}" alt="logo">
     </div>
-  </a>
+
+
+  <!-- SEARCH BAR -->
+  <div class="nav-center">
+    <div class="search-box">
+      <input type="text" placeholder="I'm searching for...">
+
+      <select>
+        <option>All Categories</option>
+        <option>Furniture</option>
+        <option>Decor</option>
+      </select>
+
+      <button>
+        <i class="fa fa-search"></i>
+      </button>
+    </div>
   </div>
 
+  <!-- RIGHT SIDE -->
+  <div class="nav-right">
+    
+    <div class="chatbot">
+      <a href="{% url 'chatbot' %}"><button>AI Chatbot</button></a>
+    </div>
+    
+
+    <div class="login">
+      <a href="{% url 'login' %}"><button>Login</button></a>
+    </div>
+
+    <a href="{% url 'cart' %}">
+    <div class="icons">
+     <i class="fa fa-shopping-cart"></i>
+      {% if cart_count > 0 %}
+      <span class="cart-count">{{cart_count}}</span>
+      {% endif %}
+    </div></a>
+
+  </div>
+
+</div>
 </nav>
+
+<!-- ===== SIDEBAR ===== -->
+<div class="sidebar" id="sidebar">
+  <i class="fa fa-times close-btn" id="closeBtn"></i>
+
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Furniture</a></li>
+    <li><a href="#">Decor</a></li>
+    <li><a href="#">Cart</a></li>
+    <li><a href="#">Login</a></li>
+  </ul>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<!-- ===== JS ===== -->
+<script>
+const toggleBtn = document.querySelector(".toggle-btn");
+const sidebar = document.getElementById("sidebar");
+const closeBtn = document.getElementById("closeBtn");
+const overlay = document.getElementById("overlay");
+
+toggleBtn.addEventListener("click", () => {
+  sidebar.classList.add("active");
+  overlay.classList.add("active");
+});
+
+closeBtn.addEventListener("click", () => {
+  sidebar.classList.remove("active");
+  overlay.classList.remove("active");
+});
+
+overlay.addEventListener("click", () => {
+  sidebar.classList.remove("active");
+  overlay.classList.remove("active");
+});
+</script>
 
 {% block content %}
 {% endblock content %}

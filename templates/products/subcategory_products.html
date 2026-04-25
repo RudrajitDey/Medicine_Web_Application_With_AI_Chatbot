@@ -89,7 +89,7 @@
 <div class="product-grid">
     {% for product in products %}
     
-    <div class="card" onclick="window.location.href='{% url 'store_product_detail' product.slug %}'" style="cursor:pointer;">
+    <div class="card" data-url="{% url 'store_product_detail' product.slug %}" style="cursor:pointer;" onclick="window.location.href=this.dataset.url;">
         <div class="card-img">
             <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}">
         </div>
