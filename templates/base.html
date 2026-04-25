@@ -28,21 +28,28 @@
 
 
   <!-- SEARCH BAR -->
+  <form action="{% url 'search' %}" method="GET">
   <div class="nav-center">
     <div class="search-box">
-      <input type="text" placeholder="I'm searching for...">
+      <input  type="text" 
+          name="q" 
+          value="{{ request.GET.q }}" 
+          placeholder="Search medicines, brands, categories..."
+          autocomplete="off">
 
       <select>
         <option>All Categories</option>
-        <option>Furniture</option>
-        <option>Decor</option>
+        {% for cat in categories %}
+        <option>{{cat.category_name}}</option>
+        {% endfor %}
       </select>
 
-      <button>
+      <button type="submit">
         <i class="fa fa-search"></i>
       </button>
+     
     </div>
-  </div>
+  </div> </form>
 
   <!-- RIGHT SIDE -->
   <div class="nav-right">

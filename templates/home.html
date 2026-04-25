@@ -11,41 +11,14 @@
 
 <section class="hero">
 
-  <div class="hero-inner">
-
-    <!-- LEFT CONTENT -->
-    <div class="hero-text">
-      <h1>Say GoodBye to high medicine prices</h1>
-      <p>Compare prices and save up to 51%</p>
-
-      <!-- SEARCH BAR -->
-    <div class="search-box">
-      <form action="{% url 'search' %}" method="GET">
-        <input 
-          type="text" 
-          name="q" 
-          value="{{ request.GET.q }}" 
-          placeholder="Search medicines, brands, categories..."
-          autocomplete="off"
-        >
-        <button type="submit" class="search-btn">🔍</button>
-      </form>
-    </div>
-
-      <!-- SHOP NOW BUTTON -->
-      <a href="{% url 'all_medicines' %}">
-        <button class="shop-btn">Shop Now</button>
-      </a>
-    </div>
-
-    <!-- RIGHT IMAGE -->
-    <div class="hero-img">
-      <img src="{% static 'pherma1.png' %}" alt="Doctor">
-    </div>
-
+  <div class="hero-banner">
+    <a href="{% url 'all_medicines' %}">
+      <img src="{% static 'images/heror.jpg' %}" alt="">
+    </a>
   </div>
 
 </section>
+
 
 <!-- ✅ Facilities -->
 
@@ -101,14 +74,27 @@
   </div>
 </div>
 
-<div class="product-ad">
-  <div class="left-ad">
-  <img src="{% static 'pr1.jpg' %}" alt="">
+<div class="carousel-container">
+
+  <button class="nav prev">&#10094;</button>
+
+  <div class="carousel-track">
+
+    {% for banner in banners %}
+      <div class="carousel-slide">
+        <img src="{{ banner.image.url }}" alt="Banner">
+      </div>
+    {% empty %}
+      <p>No banners available</p>
+    {% endfor %}
+
   </div>
-  <div class="right-ad">
-  <img src="{% static 'pr2.jpg' %}" alt="">
-  </div>
+
+  <button class="nav next">&#10095;</button>
+
 </div>
+
+<div class="dots"></div>
 
 <div class="content-section">
   <div class="title">
@@ -201,6 +187,60 @@
 function toggleMenu() {
   document.getElementById("navMenu").classList.toggle("active");
 }
+
+const track = document.querySelector('.carousel-track');
+const slides = document.querySelectorAll('.carousel-slide');
+const nextBtn = document.querySelector('.next');
+const prevBtn = document.querySelector('.prev');
+const dotsContainer = document.querySelector('.dots');
+
+let index = 0;
+const slidesToShow = 2;
+
+function updateCarousel() {
+  const slideWidth = slides[0].clientWidth + 20;
+  track.style.transform = `translateX(-${index * slideWidth}px)`;
+
+  document.querySelectorAll('.dots span').forEach(dot => dot.classList.remove('active'));
+  dotsContainer.children[index].classList.add('active');
+}
+
+nextBtn.addEventListener('click', () => {
+  if (index < slides.length - slidesToShow) {
+    index++;
+    updateCarousel();
+  }
+});
+
+prevBtn.addEventListener('click', () => {
+  if (index > 0) {
+    index--;
+    updateCarousel();
+  }
+});
+
+/* Dots */
+slides.forEach((_, i) => {
+  if (i <= slides.length - slidesToShow) {
+    const dot = document.createElement('span');
+    dot.addEventListener('click', () => {
+      index = i;
+      updateCarousel();
+    });
+    dotsContainer.appendChild(dot);
+  }
+});
+
+dotsContainer.children[0].classList.add('active');
+
+setInterval(() => {
+  if (index < slides.length - slidesToShow) {
+    index++;
+  } else {
+    index = 0;
+  }
+  updateCarousel();
+}, 3000);
 
 function filterCategory(categoryId, element) {
     let products = document.querySelectorAll('.card-box');

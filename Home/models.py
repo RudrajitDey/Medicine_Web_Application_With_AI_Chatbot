@@ -69,5 +69,12 @@ class faq(models.Model):
     def __str__(self):
         return self.faq_question
     
+class AdBanner(models.Model):
+    name = models.CharField(max_length=50)
+    image = models.ImageField(upload_to='banners/')
+
+    def __str__(self):
+        return self.name
+    
     
 

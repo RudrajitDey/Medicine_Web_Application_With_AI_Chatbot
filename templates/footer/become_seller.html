@@ -1,3 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Seller Registration Form{% endblock title %}
+
+{% block content %}
+<style>
+/* Page background */
+body {
+  font-family: 'Segoe UI', sans-serif;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 60px;
+}
+
+/* Form container */
+form {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Inputs */
+form input {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+/* Focus effect */
+form input:focus {
+  border-color: #2d6cdf;
+  outline: none;
+  box-shadow: 0 0 5px rgba(45, 108, 223, 0.2);
+}
+
+/* File inputs */
+form input[type="file"] {
+  padding: 8px;
+  background: #f8f9fc;
+  cursor: pointer;
+}
+
+/* Button */
+form button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #2d6cdf, #4a8cff);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Button hover */
+form button:hover {
+  background: linear-gradient(135deg, #1f4bb8, #3a6fdc);
+}
+
+/* Placeholder color */
+form input::placeholder {
+  color: #999;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  form {
+    margin: 20px;
+    padding: 20px;
+  }
+}
+</style>
+
+<h2>Seller Registration Form</h2>
 <!-- templates/become_seller.html -->
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
@@ -14,10 +99,13 @@
     <input type="text" name="gst" placeholder="GST Number">
     <input type="text" name="license" placeholder="Drug License">
     <input type="text" name="city" placeholder="City">
-
+    <label class="file-label">Choose GST File</label>
     <input type="file" name="gst_file" placeholder="gst">
+    <label class="file-label">Choose License File</label>
     <input type="file" name="license_file">
+    <label class="file-label">Upload ID Proof</label>
     <input type="file" name="id_proof">
 
     <button type="submit">Submit</button>
 </form>
+{% endblock content %}

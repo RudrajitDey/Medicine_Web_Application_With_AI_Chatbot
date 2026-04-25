@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Category, Product,SubCategory, faq
+from .models import Category, Product,SubCategory, faq, AdBanner
 
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
@@ -14,10 +14,12 @@ from django.db.models import Q
 def home(request):
     categories = Category.objects.prefetch_related('subcategories')
     faqs = faq.objects.all()
+    banners = AdBanner.objects.all()
 
     return render(request, "home.html", {
         'categories': categories,
         'faqs': faqs,
+        'banners': banners,
     })
 def subcategory_products(request, slug):
     subcategory = get_object_or_404(SubCategory, slug=slug)
@@ -25,7 +27,7 @@ def subcategory_products(request, slug):
 
     return render(request, 'products/subcategory_products.html', {
         'subcategory': subcategory,
-        'products': products
+        'products': products,
     })
 
 

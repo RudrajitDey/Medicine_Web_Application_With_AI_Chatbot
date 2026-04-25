@@ -5,7 +5,7 @@ from admin_panel.models import seller_Product
 # Create your models here.
 
 class Cart(models.Model):
-    cart_id = models.CharField(max_length=250, blank=True)
+    cart_id = models.CharField(max_length=250, unique=True)
     date_added = models.DateField(auto_now_add=True)
 
     def __str__(self):

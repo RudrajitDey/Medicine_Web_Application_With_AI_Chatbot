@@ -10,7 +10,12 @@ def _get_cart(request):
     cart_id = request.session.session_key
 
     if not cart_id:
-        cart_id = request.session.create()
+        request.session.create()
+        cart_id = request.session.session_key
+
+    if not cart_id:
+        import uuid
+        cart_id = str(uuid.uuid4())
 
     cart, created = Cart.objects.get_or_create(cart_id=cart_id)
     return cart
