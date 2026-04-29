@@ -1,0 +1,314 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Register{% endblock title %}
+
+{% block content %}
+
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.register-section {
+    min-height: 80vh; /* keeps space between navbar & footer */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-container {
+    width: 100%;
+    max-width: 500px;
+   
+}
+
+.register-box {
+    background: #f9f4f4;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    text-align: center;
+    color: black;
+   
+}
+
+.register-box h2 {
+    margin-bottom: 5px;
+    color: black;
+}
+
+.register-box p {
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: #000000;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid #080808;
+    border-radius: 6px;
+    color: #0c0c0c;
+    outline: none;
+}
+
+.input-group label {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    color: #0c0c0c;
+    font-size: 14px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+.input-group input:focus + label,
+.input-group input:valid + label {
+    top: -8px;
+    left: 8px;
+    font-size: 12px;
+    background: #f4f2f2;
+    padding: 0 5px;
+    color: black;
+}
+
+.file-group {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.file-group label {
+    font-size: 13px;
+    color: #090909;
+}
+
+.file-group input {
+    width: 100%;
+    margin-top: 5px;
+    color: #fff;
+}
+
+.register-btn {
+    width: 100%;
+    padding: 10px;
+    background: gold;
+    border: none;
+    border-radius: 6px;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.register-btn:hover {
+    background: #e6c200;
+}
+
+.login-link {
+    margin-top: 15px;
+    font-size: 13px;
+}
+
+.login-link a {
+    color: gold;
+    text-decoration: none;
+}
+
+/* Row for side-by-side fields */
+.row {
+    display: flex;
+    gap: 10px;
+}
+
+.row .input-group {
+    flex: 1;
+}
+
+/* Select dropdown styling */
+.input-group select {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid #555;
+    border-radius: 6px;
+    color: #080808;
+    outline: none;
+}
+
+/* Fix select text color */
+.input-group select option {
+    color: #000;
+}
+
+/* Error message styling */
+.error-message {
+    background: #ffebee;
+    color: #c62828;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 13px;
+}
+
+.error-message p {
+    margin: 0;
+}
+
+.input-group .error {
+    color: #c62828;
+    font-size: 11px;
+    margin-top: 3px;
+    display: block;
+}
+
+/* Django messages styling */
+.messages {
+    margin-bottom: 15px;
+}
+
+.message {
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+.message.success {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.message.error {
+    background: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
+<body>
+<section class="register-section">
+    <div class="register-container">
+        <div class="register-box">
+
+            <h2>Create Account</h2>
+
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="message {{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form action="{% url 'register' %}" method="POST">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                    <div class="error-message">
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <!-- Name -->
+                <div class="row">
+                    <div class="input-group">
+                        {{form.first_name}}
+                        <label>First Name</label>
+                        {% if form.first_name.errors %}
+                            <small class="error">{{ form.first_name.errors.0 }}</small>
+                        {% endif %}
+                    </div>
+
+                    <div class="input-group">
+                        {{form.last_name}}
+                        <label>Last Name</label>
+                        {% if form.last_name.errors %}
+                            <small class="error">{{ form.last_name.errors.0 }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Username -->
+                <div class="input-group">
+                    {{form.username}}
+                    <label>Username</label>
+                    {% if form.username.errors %}
+                        <small class="error">{{ form.username.errors.0 }}</small>
+                    {% endif %}
+                </div>
+
+                <!-- Email -->
+                <div class="input-group">
+                    {{form.email}}
+                    <label>Email</label>
+                    {% if form.email.errors %}
+                        <small class="error">{{ form.email.errors.0 }}</small>
+                    {% endif %}
+                </div>
+
+                <!-- Phone Number -->
+                <div class="input-group">
+                    {{form.phone_number}}
+                    <label>Phone Number</label>
+                    {% if form.phone_number.errors %}
+                        <small class="error">{{ form.phone_number.errors.0 }}</small>
+                    {% endif %}
+                </div>
+
+                <!-- Password -->
+                <div class="input-group">
+                    {{form.password}}
+                    <label>Password</label>
+                    {% if form.password.errors %}
+                        <small class="error">{{ form.password.errors.0 }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="input-group">
+                    {{form.confirm_password}}
+                    <label>Confirm Password</label>
+                    {% if form.confirm_password.errors %}
+                        <small class="error">{{ form.confirm_password.errors.0 }}</small>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="register-btn">Register</button>
+
+                <p class="login-link">
+                    Already have an account?
+                    <a href="{% url 'login' %}">Login</a>
+                </p>
+
+            </form>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
+
+{% endblock content %}
+

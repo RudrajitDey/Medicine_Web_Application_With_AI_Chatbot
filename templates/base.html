@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medicine Web Store With Ai Assistent</title>
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'home.css' %}?v=6.0">
+    <link rel="stylesheet" href="{% static 'home.css' %}?v=5.0">
     <link rel="stylesheet" href="{% static 'admin/admin_dashboard.css' %}?v=3.0">
     <link rel="stylesheet" href="{% static 'admin/seller/seller_list.css' %}">
   <link rel="stylesheet" href="{% static 'search/search_results.css' %}?v=2.0">
@@ -58,10 +58,22 @@
       <a href="{% url 'chatbot' %}"><button>AI Chatbot</button></a>
     </div>
     
-
+    {% if user.id is none %}
     <div class="login">
       <a href="{% url 'login' %}"><button>Login</button></a>
     </div>
+    <div class="login">
+      <a href="{% url 'register' %}"><button>Register</button></a>
+    </div>
+    {% else %}
+     <div class="login">
+      <a href="{% url 'login' %}"><button>Logout</button></a>
+    </div>
+    <div class="login">
+      <a href="{% url 'register' %}"><button>Dashboard</button></a>
+    </div>
+    {% endif %}
+
 
     <a href="{% url 'cart' %}">
     <div class="icons">

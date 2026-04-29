@@ -23,4 +23,5 @@ urlpatterns = [
     path('chatbot/', include('Chatbot.urls')),
     path('admin_dashboard/', include('admin_panel.urls')),
     path('cart/', include('cart.urls')),
+    path('accounts/', include('accounts.urls'))
 ]

@@ -108,7 +108,7 @@ def vendor_dashboard(request):
     
     
     if not hasattr(request.user, 'vendor'):
-        return redirect('login')
+        return redirect('seller_login')
 
     vendor = request.user.vendor
 
