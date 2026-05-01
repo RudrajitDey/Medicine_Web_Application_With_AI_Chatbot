@@ -1,0 +1,85 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="{% static 'accounts/dashboard.css' %}?v=1.0">
+</head>
+<body>
+
+<div class="dashboard">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h3>My Account</h3>
+        <ul>
+            <li class="active">My order history</li>
+            <li>Transactions</li>
+            <li>Return and refunds</li>
+            <li>Settings</li>
+            <li>My Selling Items</li>
+            <li>Received orders</li>
+        </ul>
+        <button class="logout">Log out</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+
+        <div class="order-header">
+            <h3>Order ID: 6123456789</h3>
+            <p>Order Date: 16 December 2018</p>
+        </div>
+
+        <div class="order-info">
+            <div>
+                <h4>Delivery to</h4>
+                <p>Michael Jackson</p>
+                <p>Phone: +1234567890</p>
+                <p>Email: example@mail.com</p>
+                <p>Address: Street 123, City</p>
+            </div>
+
+            <div>
+                <h4>Payment</h4>
+                <p>VISA **** 4216</p>
+                <p>Subtotal: $356</p>
+                <p>Shipping: $56</p>
+                <h4>Total: $456</h4>
+            </div>
+        </div>
+
+        <!-- Product List -->
+        <div class="product">
+            <img src="https://via.placeholder.com/60" alt="">
+            <div class="details">
+                <p>Product name goes here</p>
+                <span>$145</span>
+            </div>
+            <div class="seller">Nike clothing</div>
+            <div class="actions">
+                <button>Track Order</button>
+                <button class="secondary">Details</button>
+            </div>
+        </div>
+
+        <div class="product">
+            <img src="https://via.placeholder.com/60" alt="">
+            <div class="details">
+                <p>Another product name</p>
+                <span>$100</span>
+            </div>
+            <div class="seller">ABC Shop</div>
+            <div class="actions">
+                <button>Track Order</button>
+                <button class="secondary">Details</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

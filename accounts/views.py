@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import RegistrationForm
 from django.contrib import messages
 from django.contrib import auth
-
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -16,6 +16,9 @@ def register(request):
             password = form.cleaned_data['password']
             user.set_password(password)
             user.save()
+
+            #USER ACRIVATION
+            
             messages.success(request, 'Registration successful! Please login.')
             return redirect('login')
         else:
@@ -45,5 +48,12 @@ def login(request):
            
     return render(request, 'accounts/login.html')
 
+@login_required(login_url = 'login')
 def logout(request):
-    return
+    auth.logout(request)
+    messages.success(request, 'Logout successfull. Please Login')
+    return redirect('login')
+
+@login_required(login_url = 'login')
+def dashboard(request):
+    return render(request, 'accounts/dashboard.html')
