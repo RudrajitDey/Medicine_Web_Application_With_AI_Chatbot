@@ -128,8 +128,9 @@
             <span>₹{{ grand_total }}</span>
         </div>
 
+        <a href="{% url 'checkout' %}">
         <button class="checkout-btn">Checkout</button>
-
+         </a>
         <a href="{% url 'home' %}">
             <button class="continue-btn">Continue Shopping</button>
         </a>

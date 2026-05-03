@@ -1,7 +1,6 @@
 from django.db import models
-
+from django.conf import settings
 from Home.models import Product
-
 from admin_panel.models import seller_Product
 
 
@@ -11,12 +10,14 @@ from admin_panel.models import seller_Product
 
 
 class Cart(models.Model):
-
-    cart_id = models.CharField(max_length=250, blank=True)
-
-    date_added = models.DateField(auto_now_add=True)
-
-
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+    cart_id = models.CharField(max_length=250, blank=True, null=True)
+    date_added = models.DateField(auto_now_add=True, null=True)
 
     def __str__(self):
 

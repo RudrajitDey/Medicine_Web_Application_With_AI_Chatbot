@@ -4,6 +4,7 @@ from .models import vendor, seller_Product, ProductContent, ProductPoint
 from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
 
+
 # Create your views here.
 
 def admin_dashboard(request):

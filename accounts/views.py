@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from .models import Account
+from cart.views import merge_cart
+from urllib.parse import urlparse, parse_qs
 
 #VERIFICATION EMAIL
 from django.contrib.sites.shortcuts import get_current_site
@@ -12,6 +14,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
+
+import requests
 
 # Create your views here.
 
@@ -60,7 +64,26 @@ def login(request):
         
         if user is not None:
             auth.login(request, user)
+            merge_cart(request, user)
             messages.success(request, 'Login successful!')
+            
+            # Check for next parameter in URL
+            next_url = request.GET.get('next')
+            if next_url:
+                return redirect(next_url)
+            
+            # Fallback to HTTP_REFERER parsing
+            url = request.META.get('HTTP_REFERER')
+            try:
+                if url:
+                    query = urlparse(url).query
+                    params = parse_qs(query)
+                    if 'next' in params:
+                        nextPage = params['next'][0]
+                        return redirect(nextPage)
+            except:
+                pass
+            
             return redirect('home')
         else:
             messages.error(request, 'Login failed. Please Enter Correct Email & Password.')

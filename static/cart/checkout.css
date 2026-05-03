@@ -1,0 +1,325 @@
+/* ========================= */
+/* GLOBAL */
+/* ========================= */
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, #f8fafc, #eef2f7);
+    color: #1e293b;
+    margin: 0;
+    padding: 0;
+}
+
+/* ========================= */
+/* CONTAINER */
+/* ========================= */
+
+.checkout-container {
+    display: flex;
+    gap: 30px;
+    padding: 40px;
+}
+
+/* ========================= */
+/* CARDS */
+/* ========================= */
+
+.checkout-left,
+.checkout-right {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    transition: 0.3s ease;
+}
+
+.checkout-left:hover,
+.checkout-right:hover {
+    transform: translateY(-2px);
+}
+
+.checkout-left {
+    flex: 2;
+}
+
+.checkout-right {
+    flex: 1;
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}
+
+/* ========================= */
+/* HEADINGS */
+/* ========================= */
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+/* ========================= */
+/* FORM */
+/* ========================= */
+
+label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #334155;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+/* ========================= */
+/* INPUTS */
+/* ========================= */
+
+input,
+textarea {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px;
+    background: #f9fafb;
+    transition: all 0.25s ease;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #111;
+    background: #fff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+}
+
+/* ========================= */
+/* PAYMENT */
+/* ========================= */
+
+.payment-method {
+    margin-top: 10px;
+}
+
+.payment-method label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.payment-method label:hover {
+    background: #f1f5f9;
+}
+
+.payment-method input {
+    width: auto;
+}
+
+/* ========================= */
+/* BUTTON */
+/* ========================= */
+
+.place-order-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #111, #333);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+}
+
+.place-order-btn:hover {
+    background: linear-gradient(135deg, #000, #222);
+    transform: scale(1.02);
+}
+
+/* ========================= */
+/* SUMMARY */
+/* ========================= */
+
+.summary-item,
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 12px 0;
+    font-size: 14px;
+}
+
+.summary-item {
+    color: #475569;
+}
+
+.summary-row {
+    font-weight: 500;
+}
+
+.total {
+    font-size: 20px;
+    font-weight: bold;
+    color: #111;
+}
+
+/* ========================= */
+/* DIVIDER */
+/* ========================= */
+
+hr {
+    border: none;
+    height: 1px;
+    background: #e2e8f0;
+    margin: 15px 0;
+}
+
+/* ========================= */
+/* 📱 MOBILE RESPONSIVE */
+/* ========================= */
+
+@media (max-width: 768px) {
+
+    .checkout-container {
+        flex-direction: column;
+        padding: 15px;
+        gap: 20px;
+    }
+
+    .checkout-left,
+    .checkout-right {
+        padding: 18px;
+        border-radius: 14px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    input,
+    textarea {
+        padding: 13px;
+        font-size: 15px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .payment-method label {
+        font-size: 14px;
+    }
+
+    .place-order-btn {
+        font-size: 16px;
+        padding: 15px;
+        border-radius: 12px;
+        position: sticky;
+        bottom: 10px;
+    }
+
+    .summary-item,
+    .summary-row {
+        font-size: 14px;
+    }
+
+    .total {
+        font-size: 18px;
+    }
+}
+
+
+
+/* ========================= */
+/* CART ITEMS IN CHECKOUT */
+/* ========================= */
+
+.summary-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* IMAGE */
+.summary-img img {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* INFO */
+.summary-info {
+    flex: 1;
+}
+
+.product-name {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.product-qty {
+    font-size: 12px;
+    color: #64748b;
+}
+
+.product-price {
+    font-size: 12px;
+    color: #64748b;
+}
+
+/* TOTAL PRICE */
+.summary-total {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+
+@media (max-width: 768px) {
+    .summary-card {
+        gap: 10px;
+    }
+
+    .summary-img img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .product-name {
+        font-size: 13px;
+    }
+
+    .summary-total {
+        font-size: 13px;
+    }
+}
