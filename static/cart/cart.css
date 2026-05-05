@@ -134,6 +134,25 @@ body {
     color: #777;
 }
 
+.stock-info {
+    display: block;
+    margin-top: 5px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+.stock-info:not(.low-stock) {
+    background: #d4edda;
+    color: #155724;
+}
+
+.stock-info.low-stock {
+    background: #f8d7da;
+    color: #721c24;
+    font-weight: 600;
+}
+
 /* REMOVE BUTTON */
 .remove-btn {
     background: #ff4d4d;

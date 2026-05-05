@@ -88,6 +88,11 @@
                     <div class="price">
                         <h4>₹{{ item.total_price }}</h4>
                         <small>₹{{ product.price }} each</small>
+                        {% if product.stock %}
+                            <small class="stock-info {% if product.stock < 10 %}low-stock{% endif %}">
+                                Stock: {{ product.stock }}
+                            </small>
+                        {% endif %}
                     </div>
 
                     <!-- REMOVE -->

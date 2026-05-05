@@ -95,13 +95,3 @@ class ProductPoint(models.Model):
         return self.text
 
     
-class Order(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-
-class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    products = models.ForeignKey(seller_Product, on_delete=models.CASCADE)
-    vendor = models.ForeignKey(vendor, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
-    price = models.FloatField()
-    status = models.CharField(max_length=20, default="Pending")

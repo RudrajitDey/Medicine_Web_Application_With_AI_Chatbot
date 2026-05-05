@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Order Confirmation{% endblock title %}
+
+{% block content %}
+
+<div class="order-confirmation-container">
+    <div class="confirmation-header">
+        <h1>🎉 Order Placed Successfully!</h1>
+        <p>Thank you for your order. We've received your order and will process it shortly.</p>
+    </div>
+
+    <div class="order-details">
+        <h2>Order Details</h2>
+        <div class="order-info">
+            <p><strong>Order Number:</strong> {{ order.order_number }}</p>
+            <p><strong>Order Date:</strong> {{ order.created_at|date:"F d, Y" }}</p>
+            <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+        </div>
+
+        <h3>Shipping Information</h3>
+        <div class="shipping-info">
+            <p>{{ order.first_name }} {{ order.last_name }}</p>
+            <p>{{ order.email }}</p>
+            <p>{{ order.phone }}</p>
+            <p>{{ order.address_line_1 }}</p>
+            {% if order.address_line_2 %}
+            <p>{{ order.address_line_2 }}</p>
+            {% endif %}
+            <p>{{ order.city }}, {{ order.state }} - {{ order.pin_code }}</p>
+            <p>{{ order.country }}</p>
+        </div>
+
+        <h3>Order Items</h3>
+        <div class="order-items">
+            {% for item in order_items %}
+            <div class="order-item">
+                <div class="item-info">
+                    <p><strong>{{ item.get_product_name }}</strong></p>
+                    <p>Quantity: {{ item.quantity }}</p>
+                    <p>Price: ₹{{ item.product_price }}</p>
+                </div>
+                <div class="item-total">
+                    <p>₹{{ item.sub_total }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="order-summary">
+            <div class="summary-row">
+                <span>Subtotal:</span>
+                <span>₹{{ order.order_total }}</span>
+            </div>
+            <div class="summary-row">
+                <span>Tax:</span>
+                <span>₹{{ order.tax }}</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total:</span>
+                <span>₹{{ total }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="confirmation-actions">
+        <a href="{% url 'home' %}" class="btn btn-primary">Continue Shopping</a>
+        <a href="{% url 'dashboard' %}" class="btn btn-secondary">View Orders</a>
+    </div>
+</div>
+
+<style>
+.order-confirmation-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.confirmation-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.confirmation-header h1 {
+    color: #28a745;
+    margin-bottom: 10px;
+}
+
+.order-details h2, .order-details h3 {
+    color: #333;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 5px;
+}
+
+.order-info, .shipping-info {
+    background: #f8f9fa;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.order-items {
+    margin-bottom: 20px;
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.order-item:last-child {
+    border-bottom: none;
+}
+
+.item-info p, .item-total p {
+    margin: 5px 0;
+}
+
+.order-summary {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.summary-row.total {
+    font-weight: bold;
+    font-size: 18px;
+    color: #28a745;
+    border-top: 2px solid #ddd;
+    padding-top: 10px;
+}
+
+.confirmation-actions {
+    text-align: center;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    margin: 0 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #545b62;
+}
+</style>
+
+{% endblock content %}

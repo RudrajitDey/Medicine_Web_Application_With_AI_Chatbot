@@ -20,7 +20,7 @@
     <div class="checkout-left">
         <h2>Shipping Details</h2>
 
-        <form method="POST">
+        <form method="POST" action="{% url 'place_order' %}">
             {% csrf_token %}
 
             <div class="form-row">
@@ -35,14 +35,26 @@
             </div>
             </div>
 
-            <div class="form-group">
-                <label>Phone Number</label>
-                <input type="text" name="phone" required>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="text" name="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" required>
+                </div>
             </div>
 
             <div class="form-group">
-                <label>Address</label>
-                <textarea name="address" required></textarea>
+                <label>Address Line 1</label>
+                <input type="text" name="address_line_1" required>
+            </div>
+
+            <div class="form-group">
+                <label>Address Line 2</label>
+                <input type="text" name="address_line_2">
             </div>
 
             <div class="form-row">

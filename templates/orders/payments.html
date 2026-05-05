@@ -1,0 +1,613 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Payment{% endblock title %}
+
+{% block extra_head %}
+<script src="https://www.paypal.com/sdk/js?client-id=AZ1Z_r59si9TMN3KeHgdtwketiCDuTI4TWOP-qxr-Rqn2kQEBgUL5f7l2Hyw9hMGd0poDL9LpgNtIqes&currency=USD"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="payment-container">
+    <div class="payment-header">
+        <h1>Complete Your Payment</h1>
+        <p>Secure payment processing</p>
+    </div>
+
+    <div class="payment-content">
+        <!-- Order Summary -->
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            {% if order %}
+            <div class="summary-details">
+                <p><strong>Order Number:</strong> {{ order.order_number }}</p>
+                <p><strong>Items:</strong> {{ order_items.count }}</p>
+            </div>
+            
+            <!-- Order Items -->
+            <div class="order-items-list">
+                <h3>Items in Your Order</h3>
+                {% for item in order_items %}
+                <div class="order-item-summary">
+                    <div class="item-image">
+                        {% if item.get_image %}
+                            <img src="{{ item.get_image.url }}" alt="{{ item.get_product_name }}">
+                        {% else %}
+                            <div class="no-image">No Image</div>
+                        {% endif %}
+                    </div>
+                    <div class="item-details">
+                        <p class="item-name">{{ item.get_product_name }}</p>
+                        <p class="item-quantity">Qty: {{ item.quantity }}</p>
+                        <p class="item-price">₹{{ item.product_price }}</p>
+                        {% if item.get_product.vendor %}
+                            <p class="item-vendor">Sold by: {{ item.get_product.vendor.user.username|default:item.get_product.vendor }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="item-total">
+                        <p>₹{{ item.sub_total }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Price Summary -->
+            <div class="price-summary">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span>₹{{ order.order_total }}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax:</span>
+                    <span>₹{{ order.tax }}</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total Amount:</span>
+                    <span>₹{{ total }}</span>
+                </div>
+            </div>
+            {% else %}
+            <p>No order information available</p>
+            {% endif %}
+        </div>
+
+        <!-- Payment Form -->
+        <div class="payment-form">
+            <h2>Payment Details</h2>
+            <form method="POST" id="payment-form">
+                {% csrf_token %}
+                
+                <!-- Payment Method Selection -->
+                <div class="payment-methods">
+                    <h3>Select Payment Method</h3>
+                    <div class="method-options">
+                        
+                        
+                        <div id="paypal-button-container"></div>
+                        
+                
+                        
+                        {% comment %} <label class="payment-option">
+                            <input type="radio" name="payment_method" value="cod">
+                            <div class="option-content">
+                                <span class="icon">💰</span>
+                                <div>
+                                    <strong>Cash on Delivery</strong>
+                                    <p>Pay when you receive</p>
+                                </div>
+                            </div>
+                        </label> {% endcomment %}
+                    </div>
+                </div>
+
+                {% comment %} <!-- Card Payment Details -->
+                <div class="card-details" id="card-details">
+                    <h3>Card Information</h3>
+                    <div class="form-group">
+                        <label for="card_number">Card Number</label>
+                        <input type="text" id="card_number" name="card_number" 
+                               placeholder="1234 5678 9012 3456" maxlength="19" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expiry">Expiry Date</label>
+                            <input type="text" id="expiry" name="expiry" 
+                                   placeholder="MM/YY" maxlength="5" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cvv">CVV</label>
+                            <input type="text" id="cvv" name="cvv" 
+                                   placeholder="123" maxlength="3" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="card_name">Name on Card</label>
+                        <input type="text" id="card_name" name="card_name" 
+                               placeholder="John Doe" required>
+                    </div>
+                </div>
+
+                <!-- UPI Payment Details -->
+                <div class="upi-details" id="upi-details" style="display: none;">
+                    <h3>UPI Information</h3>
+                    <div class="form-group">
+                        <label for="upi_id">UPI ID</label>
+                        <input type="text" id="upi_id" name="upi_id" 
+                               placeholder="yourname@upi" required>
+                    </div>
+                    <p class="upi-note">You will receive a payment request on your UPI app</p>
+                </div>
+
+                <!-- Net Banking Details -->
+                <div class="netbanking-details" id="netbanking-details" style="display: none;">
+                    <h3>Select Bank</h3>
+                    <div class="form-group">
+                        <select id="bank_name" name="bank_name" required>
+                            <option value="">Select your bank</option>
+                            <option value="sbi">State Bank of India</option>
+                            <option value="hdfc">HDFC Bank</option>
+                            <option value="icici">ICICI Bank</option>
+                            <option value="pnb">Punjab National Bank</option>
+                            <option value="axis">Axis Bank</option>
+                            <option value="kotak">Kotak Mahindra Bank</option>
+                            <option value="other">Other Bank</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- COD Details -->
+                <div class="cod-details" id="cod-details" style="display: none;">
+                    <h3>Cash on Delivery</h3>
+                    <div class="cod-info">
+                        <p>✓ Pay when you receive your order</p>
+                        <p>✓ No additional charges</p>
+                        <p>✓ Cash or UPI accepted at delivery</p>
+                    </div>
+                </div> {% endcomment %}
+
+                <!-- Billing Address -->
+                <div class="billing-address">
+                    <h3>Billing Address</h3>
+                    {% if order %}
+                    <div class="order-debug" style="background: #f0f8ff; padding: 10px; margin-bottom: 15px; border-radius: 5px; font-size: 12px;">
+                        <strong>Debug Info:</strong><br>
+                        Order ID: {{ order.id }}<br>
+                        Order Number: {{ order.order_number }}<br>
+                        Created: {{ order.created_at|date:"Y-m-d H:i" }}<br>
+                        Status: {{ order.status }}
+                    </div>
+                    <div class="address-display">
+                        <p>{{ order.first_name }} {{ order.last_name }}</p>
+                        <p>{{ order.email }}</p>
+                        <p>{{ order.phone }}</p>
+                        <p>{{ order.address_line_1 }}</p>
+                        {% if order.address_line_2 %}
+                        <p>{{ order.address_line_2 }}</p>
+                        {% endif %}
+                        <p>{{ order.city }}, {{ order.state }} - {{ order.pin_code }}</p>
+                        <p>{{ order.country }}</p>
+                    </div>
+                    {% else %}
+                    <div class="no-order" style="background: #fff3cd; padding: 15px; border-radius: 5px;">
+                        <p><strong>No order found!</strong></p>
+                        <p>Please complete the checkout process first.</p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Submit Button -->
+                <div class="payment-actions">
+                    <button type="submit" class="pay-btn" id="pay-btn">
+                        <span id="pay-btn-text">Pay ₹{{ total|default:"0.00" }}</span>
+                        <span id="pay-btn-loading" style="display: none;">Processing...</span>
+                    </button>
+                    <a href="{% url 'checkout' %}" class="cancel-btn">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+.payment-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.payment-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.payment-header h1 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.payment-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.order-summary {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.order-summary h2 {
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 10px;
+}
+
+.summary-details p {
+    margin-bottom: 10px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.summary-row.total {
+    font-weight: bold;
+    font-size: 18px;
+    color: #28a745;
+    border-top: 2px solid #dee2e6;
+    padding-top: 10px;
+    margin-top: 20px;
+}
+
+.order-items-list {
+    margin: 20px 0;
+    border-top: 1px solid #e9ecef;
+    padding-top: 20px;
+}
+
+.order-items-list h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.order-item-summary {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.order-item-summary:last-child {
+    border-bottom: none;
+}
+
+.item-image {
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.no-image {
+    width: 60px;
+    height: 60px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.item-name {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.item-quantity, .item-price {
+    color: #666;
+    font-size: 14px;
+    margin: 2px 0;
+}
+
+.item-vendor {
+    color: #007bff;
+    font-size: 13px;
+    margin: 5px 0 0 0;
+}
+
+.item-total {
+    text-align: right;
+    font-weight: 600;
+    color: #333;
+}
+
+.price-summary {
+    margin-top: 20px;
+    border-top: 1px solid #e9ecef;
+    padding-top: 20px;
+}
+
+.payment-form {
+    background: #fff;
+    border: 1px solid #e9ecef;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.payment-form h2, .payment-form h3 {
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 5px;
+}
+
+.payment-methods {
+    margin-bottom: 30px;
+}
+
+.method-options {
+    display: grid;
+    gap: 15px;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.payment-option:hover {
+    border-color: #007bff;
+}
+
+.payment-option input[type="radio"] {
+    margin-right: 15px;
+}
+
+.option-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.option-content .icon {
+    font-size: 24px;
+    margin-right: 15px;
+}
+
+.option-content div {
+    flex: 1;
+}
+
+.option-content div p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.upi-note {
+    background: #e7f3ff;
+    padding: 10px;
+    border-radius: 5px;
+    color: #0066cc;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.cod-info p {
+    margin: 10px 0;
+    color: #28a745;
+}
+
+.address-display {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    border-left: 4px solid #007bff;
+}
+
+.payment-actions {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.pay-btn {
+    background: #28a745;
+    color: white;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 15px;
+}
+
+.pay-btn:hover {
+    background: #218838;
+}
+
+.pay-btn:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
+
+.cancel-btn {
+    display: inline-block;
+    padding: 15px 30px;
+    background: #6c757d;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+    background: #545b62;
+}
+
+@media (max-width: 768px) {
+    .payment-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<script>
+
+    function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+    var url = "{% url 'payments' %}";
+    var csrftoken = getCookie('csrftoken');
+    var orderID = "{{order.order_number}}"
+    var payment_method = 'PayPal'
+
+// Test if we have order data
+    if (!('{{ order.order_number }}' || '').trim()) {
+        document.getElementById('paypal-button-container').innerHTML = '<p style="color: orange;">No pending order found. Please place an order first.</p>';
+        console.log('No order data found');
+    } else {
+        console.log('Order data found, initializing PayPal...');
+        
+        paypal.Buttons({
+
+    // Create Order
+    createOrder: function (data, actions) {
+        let inr_total = parseFloat('{{ total|default:"0.00" }}');
+        let usd_total = (inr_total / 83).toFixed(2);
+
+        return actions.order.create({
+            purchase_units: [{
+                amount: { value: usd_total }
+            }]
+        });
+    },
+
+    // On Approval
+    onApprove: function (data, actions) {
+        return actions.order.capture().then(function (details) {
+
+            console.log(details);
+            sendData();
+           function sendData(){
+            fetch(url, {
+                method : "POST",
+                headers: {
+                    "Content-type": "application/json",
+                    "X-CSRFToken": getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    orderID: orderID,
+                    transId: details.id,
+                    payment_method: payment_method,
+                    status: details.status,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Payment response:', data);
+                if (data.success || data.redirect_url) {
+                    // Redirect to order confirmation page
+                    window.location.href = data.redirect_url || '/orders/order_confirmation/';
+                } else {
+                    alert('Payment processed but redirect failed. Please check your orders.');
+                    window.location.href = '/orders/order_confirmation/';
+                }
+            })
+            .catch(error => {
+                console.error('Payment processing error:', error);
+                alert('Payment processed with errors. Please check your orders.');
+                window.location.href = '/orders/order_confirmation/';
+            });
+
+           }
+        });
+    },
+
+    // Error Handling (IMPORTANT)
+    onError: function (err) {
+        console.error('PayPal Error:', err);
+        alert('Payment failed. Check console.');
+    }
+
+}).render('#paypal-button-container');
+    }
+</script>
+
+{% endblock content %}

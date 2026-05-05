@@ -3,9 +3,10 @@ from .models import Category, Product,SubCategory, faq, AdBanner
 
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from admin_panel.models import vendor, seller_Product, OrderItem
+from admin_panel.models import vendor, seller_Product
 from django.contrib import messages
 from django.db.models import Q
+from orders.models import OrderProduct
 
 
 
@@ -116,25 +117,25 @@ def vendor_dashboard(request):
     total_products = seller_Product.objects.filter(vendor=vendor).count()
 
    
-    total_orders = OrderItem.objects.filter(vendor=vendor).count()
+    total_orders = OrderProduct.objects.filter(vendor=vendor).count()
 
    
-    pending_orders = OrderItem.objects.filter(
+    pending_orders = OrderProduct.objects.filter(
         vendor=vendor, status="Pending"
     ).count()
 
    
-    earnings = OrderItem.objects.filter(
+    earnings = OrderProduct.objects.filter(
         vendor=vendor, status="Delivered"
     ).aggregate(total=Sum('price'))['total'] or 0
 
    
-    total_customers = OrderItem.objects.filter(
+    total_customers = OrderProduct.objects.filter(
         vendor=vendor
     ).values('order').distinct().count()
 
     
-    best_products = OrderItem.objects.filter(
+    best_products = OrderProduct.objects.filter(
         vendor=vendor
     ).values('products__name').annotate(
         total_sold=Sum('quantity')

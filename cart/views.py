@@ -280,8 +280,3 @@ def checkout(request):
         'tax': tax,
         'grand_total': grand_total
     })
-
-
-
-
-
