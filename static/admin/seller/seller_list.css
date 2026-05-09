@@ -1,14 +1,22 @@
 
+.seller-list{
+    margin-top: 130px;
+}
 
-        h2 {
-            margin-bottom: 20px;
-        }
+.header-seller{
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+       
 
         .table-container {
             background: #fff;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin: 10px 30px 50px 30px;
         }
 
         table {
@@ -29,10 +37,6 @@
 
         tr {
             border-bottom: 1px solid #ddd;
-        }
-
-        tr:hover {
-            background: #f1f1f1;
         }
 
         .badge {
@@ -88,3 +92,116 @@
         .doc-link:hover {
             text-decoration: underline;
         }
+
+/* ========================= */
+/* MOBILE RESPONSIVE */
+/* ========================= */
+@media (max-width: 768px) {
+    .seller-list {
+        margin-top: 100px;
+        padding: 0 10px;
+    }
+
+    .header-seller {
+        flex-direction: column;
+        height: auto;
+        padding: 20px 0;
+    }
+
+    .header-seller h2 {
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .table-container {
+        padding: 15px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+        min-width: 600px;
+        width: 100%;
+        font-size: 8px;
+        white-space: nowrap;
+    }
+
+    th, td {
+        padding: 6px 3px;
+        font-size: 8px;
+        min-width: 60px;
+        white-space: nowrap;
+    }
+
+    .badge {
+        font-size: 8px;
+        padding: 2px 4px;
+    }
+
+    .btn {
+        font-size: 8px;
+        padding: 3px 5px;
+        margin-right: 2px;
+    }
+
+    .doc-link {
+        font-size: 8px;
+        display: block;
+        margin-bottom: 2px;
+    }
+
+    /* Hide document links separator on mobile */
+    .doc-link:not(:last-child)::after {
+        content: "";
+        margin: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .seller-list {
+        margin-top: 80px;
+        padding: 0 5px;
+    }
+
+    .header-seller h2 {
+        font-size: 16px;
+    }
+
+    .table-container {
+        padding: 10px;
+    }
+
+    table {
+        min-width: 500px;
+        font-size: 7px;
+    }
+
+    th, td {
+        padding: 4px 2px;
+        font-size: 7px;
+        min-width: 50px;
+        white-space: nowrap;
+    }
+
+    .badge {
+        font-size: 7px;
+        padding: 1px 3px;
+    }
+
+    .btn {
+        font-size: 7px;
+        padding: 1px 3px;
+        margin-right: 1px;
+        display: block;
+        margin-bottom: 2px;
+    }
+
+    .doc-link {
+        font-size: 7px;
+    }
+
+    /* Stack action buttons on small mobile */
+    td:last-child {
+        min-width: 120px;
+    }
+}

@@ -42,6 +42,7 @@ EMAIL_USE_TLS = True
 
 EMAIL_HOST_USER = 'meirudra27@gmail.com'   # your real email
 EMAIL_HOST_PASSWORD = 'epbynjfedibgrrtj'  # NOT your normal password
+DEFAULT_FROM_EMAIL = 'meirudra27@gmail.com'
 
 
 
@@ -61,6 +62,8 @@ INSTALLED_APPS = [
     'accounts',
     'orders',
 ]
+
+LOGIN_URL = 'login'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

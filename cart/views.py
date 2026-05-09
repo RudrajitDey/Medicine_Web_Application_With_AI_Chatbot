@@ -273,10 +273,24 @@ def checkout(request):
     tax = (5 * total)/100
     grand_total = total + tax
     
-    return render(request, 'cart/checkout.html', {
+    # Get user's existing information for pre-filling
+    user = request.user
+    context = {
         'cart': cart,
         'items': items,
         'total': total,
         'tax': tax,
-        'grand_total': grand_total
-    })
+        'grand_total': grand_total,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'email': user.email,
+        'phone': user.phone_number or '',
+        'address_line_1': getattr(user, 'address_line_1', '') or '',
+        'address_line_2': getattr(user, 'address_line_2', '') or '',
+        'city': getattr(user, 'city', '') or '',
+        'state': getattr(user, 'state', '') or '',
+        'pincode': getattr(user, 'postal_code', '') or '',
+        'country': getattr(user, 'country', 'India') or 'India'
+    }
+    
+    return render(request, 'cart/checkout.html', context)

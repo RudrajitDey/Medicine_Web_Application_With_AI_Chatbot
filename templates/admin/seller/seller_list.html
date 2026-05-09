@@ -7,8 +7,11 @@
 <link rel="stylesheet" href="{% static 'admin/seller/seller_list.css' %}">
 
 {% block content %}
-<h2>Vendor Management</h2>
 
+<div class="seller-list">
+    <div class="header-seller">
+        <h2>Vendor Management</h2>
+    </div>
 <div class="table-container">
     <table>
         <thead>
@@ -63,6 +66,7 @@
         </tbody>
 
     </table>
+</div>
 </div>
 
 {% endblock content %}

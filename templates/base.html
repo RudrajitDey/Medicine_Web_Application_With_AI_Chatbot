@@ -7,10 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medicine Web Store With Ai Assistent</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'home.css' %}?v=5.0">
+    <link rel="stylesheet" href="{% static 'home.css' %}?v=6.0">
     <link rel="stylesheet" href="{% static 'admin/admin_dashboard.css' %}?v=3.0">
-    <link rel="stylesheet" href="{% static 'admin/seller/seller_list.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/seller/seller_list.css' %}?v=2.0">
     <link rel="stylesheet" href="{% static 'search/search_results.css' %}?v=2.0">
+    <link rel="stylesheet" href="{% static 'admin/seller/seller_product_list.css' %}?v=2.0">
 
    <script src="https://www.paypal.com/sdk/js?client-id=Ac0Od556aUEX1pzwe6NeS4bjMBlJlQ4AJfOpyTXXFM4_k4wCFJqTEbEX3WRmPLg9xmHW2Fdcdr8c58BJ&currency=USD"></script>
     
@@ -30,8 +31,8 @@
 
   <!-- SEARCH BAR -->
   <form action="{% url 'search' %}" method="GET">
-  <div class="nav-center">
-    <div class="search-box">
+  <div class="navbar-center">
+    <div class="nav-search-box">
       <input  type="text" 
           name="q" 
           value="{{ request.GET.q }}" 
@@ -70,9 +71,15 @@
      <div class="login">
       <a href="{% url 'logout' %}"><button>Logout</button></a>
     </div>
+    {% if user.vendor %}
+    <div class="login">
+      <a href="{% url 'vendor_dashboard' %}"><button>Seller Dashboard</button></a>
+    </div>
+    {% else %}
     <div class="login">
       <a href="{% url 'dashboard' %}"><button>Dashboard</button></a>
     </div>
+    {% endif %}
     {% endif %}
 
 

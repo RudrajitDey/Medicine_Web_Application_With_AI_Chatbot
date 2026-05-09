@@ -1,0 +1,533 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Order Details{% endblock title %}
+
+{% block content %}
+<style>
+/* ========================= */
+/* ADMIN ORDER DETAIL STYLING */
+/* ========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f8fafc;
+    color: #1e293b;
+    line-height: 1.6;
+}
+
+.main-content {
+    margin: 20px;
+    padding: 100px 30px 30px;
+    background: #f8fafc;
+}
+
+/* ========================= */
+/* DASHBOARD HEADER */
+/* ========================= */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+    padding: 25px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.header-title h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 5px;
+}
+
+.header-subtitle {
+    color: #64748b;
+    font-size: 16px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.btn-primary {
+    background: #3b82f6;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+}
+
+.btn-danger {
+    background: #ef4444;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+}
+
+/* ========================= */
+/* ORDER INFO SECTION */
+/* ========================= */
+.order-info-section {
+    background: #fff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.order-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.info-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #64748b;
+}
+
+.info-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.order-number {
+    color: #3b82f6;
+    font-size: 18px;
+}
+
+.status-badge {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+    display: inline-block;
+}
+
+.status-new {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.status-accepted {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-completed {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-cancelled {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* ========================= */
+/* ORDER ITEMS TABLE */
+/* ========================= */
+.order-items-section {
+    background: #fff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+}
+
+.table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 10px 0;
+}
+
+.order-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+.order-items-table th {
+    background: #2c3e50;
+    color: #fff;
+    padding: 15px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.order-items-table td {
+    padding: 15px 12px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 14px;
+}
+
+.order-items-table tr:hover {
+    background: #f8fafc;
+}
+
+.product-name {
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.product-category {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.quantity {
+    font-weight: 600;
+    color: #3b82f6;
+}
+
+.price {
+    font-weight: 600;
+    color: #10b981;
+}
+
+.total {
+    font-weight: 700;
+    color: #1e293b;
+}
+
+/* ========================= */
+/* ORDER SUMMARY */
+/* ========================= */
+.order-summary-section {
+    background: #fff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: #f8fafc;
+    border-radius: 10px;
+}
+
+.summary-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #64748b;
+}
+
+.summary-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.summary-item.grand-total {
+    background: #3b82f6;
+    color: #fff;
+}
+
+.summary-item.grand-total .summary-label,
+.summary-item.grand-total .summary-value {
+    color: #fff;
+}
+
+/* ========================= */
+/* MOBILE RESPONSIVE */
+/* ========================= */
+@media (max-width: 768px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    .main-content {
+        margin: 0;
+        width: 100%;
+        padding: 90px 15px 20px;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+        padding: 20px;
+    }
+
+    .header-title h1 {
+        font-size: 28px;
+    }
+
+    .order-info-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .order-items-table {
+        min-width: 600px;
+        font-size: 12px;
+    }
+
+    .order-items-table th,
+    .order-items-table td {
+        padding: 10px 6px;
+        font-size: 12px;
+        min-width: 80px;
+        white-space: nowrap;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-header {
+        padding: 15px;
+    }
+
+    .header-title h1 {
+        font-size: 24px;
+    }
+
+    .order-items-table {
+        min-width: 500px;
+        font-size: 11px;
+    }
+
+    .order-items-table th,
+    .order-items-table td {
+        padding: 8px 4px;
+        font-size: 11px;
+        min-width: 70px;
+    }
+}
+</style>
+
+<!-- Main Content -->
+<main class="main-content">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div class="header-title">
+            <h1>Order Details</h1>
+            <div class="header-subtitle">View complete order information</div>
+        </div>
+        <div class="header-actions">
+            <a href="{% url 'admin_orders' %}" class="btn btn-primary">Back to Orders</a>
+            <a href="{% url 'admin_order_delete' order.id %}" class="btn btn-danger" onclick="return confirm('Delete this order?')">Delete Order</a>
+        </div>
+    </div>
+
+    <!-- Customer Information -->
+    <div class="order-info-section">
+        <div class="section-title">
+            👤 Customer Information
+        </div>
+        <div class="order-info-grid">
+            <div class="info-item">
+                <div class="info-label">Full Name</div>
+                <div class="info-value">{{ customer_info.first_name }} {{ customer_info.last_name }}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Email</div>
+                <div class="info-value">{{ customer_info.email }}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Phone</div>
+                <div class="info-value">{{ customer_info.phone|default:"N/A" }}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Username</div>
+                <div class="info-value">{{ customer.username }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shipping Address -->
+    <div class="order-info-section">
+        <div class="section-title">
+            📍 Shipping Address
+        </div>
+        <div class="order-info-grid">
+            <div class="info-item">
+                <div class="info-label">Address Line 1</div>
+                <div class="info-value">{{ customer_info.address_line_1|default:"N/A" }}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Address Line 2</div>
+                <div class="info-value">{{ customer_info.address_line_2|default:"N/A" }}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">City</div>
+                <div class="info-value">{{ customer_info.city|default:"N/A" }}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">State</div>
+                <div class="info-value">{{ customer_info.state|default:"N/A" }}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Pincode</div>
+                <div class="info-value">{{ customer_info.pincode|default:"N/A" }}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Country</div>
+                <div class="info-value">{{ customer_info.country|default:"N/A" }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Information -->
+    <div class="order-info-section">
+        <div class="section-title">
+            📋 Order Information
+        </div>
+        <div class="order-info-grid">
+            <div class="info-item">
+                <div class="info-label">Order Number</div>
+                <div class="info-value order-number">#{{ order.order_number }}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Status</div>
+                <div class="info-value">
+                    <span class="status-badge status-{{ order.status|lower }}">
+                        {{ order.status }}
+                    </span>
+                </div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Order Date</div>
+                <div class="info-value">{{ order.created_at|date:"Y-m-d H:i" }}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Payment Status</div>
+                <div class="info-value">
+                    <span class="status-badge status-{{ order.payment_status|default:'pending' }}">
+                        {{ order.payment_status|default:"Pending" }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Items -->
+    <div class="order-items-section">
+        <div class="section-title">
+            📦 Order Items
+        </div>
+        <div class="table-container">
+            <table class="order-items-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item_data in items_with_totals %}
+                    <tr>
+                        <td class="product-name">
+                            {{ item_data.item.get_product_name|default:"N/A" }}
+                        </td>
+                        <td class="product-category">
+                            {% if item_data.item.product and item_data.item.product.subcategory %}
+                                {{ item_data.item.product.subcategory.category.category_name|default:"N/A" }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td class="quantity">{{ item_data.item.quantity }}</td>
+                        <td class="price">Rs {{ item_data.item.product_price|default:"0.00" }}</td>
+                        <td class="total">Rs {{ item_data.total|default:"0.00" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 40px; color: #64748b;">
+                            No items found in this order
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="order-summary-section">
+        <div class="section-title">
+            💰 Order Summary
+        </div>
+        <div class="summary-grid">
+            <div class="summary-item">
+                <div class="summary-label">Subtotal</div>
+                <div class="summary-value">Rs {{ order.order_total|default:"0.00" }}</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-label">Tax (5%)</div>
+                <div class="summary-value">Rs {{ order.order_total|default:"0.00" }}</div>
+            </div>
+            <div class="summary-item grand-total">
+                <div class="summary-label">Grand Total</div>
+                <div class="summary-value">Rs {{ order.order_total|default:"0.00" }}</div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock content %}

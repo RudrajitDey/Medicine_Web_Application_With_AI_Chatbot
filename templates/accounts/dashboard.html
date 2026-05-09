@@ -1,85 +1,82 @@
+{% extends "base.html" %}
+
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>User Dashboard</title>
-    <link rel="stylesheet" href="{% static 'accounts/dashboard.css' %}?v=1.0">
-</head>
-<body>
+{% block title %}User Dashboard{% endblock title %}
 
-<div class="dashboard">
+{% block content %}
+<link rel="stylesheet" href="{% static 'accounts/dashboard.css' %}">
+<div class="dashboard-page">
+<div class="dashboard-wrapper">
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <h3>My Account</h3>
-        <ul>
-            <li class="active">My order history</li>
-            <li>Transactions</li>
-            <li>Return and refunds</li>
-            <li>Settings</li>
-            <li>My Selling Items</li>
-            <li>Received orders</li>
-        </ul>
-        <button class="logout">Log out</button>
-    </div>
+    <!-- SIDEBAR -->
+    <div class="dashboard-sidebar">
 
-    <!-- Main Content -->
-    <div class="content">
+        <div class="sidebar-menu">
+            <a href="#" class="active">
+                <i class="fa fa-home"></i> Dashboard
+            </a>
 
-        <div class="order-header">
-            <h3>Order ID: 6123456789</h3>
-            <p>Order Date: 16 December 2018</p>
+            <a href="{% url 'my_orders' %}">
+                <i class="fa fa-shopping-bag"></i> My Orders
+            </a>
+
+            <a href="#">
+                <i class="fa fa-user"></i> Edit Profile
+            </a>
+
+            <a href="{% url 'forgotPassword' %}">
+                <i class="fa fa-lock"></i> Change Password
+            </a>
         </div>
 
-        <div class="order-info">
-            <div>
-                <h4>Delivery to</h4>
-                <p>Michael Jackson</p>
-                <p>Phone: +1234567890</p>
-                <p>Email: example@mail.com</p>
-                <p>Address: Street 123, City</p>
-            </div>
-
-            <div>
-                <h4>Payment</h4>
-                <p>VISA **** 4216</p>
-                <p>Subtotal: $356</p>
-                <p>Shipping: $56</p>
-                <h4>Total: $456</h4>
-            </div>
-        </div>
-
-        <!-- Product List -->
-        <div class="product">
-            <img src="https://via.placeholder.com/60" alt="">
-            <div class="details">
-                <p>Product name goes here</p>
-                <span>$145</span>
-            </div>
-            <div class="seller">Nike clothing</div>
-            <div class="actions">
-                <button>Track Order</button>
-                <button class="secondary">Details</button>
-            </div>
-        </div>
-
-        <div class="product">
-            <img src="https://via.placeholder.com/60" alt="">
-            <div class="details">
-                <p>Another product name</p>
-                <span>$100</span>
-            </div>
-            <div class="seller">ABC Shop</div>
-            <div class="actions">
-                <button>Track Order</button>
-                <button class="secondary">Details</button>
-            </div>
+        <div class="logout-btn">
+            <a href="{% url 'logout' %}">
+                <i class="fa fa-sign-out"></i> Logout
+            </a>
         </div>
 
     </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="dashboard-content">
+
+        <!-- TOP -->
+        <div class="dashboard-top">
+            <h3>
+                Logged in as:
+                <span>Rathan Kumar</span>
+            </h3>
+        </div>
+
+        <!-- CARDS -->
+        <div class="dashboard-cards">
+
+            <!-- ORDER CARD -->
+            <div class="dashboard-card">
+                <h2>Total Orders</h2>
+                <h1>12</h1>
+
+                <a href="#">
+                    View Orders
+                </a>
+            </div>
+
+            <!-- PROFILE CARD -->
+            <div class="dashboard-card profile-card">
+
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User">
+
+                <h4>rathan.kumar492@gmail.com</h4>
+                <p>+91 9876543210</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 </div>
 
-</body>
-</html>
+{% endblock content %}

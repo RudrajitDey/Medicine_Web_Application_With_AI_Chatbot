@@ -2,96 +2,1342 @@
 
 {% load static %}
 
-{% block title %}Admin Deshboard{% endblock title %}
-
-<link rel="stylesheet" href="{% static 'vendor_dashboard/vendor_dashboard.css' %}">
+{% block title %}Vendor Dashboard{% endblock title %}
 
 {% block content %}
 
-<div class="container">
+<style>
+    /* ========================= */
+/* RESET */
+/* ========================= */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#f8fafc;
+    color:#1e293b;
+    overflow-x:hidden;
+}
+
+/* ========================= */
+/* DASHBOARD WRAPPER */
+/* ========================= */
+.dashboard-wrapper{
+    display:flex;
+    min-height:100vh;
+    margin-top:80px;
+    width:100%;
+}
+
+/* ========================= */
+/* SIDEBAR */
+/* ========================= */
+.sidebar{
+    width:280px;
+    background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);
+    color:#fff;
+    padding:10px 20px;
+    position:fixed;
+    top:100px;
+    left:0;
+    bottom:0;
+    overflow-y:auto;
+    z-index:2000;
+    transition:transform .3s ease;
+}
+
+.sidebar-header{
+    margin-bottom:35px;
+    text-align:center;
+}
+
+.sidebar-logo{
+    font-size:28px;
+    font-weight:800;
+    color:#22c55e;
+    margin-bottom:8px;
+}
+
+.sidebar-subtitle{
+    color:#94a3b8;
+    font-size:14px;
+}
+
+.vendor-info{
+    background:rgba(255,255,255,.08);
+    border-radius:16px;
+    padding:20px;
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.vendor-name{
+    font-size:18px;
+    font-weight:600;
+    margin-bottom:5px;
+    color: white;
+}
+
+.vendor-email{
+    font-size:13px;
+    color:#cbd5e1;
+    word-break:break-word;
+}
+
+.sidebar-menu{
+    list-style:none;
+    padding: 0px;
+}
+
+.sidebar-menu li{
+    margin-bottom:6px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 10px 0;
+}
+
+.sidebar ul li {
+    margin: 5px 0;
+}
+.sidebar ul li {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.sidebar-menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 16px;
+    color:#cbd5e1;
+    text-decoration:none;
+    border-radius:12px;
+    transition:.3s;
+    font-size:15px;
+    font-weight:500;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active{
+    background:rgba(255,255,255,.1);
+    color:#fff;
+    transform:translateX(4px);
+}
+
+.sidebar-menu .icon{
+    width:20px;
+    text-align:center;
+    font-size:18px;
+}
+
+/* ========================= */
+/* MAIN CONTENT */
+/* ========================= */
+.main-content{
+    margin-left:280px;
+    flex:1;
+    width:calc(100% - 280px);
+    padding:30px;
+    overflow:hidden;
+}
+
+/* ========================= */
+/* HEADER */
+/* ========================= */
+.dashboard-header{
+    background:#fff;
+    border-radius:20px;
+    padding:30px;
+    margin-bottom:30px;
+    box-shadow:0 4px 20px rgba(0,0,0,.08);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.header-title h1{
+    font-size:32px;
+    font-weight:800;
+    margin-bottom:6px;
+    color:#1e293b;
+}
+
+.header-title p{
+    color:#64748b;
+    font-size:15px;
+}
+
+
+
+
+/* ========================= */
+/* STATS GRID */
+/* ========================= */
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:25px;
+    margin-bottom:30px;
+}
+
+.stat-card{
+    background:#fff;
+    border-radius:20px;
+    padding:25px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 4px 20px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.stat-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 10px 30px rgba(0,0,0,.12);
+}
+
+.stat-card::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:4px;
+    background:var(--gradient);
+}
+
+.stat-icon{
+    width:60px;
+    height:60px;
+    border-radius:16px;
+    background:var(--gradient);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:24px;
+    margin-bottom:18px;
+}
+
+.stat-value{
+    font-size:32px;
+    font-weight:800;
+    margin-bottom:6px;
+}
+
+.stat-label{
+    color:#64748b;
+    font-size:14px;
+}
+
+.stat-change{
+    position:absolute;
+    top:20px;
+    right:20px;
+    font-size:12px;
+    padding:5px 10px;
+    border-radius:8px;
+    font-weight:600;
+}
+
+.stat-change.positive{
+    background:#dcfce7;
+    color:#16a34a;
+}
+
+.stat-change.negative{
+    background:#fef2f2;
+    color:#dc2626;
+}
+
+.products{
+    --gradient:linear-gradient(135deg,#22c55e,#16a34a);
+}
+
+.orders{
+    --gradient:linear-gradient(135deg,#3b82f6,#2563eb);
+}
+
+.customers{
+    --gradient:linear-gradient(135deg,#f59e0b,#d97706);
+}
+
+.revenue{
+    --gradient:linear-gradient(135deg,#ef4444,#dc2626);
+}
+
+/* ========================= */
+/* CONTENT SECTION */
+/* ========================= */
+.content-section{
+    background:#fff;
+    border-radius:20px;
+    padding:30px;
+    margin-bottom:30px;
+    box-shadow:0 4px 20px rgba(0,0,0,.08);
+    overflow-x:auto;
+}
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:25px;
+    flex-wrap:wrap;
+}
+
+.section-title{
+    font-size:22px;
+    font-weight:700;
+}
+
+.view-all-btn{
+    background:#f1f5f9;
+    color:#475569;
+    text-decoration:none;
+    padding:10px 16px;
+    border-radius:10px;
+    font-size:14px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.view-all-btn:hover{
+    background:#e2e8f0;
+}
+
+/* ========================= */
+/* TABLE */
+/* ========================= */
+.table-wrapper{
+    width:100%;
+    overflow-x:auto;
+}
+
+.data-table{
+    width:100%;
+    min-width:700px;
+    border-collapse:collapse;
+}
+
+.data-table th{
+    background:#f8fafc;
+    color:#475569;
+    text-align:left;
+    padding:14px 16px;
+    font-size:14px;
+    border-bottom:2px solid #e2e8f0;
+    white-space:nowrap;
+}
+
+.data-table td{
+    padding:16px;
+    border-bottom:1px solid #f1f5f9;
+    font-size:14px;
+    color:#334155;
+    white-space:nowrap;
+}
+
+.data-table tr:hover{
+    background:#f8fafc;
+}
+
+.product-name{
+    font-weight:600;
+    color:#1e293b;
+}
+
+.stock-low{
+    color:#dc2626;
+    font-weight:600;
+}
+
+.stock-normal{
+    color:#16a34a;
+    font-weight:600;
+}
+
+.status-badge{
+    padding:5px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+    text-transform:uppercase;
+}
+
+.status-approved,
+.status-completed{
+    background:#dcfce7;
+    color:#16a34a;
+}
+
+.status-pending{
+    background:#fef3c7;
+    color:#d97706;
+}
+
+.status-rejected{
+    background:#fef2f2;
+    color:#dc2626;
+}
+
+/* ========================= */
+/* MOBILE BUTTON */
+/* ========================= */
+.mobile-menu-btn{
+    display:none;
+    position:fixed;
+    top:90px;
+    left:20px;
+    z-index:3000;
+
+    background:#1e293b;
+    color:#fff;
+    border:none;
+    padding:12px 15px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:20px;
+}
+
+.sidebar-close{
+    display:none;
+    position:absolute;
+    top:20px;
+    right:20px;
+    background:none;
+    border:none;
+    color:#fff;
+    font-size:28px;
+    cursor:pointer;
+}
+
+/* ========================= */
+/* OVERLAY */
+/* ========================= */
+.sidebar-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    z-index:1500;
+    opacity:0;
+    visibility:hidden;
+    transition:.3s;
+}
+
+.sidebar-overlay.active{
+    opacity:1;
+    visibility:visible;
+}
+
+/* ========================= */
+/* TABLET */
+/* ========================= */
+@media(max-width:1024px){
+
+    .main-content{
+        padding:20px;
+    }
+
+    .dashboard-header{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .header-actions{
+        width:100%;
+    }
+
+    .search-box{
+        width:100%;
+        max-width:100%;
+    }
+
+    .stats-grid{
+        grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    }
+}
+
+/* ========================= */
+/* MOBILE */
+/* ========================= */
+@media(max-width:768px){
+
+    body{
+        overflow-x:hidden;
+    }
+
+    .dashboard-wrapper{
+        margin-top:70px;
+    }
+
+    .mobile-menu-btn{
+        display:block;
+    }
+
+    .sidebar-close{
+        display:block;
+    }
+
+    .sidebar{
+        top:0;
+        transform:translateX(-100%);
+        width:260px;
+        height:100vh;
+    }
+
+    .sidebar.active{
+        transform:translateX(0);
+    }
+
+    .main-content{
+        margin-left:0;
+        width:100%;
+        padding:90px 15px 20px;
+    }
+
+    .dashboard-header{
+        padding:20px;
+    }
+
+    .header-title h1{
+        font-size:24px;
+    }
+
+    .header-actions{
+        flex-direction:column;
+        width:100%;
+        align-items:stretch;
+    }
+
+    .search-box{
+        width:100%;
+    }
+
+    .notification-btn{
+        width:100%;
+    }
+
+    .stats-grid{
+        grid-template-columns:1fr;
+        gap:20px;
+    }
+
+    .content-section{
+        padding:18px;
+    }
+
+    .section-header{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .data-table{
+        min-width:650px;
+    }
+
+    .data-table th,
+    .data-table td{
+        padding:12px;
+        font-size:13px;
+    }
+}
+
+/* ========================= */
+/* SMALL MOBILE */
+/* ========================= */
+@media(max-width:480px){
+
+    .main-content{
+        padding:85px 10px 20px;
+    }
+
+    .dashboard-header{
+        padding:16px;
+    }
+
+    .content-section{
+        padding:15px;
+    }
+
+    .stat-card{
+        padding:20px;
+    }
+
+    .stat-value{
+        font-size:26px;
+    }
+
+    .header-title h1{
+        font-size:22px;
+    }
+
+    .section-title{
+        font-size:18px;
+    }
+}
+</style>
+
+<div class="dashboard-wrapper">
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+        ☰
+    </button>
 
     <!-- Sidebar -->
-    <div class="sidebar">
-        <h2>Biko</h2>
-        <ul>
-            <li class="active">Dashboard</li>
-            <li>My Medicine Store</li>
-            <li>Orders</li>
-            <li>Customers</li>
-            <li><a href="{% url 'product_page' %}">Products</a></li>
-            <li>Invoices</li>
-            <li>Settings</li>
+    <aside class="sidebar" id="sidebar">
+        <button class="sidebar-close" id="sidebarClose">
+            ✕
+        </button>
+        
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                💊 MediStore
+            </div>
+            <div class="sidebar-subtitle">
+                Vendor Dashboard
+            </div>
+        </div>
+
+        <div class="vendor-info">
+            <div class="vendor-name">{{ vendor.shop_name }}</div>
+            <div class="vendor-email">{{ vendor.email }}</div>
+        </div>
+
+        <ul class="sidebar-menu">
+            <li>
+                <a href="#" class="active">
+                    <span class="icon">📊</span>
+                    Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'product_page' %}">
+                    <span class="icon">📦</span>
+                    My Products
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'all_orders' %}">
+                    <span class="icon">🛒</span>
+                    Orders
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'all_customers' %}">
+                    <span class="icon">👥</span>
+                    Customers
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'earnings' %}">
+                    <span class="icon">💰</span>
+                    Earnings
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon">📈</span>
+                    Analytics
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon">⚙️</span>
+                    Settings
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'logout' %}">
+                    <span class="icon">🚪</span>
+                    Logout
+                </a>
+            </li>
         </ul>
-    </div>
+    </aside>
+    <!-- OVERLAY -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <!-- Main Content -->
-    <div class="main">
-
-        <!-- Header -->
-        <div class="header">
-            <h3>Good morning, {{vendor.shop_name}}</h3>
-            <input type="text" placeholder="Search...">
+    <main class="main-content">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <div class="header-title">
+                <h1>Welcome back, {{ vendor.shop_name }}!</h1>
+                <p>Here's what's happening with your store today</p>
+            </div>
+            
         </div>
 
-        <!-- Cards -->
-        <div class="cards">
-            <div class="card">
-                <h2>{{total_customers}}</h2>
-                <p>Total Customers</p>
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card products">
+                <div class="stat-icon">
+                    📦
+                </div>
+                <div class="stat-value">{{ total_products }}</div>
+                <div class="stat-label">Total Products</div>
+                <div class="stat-change positive">+12%</div>
             </div>
-            <div class="card">
-                <h2>45,580</h2>
-                <p>Total Orders</p>
+
+            <div class="stat-card orders">
+                <div class="stat-icon">
+                    🛒
+                </div>
+                <div class="stat-value">{{ total_orders }}</div>
+                <div class="stat-label">Total Orders</div>
+                <div class="stat-change positive">+8%</div>
             </div>
-            <div class="card">
-                <h2>8,580</h2>
-                <p>Pending Orders</p>
+
+            <div class="stat-card customers">
+                <div class="stat-icon">
+                    👥
+                </div>
+                <div class="stat-value">{{ total_customers }}</div>
+                <div class="stat-label">Customers</div>
+                <div class="stat-change positive">+15%</div>
             </div>
-            <div class="card">
-                <h2>$51,580</h2>
-                <p>Total Earnings</p>
+
+            <div class="stat-card revenue">
+                <div class="stat-icon">
+                    💰
+                </div>
+                <div class="stat-value">₹{{ earnings|floatformat:0 }}</div>
+                <div class="stat-label">Total Revenue</div>
+                <div class="stat-change positive">+23%</div>
             </div>
         </div>
 
-        <!-- Chart Section -->
-        <div class="chart">
-            <h3>Revenue Report</h3>
-            <div class="graph"></div>
-        </div>
-
-        <!-- Table -->
-        <div class="table-section">
-            <h3>Best Selling Products</h3>
-            <table>
-                <tr>
-                    <th>ID</th>
-                    <th>Product</th>
-                    <th>Category</th>
-                    <th>Brand</th>
-                    <th>Price</th>
-                    <th>Stock</th>
-                </tr>
-                <tr>
-                    <td>#1</td>
-                    <td>DJI Mavic Pro</td>
-                    <td>Tech</td>
-                    <td>Apple</td>
-                    <td>$990</td>
-                    <td>20</td>
-                </tr>
-                <tr>
-                    <td>#2</td>
-                    <td>iPad Pro</td>
-                    <td>Tech</td>
-                    <td>LG</td>
-                    <td>$230</td>
-                    <td>20</td>
-                </tr>
+        <!-- Recent Products -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">📦 Recent Products</h2>
+                <a href="#" class="view-all-btn">View All</a>
+            </div>
+            <div class="table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in best_products %}
+                    <tr>
+                        <td class="product-name">{{ product.name }}</td>
+                        <td>{{ product.category|default:"Medicine" }}</td>
+                        <td>₹{{ product.price }}</td>
+                        <td class="{% if product.stock <= 10 %}stock-low{% else %}stock-normal{% endif %}">
+                            {{ product.stock }}
+                        </td>
+                        <td>
+                            <span class="status-badge status-{{ product.status }}">
+                                {{ product.status }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 40px;">
+                            No products found
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
+        </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">🛒 Recent Orders</h2>
+                <a href="#" class="view-all-btn">View All</a>
+            </div>
+            <div class="table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Payment Status</th>
+                        <th>Order Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in recent_orders %}
+                    <tr>
+                        <td class="product-name">#{{ order.id }}</td>
+                        <td>{{ order.user.username|default:"Guest" }}</td>
+                        <td>{{ order.get_product.name|default:"N/A" }}</td>
+                        <td>{{ order.quantity|default:"1" }}</td>
+                        <td>₹{{ order.product_price|default:"0" }}</td>
+                        <td>
+                            {% if order.order.payment %}
+                                {% if order.order.payment.status|lower == "completed" or order.order.payment.status|lower == "success" %}
+                                    <span class="status-badge status-completed">Paid ✓</span>
+                                {% else %}
+                                    <span class="status-badge status-pending">{{ order.order.payment.status|title }}</span>
+                                {% endif %}
+                            {% else %}
+                                <span class="status-badge status-rejected">Not Paid</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="status-badge status-{{ order.ordered|yesno:'completed,pending' }}">
+                                {% if order.ordered %}Completed{% else %}Pending{% endif %}
+                            </span>
+                        </td>
+                        <td>{{ order.created_at|date:"M d, Y" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 40px;">
+                            No recent orders
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">🚀 Quick Actions</h2>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                <button style="background: #22c55e; color: white; border: none; padding: 15px; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer;">
+                    ➕ Add New Product
+                </button>
+                <button style="background: #3b82f6; color: white; border: none; padding: 15px; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer;">
+                    📊 View Analytics
+                </button>
+                <button style="background: #f59e0b; color: white; border: none; padding: 15px; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer;">
+                    📦 Manage Inventory
+                </button>
+                <button style="background: #8b5cf6; color: white; border: none; padding: 15px; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer;">
+                    💰 View Earnings
+                </button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+// Mobile Sidebar Toggle
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const sidebarClose = document.getElementById('sidebarClose');
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+// OPEN SIDEBAR
+mobileMenuBtn.addEventListener('click', () => {
+    sidebar.classList.add('active');
+    sidebarOverlay.classList.add('active');
+});
+
+// CLOSE SIDEBAR
+sidebarClose.addEventListener('click', closeSidebar);
+
+sidebarOverlay.addEventListener('click', closeSidebar);
+
+function closeSidebar(){
+    sidebar.classList.remove('active');
+    sidebarOverlay.classList.remove('active');
+}
+
+// RESET ON DESKTOP
+window.addEventListener('resize', () => {
+
+    if(window.innerWidth > 768){
+
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+
+    }
+
+});
+</script>
+
+{% endblock content%}
+
+    {% comment %} /* HEADER */
+    .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 35px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 40px;
+        font-weight: 800;
+        color: #15803d;
+    }
+
+    .dashboard-header p {
+        color: #64748b;
+        margin-top: 6px;
+        font-size: 16px;
+    }
+
+    .admin-badge {
+        background: #16a34a;
+        color: white;
+        padding: 10px 18px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 600;
+        box-shadow: 0 8px 20px rgba(22,163,74,0.2);
+    }
+
+    /* STATS */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+        gap: 25px;
+        margin-bottom: 35px;
+    }
+
+    .stat-card {
+        background: white;
+        border-radius: 22px;
+        padding: 28px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        transition: 0.4s;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-6px);
+    }
+
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 5px;
+        left: 0;
+        top: 0;
+        background: var(--gradient);
+    }
+
+    .stat-icon {
+        width: 65px;
+        height: 65px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 28px;
+        margin-bottom: 20px;
+        background: var(--gradient);
+    }
+
+    .stat-value {
+        font-size: 36px;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .stat-label {
+        color: #64748b;
+        font-weight: 500;
+        font-size: 15px;
+    }
+
+    .medicines {
+        --gradient: linear-gradient(135deg,#16a34a,#22c55e);
+    }
+
+    .orders {
+        --gradient: linear-gradient(135deg,#2563eb,#60a5fa);
+    }
+
+    .customers {
+        --gradient: linear-gradient(135deg,#d97706,#facc15);
+    }
+
+    .revenue {
+        --gradient: linear-gradient(135deg,#dc2626,#f87171);
+    }
+
+    /* ALERT SECTION */
+    .alert-section {
+        background: white;
+        border-radius: 22px;
+        padding: 28px;
+        margin-bottom: 35px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    .alert-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 25px;
+        align-items: center;
+    }
+
+    .alert-header h2 {
+        font-size: 22px;
+        color: #0f172a;
+    }
+
+    .view-btn {
+        text-decoration: none;
+        background: #16a34a;
+        color: white;
+        padding: 10px 16px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .alert-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+        gap: 18px;
+    }
+
+    .alert-card {
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        padding: 20px;
+        border-radius: 16px;
+        transition: 0.3s;
+    }
+
+    .alert-card:hover {
+        transform: translateY(-4px);
+    }
+
+    .alert-card h4 {
+        color: #dc2626;
+        margin-bottom: 8px;
+        font-size: 16px;
+    }
+
+    .alert-card p {
+        color: #64748b;
+        font-size: 14px;
+    }
+
+    /* CHARTS */
+    .chart-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+        margin-bottom: 35px;
+    }
+
+    .chart-box {
+        background: white;
+        border-radius: 22px;
+        padding: 28px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    .chart-box h3 {
+        margin-bottom: 8px;
+        font-size: 20px;
+    }
+
+    .chart-box p {
+        color: #64748b;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+
+    .chart-container {
+        height: 300px;
+    }
+
+    /* RECENT ORDERS */
+    .recent-section {
+        background: white;
+        border-radius: 22px;
+        padding: 28px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    .recent-section h2 {
+        margin-bottom: 25px;
+    }
+
+    .recent-orders {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .order-card {
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 18px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .order-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .order-item:last-child {
+        border-bottom: none;
+    }
+
+    .order-name {
+        font-weight: 600;
+    }
+
+    .order-date {
+        color: #94a3b8;
+        font-size: 13px;
+    }
+
+    @media(max-width: 992px){
+        .chart-grid,
+        .recent-orders{
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media(max-width: 768px){
+        .dashboard-header{
+            gap: 15px;
+        }
+
+        .dashboard-header h1{
+            font-size: 30px;
+        }
+    }
+</style>
+
+<div class="dashboard-container">
+
+    <!-- HEADER -->
+    <div class="dashboard-header">
+        <div>
+            <h1>Medicine Admin Dashboard</h1>
+            <p>Manage medicines, orders, customers & pharmacy analytics</p>
+        </div>
+
+        <div class="admin-badge">
+            🩺 Pharmacy Management
+        </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+
+        <div class="stat-card medicines">
+            <div class="stat-icon">
+                💊
+            </div>
+            <div class="stat-value">{{ total_medicines }}</div>
+            <div class="stat-label">Total Medicines</div>
+        </div>
+
+        <div class="stat-card orders">
+            <div class="stat-icon">
+                📦
+            </div>
+            <div class="stat-value">{{ total_orders }}</div>
+            <div class="stat-label">Total Orders</div>
+        </div>
+
+        <div class="stat-card customers">
+            <div class="stat-icon">
+                👨‍⚕️
+            </div>
+            <div class="stat-value">{{ total_customers }}</div>
+            <div class="stat-label">Customers</div>
+        </div>
+
+        <div class="stat-card revenue">
+            <div class="stat-icon">
+                💰
+            </div>
+            <div class="stat-value">₹{{ total_revenue }}</div>
+            <div class="stat-label">Revenue</div>
+        </div>
+
+    </div>
+
+    <!-- LOW STOCK -->
+    <div class="alert-section">
+
+        <div class="alert-header">
+            <h2>⚠️ Low Stock Medicines</h2>
+            <a href="#" class="view-btn">View All</a>
+        </div>
+
+        <div class="alert-grid">
+
+            {% for medicine in low_stock_medicines %}
+            <div class="alert-card">
+                <h4>{{ medicine.name }}</h4>
+                <p>Only {{ medicine.stock }} left in stock</p>
+            </div>
+            {% empty %}
+            <p>No low stock medicines.</p>
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    <!-- CHARTS -->
+    <div class="chart-grid">
+
+        <div class="chart-box">
+            <h3>📊 Medicine Categories</h3>
+            <p>Distribution of medicines by category</p>
+
+            <div class="chart-container">
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-box">
+            <h3>📈 Monthly Sales</h3>
+            <p>Medicine sales over the last 6 months</p>
+
+            <div class="chart-container">
+                <canvas id="salesChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RECENT ORDERS -->
+    <div class="recent-section">
+
+        <h2>🛒 Recent Orders</h2>
+
+        <div class="recent-orders">
+
+            <div class="order-card">
+
+                {% for order in recent_orders %}
+                <div class="order-item">
+                    <span class="order-name">
+                        {{ order.user.username }}
+                    </span>
+
+                    <span class="order-date">
+                        {{ order.created_at|date:"M d" }}
+                    </span>
+                </div>
+                {% empty %}
+                <p>No recent orders</p>
+                {% endfor %}
+
+            </div>
+
+            <div class="order-card">
+
+                {% for medicine in recent_medicines %}
+                <div class="order-item">
+                    <span class="order-name">
+                        {{ medicine.name }}
+                    </span>
+
+                    <span class="order-date">
+                        {{ medicine.created_at|date:"M d" }}
+                    </span>
+                </div>
+                {% empty %}
+                <p>No recent medicines added</p>
+                {% endfor %}
+
+            </div>
+
         </div>
 
     </div>
 
 </div>
 
-{% endblock content%}
+<script src="{% static 'js/chart.min.js' %}"></script>
+
+<script>
+
+Chart.defaults.font.family = "'Inter', sans-serif";
+
+// CATEGORY CHART
+new Chart(document.getElementById('categoryChart'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Tablet', 'Capsule', 'Syrup', 'Injection', 'Other'],
+        datasets: [{
+            data: [40, 25, 15, 10, 10],
+            backgroundColor: [
+                '#16a34a',
+                '#2563eb',
+                '#f59e0b',
+                '#dc2626',
+                '#8b5cf6'
+            ],
+            borderWidth: 0
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '70%'
+    }
+});
+
+// SALES CHART
+new Chart(document.getElementById('salesChart'), {
+    type: 'line',
+    data: {
+        labels: ['Jan','Feb','Mar','Apr','May','Jun'],
+        datasets: [{
+            label: 'Sales',
+            data: [120,190,170,220,280,340],
+            borderColor: '#16a34a',
+            backgroundColor: 'rgba(22,163,74,0.1)',
+            fill: true,
+            tension: 0.4,
+            borderWidth: 3
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
+});
+
+</script>
+{% endblock content%} {% endcomment %}

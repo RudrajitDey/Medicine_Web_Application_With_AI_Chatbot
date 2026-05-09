@@ -14,9 +14,9 @@ h2 {
     color: #2c3e50;
 }
 
-form {
+.edit-form {
     width: 700px;
-    margin: 30px auto;
+    margin: 140px auto;
     background: #ffffff;
     padding: 25px 30px;
     border-radius: 10px;
@@ -29,12 +29,12 @@ label {
     font-weight: 600;
     color: #34495e;
 }
-
+.edit-textarea
 input[type="text"],
 input[type="number"],
 input[type="date"],
 textarea,
-select {
+.edit-select {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
@@ -57,7 +57,7 @@ select:focus {
     box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
 }
 
-img {
+.edit-img {
     margin-top: 10px;
     border-radius: 6px;
     border: 1px solid #ddd;
@@ -91,8 +91,9 @@ input[type="file"] {
 
 
 
-<form method="POST" enctype="multipart/form-data">
+<form class="edit-form" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
+    <div class="edit-textarea">
     <h2>Edit Product</h2>
     <label>Name</label>
     <input type="text" name="name" value="{{ product.name }}">
@@ -120,17 +121,94 @@ input[type="file"] {
 
     <label>Image</label><br>
     {% if product.image %}
-        <img src="{{ product.image.url }}" width="80"><br>
+        <img class="edit-img" src="{{ product.image.url }}" width="80"><br>
     {% endif %}
     <input type="file" name="image">
 
     <label>Availability</label>
-    <select name="is_available">
+    <select class="edit-select" name="is_available">
         <option value="True" {% if product.is_available %}selected{% endif %}>Available</option>
         <option value="False" {% if not product.is_available %}selected{% endif %}>Not Available</option>
     </select>
 
+    <h3>Medicine Details</h3>
+
+    <div id="content-wrapper">
+
+        <div class="content-block">
+            <label>Section Type</label>
+            <select name="section_type[]">
+                <option value="uses">Uses</option>
+                <option value="dosage">Dosage</option>
+                <option value="side_effects">Side Effects</option>
+                <option value="warnings">Warnings</option>
+                <option value="precautions">Precautions</option>
+                <option value="interactions">Interactions</option>
+                <option value="storage">Storage</option>
+                <option value="quick_tips">Quick Tips</option>
+            </select>
+
+            <label>Title</label>
+            <input type="text" name="section_title[]" placeholder="Optional title">
+
+            <label>Content (One point per line)</label>
+            <textarea name="section_content[]" placeholder="Enter details"></textarea>
+        </div>
+
+    </div>
+
+    <button type="button" onclick="addMore()">+ Add More Section</button>
+
     <button id="mybtn" type="submit">Update Product</button>
+    </div>
 </form>
+
+<script>
+function addMore() {
+    const contentWrapper = document.getElementById('content-wrapper');
+    
+    const newBlock = document.createElement('div');
+    newBlock.className = 'content-block';
+    newBlock.style.marginTop = '20px';
+    newBlock.style.padding = '15px';
+    newBlock.style.border = '1px solid #ddd';
+    newBlock.style.borderRadius = '6px';
+    newBlock.style.backgroundColor = '#f9f9f9';
+    
+    newBlock.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h4 style="margin: 0; color: #2c3e50;">New Section</h4>
+            <button type="button" onclick="removeSection(this)" style="background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Remove</button>
+        </div>
+        
+        <label>Section Type</label>
+        <select name="section_type[]" style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px;">
+            <option value="uses">Uses</option>
+            <option value="dosage">Dosage</option>
+            <option value="side_effects">Side Effects</option>
+            <option value="warnings">Warnings</option>
+            <option value="precautions">Precautions</option>
+            <option value="interactions">Interactions</option>
+            <option value="storage">Storage</option>
+            <option value="quick_tips">Quick Tips</option>
+        </select>
+
+        <label>Title</label>
+        <input type="text" name="section_title[]" placeholder="Optional title" style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px;">
+
+        <label>Content (One point per line)</label>
+        <textarea name="section_content[]" placeholder="Enter details" style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; resize: none; height: 80px;"></textarea>
+    `;
+    
+    contentWrapper.appendChild(newBlock);
+}
+
+function removeSection(button) {
+    const block = button.closest('.content-block');
+    if (block) {
+        block.remove();
+    }
+}
+</script>
 
 {% endblock content %}

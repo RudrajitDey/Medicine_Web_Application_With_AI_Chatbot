@@ -2,97 +2,872 @@
 
 {% load static %}
 
-{% block title %}Admin Deshboard{% endblock title %}
-
-<link rel="stylesheet" href="{% static 'admin/admin_dashboard.css' %}">
+{% block title %}Admin Dashboard{% endblock title %}
 
 {% block content %}
+<style>
+/* ========================= */
+/* ADMIN DASHBOARD STYLING */
+/* ========================= */
 
-<div class="container">
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f8fafc;
+    color: #1e293b;
+    line-height: 1.6;
+}
+
+.dashboard-wrapper {
+    display: flex;
+    min-height: 100vh;
+    margin-top: 10px;
+}
+
+/* ========================= */
+/* SIDEBAR */
+/* ========================= */
+.sidebar {
+    width: 280px;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    color: #fff;
+    padding: 30px 20px;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    bottom: 0;
+    overflow-y: auto;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-logo {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.sidebar-subtitle {
+    font-size: 14px;
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+.admin-info {
+    text-align: center;
+    margin-bottom: 10px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+}
+
+.admin-name {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.admin-email {
+    font-size: 14px;
+    color: #94a3b8;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 5px 0;
+}
+
+.sidebar ul li {
+    margin: 5px 0;
+    padding: 5px 0 5px 0;
+}
+
+.sidebar-menu li {
+    margin-bottom: 4px;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    color: #cbd5e1;
+    text-decoration: none;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transform: translateX(4px);
+}
+
+.sidebar-menu .icon {
+    width: 20px;
+    text-align: center;
+    font-size: 18px;
+}
+
+/* ========================= */
+/* MAIN CONTENT */
+/* ========================= */
+.main-content {
+    flex: 1;
+    margin-left: 280px;
+    padding: 100px 30px 30px;
+    background: #f8fafc;
+    min-height: 100vh;
+}
+
+/* ========================= */
+/* DASHBOARD HEADER */
+/* ========================= */
+.dashboard-header {
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.header-title h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 6px;
+}
+
+.header-title p {
+    color: #64748b;
+    font-size: 16px;
+}
+
+.admin-badge {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+}
+
+/* ========================= */
+/* STATS GRID */
+/* ========================= */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, var(--card-color) 0%, transparent 70%);
+    opacity: 0.1;
+    border-radius: 50%;
+    transform: translate(30px, -30px);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.stat-card.users {
+    --card-color: #3b82f6;
+    border-left-color: #3b82f6;
+}
+
+.stat-card.orders {
+    --card-color: #10b981;
+    border-left-color: #10b981;
+}
+
+.stat-card.vendors {
+    --card-color: #f59e0b;
+    border-left-color: #f59e0b;
+}
+
+.stat-card.earnings {
+    --card-color: #8b5cf6;
+    border-left-color: #8b5cf6;
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 15px;
+    background: linear-gradient(135deg, var(--card-color), var(--card-color-dark));
+    color: white;
+}
+
+.stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.stat-change {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.stat-change.positive {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.stat-change.negative {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+/* ========================= */
+/* CONTENT SECTIONS */
+/* ========================= */
+.content-section {
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+/* ========================= */
+/* TABLES */
+/* ========================= */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.data-table th {
+    background: #f8fafc;
+    padding: 16px;
+    text-align: left;
+    font-weight: 600;
+    color: #475569;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 14px;
+}
+
+.data-table td {
+    padding: 16px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 14px;
+}
+
+.data-table tr:hover {
+    background: #f8fafc;
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+@media (max-width: 1024px) {
+    .main-content {
+        padding: 20px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 90px 15px 20px;
+    }
+    
+    .dashboard-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .data-table {
+        font-size: 12px;
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 12px 8px;
+    }
+}
+
+/* ========================= */
+/* MOBILE RESPONSIVE */
+/* ========================= */
+@media (max-width: 768px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    .dashboard-wrapper {
+        margin-top: 0;
+    }
+
+    .mobile-menu-btn {
+        display: block;
+        position: fixed;
+        top: 90px;
+        left: 20px;
+        z-index: 3000;
+        background: #1e293b;
+        color: #fff;
+        border: none;
+        padding: 12px 15px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .sidebar-close {
+        display: block;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 28px;
+        cursor: pointer;
+        z-index: 2001;
+    }
+
+    .sidebar-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1500;
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.3s;
+    }
+
+    .sidebar-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .sidebar {
+        top: 0;
+        transform: translateX(-100%);
+        width: 280px;
+        height: 100vh;
+        z-index: 2000;
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 90px 15px 20px;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+        padding: 20px;
+    }
+
+    .header-title h1 {
+        font-size: 28px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .stat-card {
+        padding: 20px;
+    }
+
+    .stat-value {
+        font-size: 28px;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .section-title {
+        font-size: 18px;
+    }
+
+    /* Mobile Responsive Tables */
+    .content-section {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .data-table {
+        font-size: 12px;
+        min-width: 600px;
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        display: table;
+        white-space: nowrap;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: 12px 8px;
+        min-width: 100px;
+        border-right: 1px solid #f1f5f9;
+        white-space: nowrap;
+    }
+
+    .data-table th:last-child,
+    .data-table td:last-child {
+        border-right: none;
+    }
+
+    .content-section {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-header {
+        padding: 15px;
+    }
+    
+    .header-title h1 {
+        font-size: 24px;
+    }
+    
+    .stat-value {
+        font-size: 24px;
+    }
+    
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+    
+    .data-table {
+        font-size: 11px;
+        min-width: 500px;
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 10px 6px;
+        min-width: 80px;
+        white-space: nowrap;
+    }
+    
+    .section-title {
+        font-size: 16px;
+    }
+    
+    .content-section {
+        padding: 15px;
+    }
+}
+</style>
+
+<div class="dashboard-wrapper">
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+        ☰
+    </button>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <!-- Sidebar -->
-    <div class="sidebar">
-        <h2>Biko</h2>
-        <ul>
-            <li class="active">Dashboard</li>
-            <li>E-Commerce</li>
-            <li>Orders</li>
-            <li><a href="{% url 'seller_list' %}">Seller List</a></li>
-            <li>Customers</li>
-            <li><a href="{% url 'seller_product_list' %}">Seller Product List</a></li>
-            <li>Invoices</li>
-            <li>Settings</li>
+    <aside class="sidebar" id="sidebar">
+        <button class="sidebar-close" id="sidebarClose">
+            ✕
+        </button>
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                🏢 AdminHub
+            </div>
+            <div class="sidebar-subtitle">
+                Admin Dashboard
+            </div>
+        </div>
+
+        <div class="admin-info">
+            <div class="admin-name">{{ user.username|default:"Admin User" }}</div>
+            <div class="admin-email">{{ user.email|default:"admin@medistore.com" }}</div>
+        </div>
+
+        <ul class="sidebar-menu">
+            <li>
+                <a href="#" class="active">
+                    <span class="icon">📊</span>
+                    Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'seller_list' %}">
+                    <span class="icon">👥</span>
+                    Seller List
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'seller_product_list' %}">
+                    <span class="icon">📦</span>
+                    Seller Products
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'admin_orders' %}">
+                    <span class="icon">🛒</span>
+                    Vendors Orders
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'shop_orders' %}">
+                    <span class="icon">🛒</span>
+                    Shop Orders
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'admin_customer' %}">
+                    <span class="icon">�</span>
+                    Customer Management
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'admin_earnings' %}">
+                    <span class="icon">💰</span>
+                    Earnings
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon">📈</span>
+                    Analytics
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon">⚙️</span>
+                    Settings
+                </a>
+            </li>
         </ul>
-    </div>
+    </aside>
 
     <!-- Main Content -->
-    <div class="main">
-
-        <!-- Header -->
-        <div class="header">
-            <h3>Good morning, Smith!</h3>
-            <input type="text" placeholder="Search...">
-        </div>
-
-        <!-- Cards -->
-        <div class="cards">
-            <div class="card">
-                <h2>11,580</h2>
-                <p>Total Users</p>
+    <main class="main-content">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <div class="header-title">
+                <h1>Admin Dashboard</h1>
+                <p>Manage your entire medicine store ecosystem</p>
             </div>
-            <div class="card">
-                <h2>45,580</h2>
-                <p>Total Orders</p>
-            </div>
-            <div class="card">
-                <h2>8,580</h2>
-                <p>Total Vendors</p>
-            </div>
-            <div class="card">
-                <h2>$51,580</h2>
-                <p>Total Earnings</p>
+            <div class="admin-badge">
+                🔐 Super Admin
             </div>
         </div>
 
-        <!-- Chart Section -->
-        <div class="chart">
-            <h3>Revenue Report</h3>
-            <div class="graph"></div>
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card users">
+                <div class="stat-icon">👥</div>
+                <div class="stat-value">{{ total_users|default:"0" }}</div>
+                <div class="stat-label">Total Users</div>
+                <span class="stat-change positive">+{{ user_growth_percentage|default:"0" }}%</span>
+            </div>
+            
+            <div class="stat-card orders">
+                <div class="stat-icon">🛒</div>
+                <div class="stat-value">{{ total_orders|default:"0" }}</div>
+                <div class="stat-label">Total Orders</div>
+                <span class="stat-change positive">+{{ order_growth_percentage|default:"0" }}%</span>
+            </div>
+            
+            <div class="stat-card vendors">
+                <div class="stat-icon">🏪</div>
+                <div class="stat-value">{{ total_vendors|default:"0" }}</div>
+                <div class="stat-label">Total Vendors</div>
+                <span class="stat-change positive">+{{ vendor_growth_percentage|default:"0" }}%</span>
+            </div>
+            
+            <div class="stat-card earnings">
+                <div class="stat-icon">💰</div>
+                <div class="stat-value">Rs {{ total_earnings|default:"0" }}</div>
+                <div class="stat-label">Total Earnings</div>
+                <span class="stat-change positive">+{{ earnings_growth_percentage|default:"0" }}%</span>
+            </div>
         </div>
 
-        <!-- Table -->
-        <div class="table-section">
-            <h3>Best Selling Products</h3>
-            <table>
-                <tr>
-                    <th>ID</th>
-                    <th>Product</th>
-                    <th>Category</th>
-                    <th>Brand</th>
-                    <th>Price</th>
-                    <th>Stock</th>
-                </tr>
-                <tr>
-                    <td>#1</td>
-                    <td>DJI Mavic Pro</td>
-                    <td>Tech</td>
-                    <td>Apple</td>
-                    <td>$990</td>
-                    <td>20</td>
-                </tr>
-                <tr>
-                    <td>#2</td>
-                    <td>iPad Pro</td>
-                    <td>Tech</td>
-                    <td>LG</td>
-                    <td>$230</td>
-                    <td>20</td>
-                </tr>
+        <!-- Recent Orders Section -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">📊 Recent Orders</h2>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Product</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in recent_orders %}
+                    <tr>
+                        <td>#{{ order.order_number|default:"ORD-"|add:forloop.counter }}</td>
+                        <td>{{ order.user.username|default:order.first_name|default:"N/A" }}</td>
+                        <td>{{ order.order_items.count|default:"0" }} product(s)</td>
+                        <td>${{ order.order_total|default:"0.00" }}</td>
+                        <td>
+                            <span class="status-badge status-{{ order.status|lower|default:'new' }}">
+                                {{ order.status|default:"New" }}
+                            </span>
+                        </td>
+                        <td>{{ order.created_at|date:"Y-m-d"|default:"2024-01-15" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 20px; color: #64748b;">
+                            No recent orders found
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
         </div>
 
-    </div>
-
+        <!-- Top Products Section -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">🏆 Best Selling Products</h2>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Brand</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in best_selling_products %}
+                    <tr>
+                        <td>#{{ product.id|default:forloop.counter }}</td>
+                        <td>{{ product.name|default:"N/A" }}</td>
+                        <td>{{ product.category|default:"General" }}</td>
+                        <td>{{ product.brand|default:"Unknown" }}</td>
+                        <td>${{ product.price|default:"0.00" }}</td>
+                        <td>{{ product.stock|default:"0" }} (Sold: {{ product.total_sold|default:"0" }})</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 20px; color: #64748b;">
+                            No products found
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
 </div>
 
-{% endblock content%}
+<style>
+/* Status Badges */
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-completed {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.status-pending {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.status-rejected {
+    background: #fef2f2;
+    color: #dc2626;
+}
+</style>
+
+<script>
+// Mobile Sidebar Toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const sidebarClose = document.getElementById('sidebarClose');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    // Open sidebar function
+    function openSidebar() {
+        sidebar.classList.add('active');
+        sidebarOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Close sidebar function
+    function closeSidebar() {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Event listeners
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openSidebar();
+        });
+    }
+
+    if (sidebarClose) {
+        sidebarClose.addEventListener('click', function(e) {
+            e.preventDefault();
+            closeSidebar();
+        });
+    }
+
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', function(e) {
+            e.preventDefault();
+            closeSidebar();
+        });
+    }
+
+    // Close sidebar on ESC key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && sidebar.classList.contains('active')) {
+            closeSidebar();
+        }
+    });
+
+    // Reset on desktop resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768 && sidebar.classList.contains('active')) {
+            closeSidebar();
+        }
+    });
+});
+</script>
+
+{% endblock content %}

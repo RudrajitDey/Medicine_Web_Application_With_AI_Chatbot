@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Account
 from cart.views import merge_cart
 from urllib.parse import urlparse, parse_qs
+from admin_panel.models import vendor
 
 #VERIFICATION EMAIL
 from django.contrib.sites.shortcuts import get_current_site
@@ -60,30 +61,15 @@ def login(request):
         email = request.POST['email']
         password = request.POST['password']
 
-        user = auth.authenticate(email=email, password=password)
+        # Authenticate with email as username for custom user model
+        user = auth.authenticate(request, username=email, password=password)
         
         if user is not None:
             auth.login(request, user)
-            merge_cart(request, user)
+
+            merge_cart(request, user) 
+
             messages.success(request, 'Login successful!')
-            
-            # Check for next parameter in URL
-            next_url = request.GET.get('next')
-            if next_url:
-                return redirect(next_url)
-            
-            # Fallback to HTTP_REFERER parsing
-            url = request.META.get('HTTP_REFERER')
-            try:
-                if url:
-                    query = urlparse(url).query
-                    params = parse_qs(query)
-                    if 'next' in params:
-                        nextPage = params['next'][0]
-                        return redirect(nextPage)
-            except:
-                pass
-            
             return redirect('home')
         else:
             messages.error(request, 'Login failed. Please Enter Correct Email & Password.')
@@ -96,6 +82,7 @@ def logout(request):
     auth.logout(request)
     messages.success(request, 'Logout successfull. Please Login')
     return redirect('login')
+
 
 @login_required(login_url = 'login')
 def dashboard(request):
@@ -176,3 +163,31 @@ def resetPassword(request):
             messages.error(request, 'Password do not match!')
             return redirect('resetPassword')
     return render(request, 'accounts/resetPassword.html')
+
+@login_required(login_url = 'login')
+def my_orders(request):
+    # My orders view - comprehensive order history with dynamic data
+    from orders.models import Order, OrderProduct
+    from django.db.models import Sum, Count
+    
+    user_orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    
+    # Calculate order statistics
+    total_spent = sum(order.order_total for order in user_orders if order.status != 'Cancelled')
+    pending_orders = user_orders.filter(status__in=['New', 'Pending']).count()
+    processing_orders = user_orders.filter(status='Processing').count()
+    shipped_orders = user_orders.filter(status='Shipped').count()
+    delivered_orders = user_orders.filter(status='Delivered').count()
+    cancelled_orders = user_orders.filter(status='Cancelled').count()
+    
+    context = {
+        'orders': user_orders,
+        'total_orders': user_orders.count(),
+        'total_spent': total_spent,
+        'pending_orders': pending_orders,
+        'processing_orders': processing_orders,
+        'shipped_orders': shipped_orders,
+        'delivered_orders': delivered_orders,
+        'cancelled_orders': cancelled_orders,
+    }
+    return render(request, 'accounts/my_orders.html', context)

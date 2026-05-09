@@ -1,0 +1,416 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}My Orders{% endblock title %}
+
+{% block content %}
+<style>
+/* ========================= */
+/* MY ORDERS PAGE STYLING */
+/* ========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f8fafc;
+    color: #1e293b;
+    line-height: 1.6;
+}
+
+.orders-page {
+    display: flex;
+    min-height: 100vh;
+    background: #f8fafc;
+    margin-top: 100px;
+}
+
+/* ========================= */
+/* MAIN CONTENT */
+/* ========================= */
+.orders-content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+    background: #f8fafc;
+}
+
+.orders-header {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin: 0px 60px 30px 60px;
+    display: flex;
+    justify-content: center;
+}
+
+.header-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-title h1 {
+    margin: 0;
+    font-size: 32px;
+}
+
+.order-stats {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border-left: 3px solid #3b82f6;
+}
+
+.stat-label {
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.stat-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+/* ========================= */
+/* ORDERS TABLE */
+/* ========================= */
+.orders-container {
+    background: #fff;
+    padding: 25px 25px 25px 90px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin: 10px 70px 30px 70px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.section-title h2 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.orders-table th {
+    background: #f8fafc;
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    color: #64748b;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.orders-table td {
+    padding: 15px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #1e293b;
+}
+
+.orders-table tr:hover {
+    background: #f8fafc;
+}
+
+.order-status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-processing {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.status-shipped {
+    background: #d1fae5;
+    color: #059669;
+}
+
+.status-delivered {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.status-cancelled {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.order-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.view-btn {
+    background: #3b82f6;
+    color: #fff;
+}
+
+.view-btn:hover {
+    background: #2563eb;
+}
+
+.track-btn {
+    background: #10b981;
+    color: #fff;
+}
+
+.track-btn:hover {
+    background: #059669;
+}
+
+.cancel-btn {
+    background: #ef4444;
+    color: #fff;
+}
+
+.cancel-btn:hover {
+    background: #dc2626;
+}
+
+/* ========================= */
+/* MOBILE RESPONSIVE */
+/* ========================= */
+@media (max-width: 768px) {
+    .orders-page {
+        flex-direction: column;
+    }
+
+    .orders-sidebar {
+        width: 100%;
+        padding: 20px;
+        order: 2;
+    }
+
+    .orders-content {
+        padding: 20px;
+        order: 1;
+    }
+
+    .orders-table {
+        font-size: 14px;
+        display: block;
+    }
+    
+    .orders-table tbody {
+        overflow-x: auto;
+        display: block;
+        white-space: nowrap;
+    }
+
+    .orders-table th,
+    .orders-table td {
+        padding: 10px;
+        min-width: 120px;
+    }
+
+    .order-actions {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .action-btn {
+        padding: 8px 12px;
+        font-size: 11px;
+        text-align: center;
+    }
+
+    .order-stats {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .orders-header {
+        padding: 20px;
+        margin: 0px;
+    }
+
+    .header-title h1 {
+        font-size: 24px;
+    }
+
+    .orders-container {
+        padding: 20px;
+        margin: 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .section-title h2 {
+        font-size: 18px;
+    }
+
+    .orders-table {
+        font-size: 12px;
+    }
+
+    .orders-table th,
+    .orders-table td {
+        padding: 8px;
+    }
+
+    .order-status {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+}
+</style>
+
+<div class="orders-page">
+
+    <!-- Main Content -->
+    <div class="orders-content">
+        <!-- Orders Header -->
+        <div class="orders-header">
+            <div class="header-title">
+                <h1>📦 My Orders</h1>
+                <div class="order-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Total Orders:</span>
+                        <span class="stat-value">{{ orders.count }}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Total Spent:</span>
+                        <span class="stat-value">Rs {{ total_spent|floatformat:2|default:"0.00" }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders List -->
+        <div class="orders-container">
+            <div class="section-title">
+                <h2>📋 Order History</h2>
+                {% if orders %}
+                <span style="font-size: 14px; color: #64748b;">Showing {{ orders.count }} order(s)</span>
+                {% endif %}
+            </div>
+            
+            {% if orders %}
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>
+                            <strong>#{{ order.order_number|default:order.id }}</strong>
+                        </td>
+                        <td>{{ order.created_at|date:"M d, Y" }}</td>
+                        <td>
+                            {% if order.order_items.count > 0 %}
+                                {{ order.order_items.count }} item(s)
+                            {% else %}
+                                <span style="color: #64748b;">No items</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <strong>Rs {{ order.order_total|default:"0.00" }}</strong>
+                        </td>
+                        <td>
+                            <span class="order-status status-{{ order.status|lower|default:'pending' }}">
+                                {{ order.status|default:"Pending"|title }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="order-actions">
+                                <a href="{% url 'order_detail' order.id %}" class="action-btn view-btn">View Details</a>
+                                {% if order.status == 'Shipped' %}
+                                <a href="#" class="action-btn track-btn">Track Order</a>
+                                {% endif %}
+                                {% if order.status == 'Pending' or order.status == 'New' %}
+                                <a href="#" class="action-btn cancel-btn" onclick="return confirm('Are you sure you want to cancel this order?')">Cancel</a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 40px; color: #64748b;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 48px; margin-bottom: 20px;">🛒</div>
+                                <h3>No orders found</h3>
+                                <p>You haven't placed any orders yet. Start shopping to see your orders here!</p>
+                                <a href="{% url 'home' %}" style="display: inline-block; background: #3b82f6; color: #fff; padding: 12px 24px; border-radius: 8px; text-decoration: none; margin-top: 20px;">Start Shopping</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div style="text-align: center; padding: 60px 20px; color: #64748b;">
+                <div style="font-size: 48px; margin-bottom: 20px;">🛒</div>
+                <h3>No orders found</h3>
+                <p>You haven't placed any orders yet. Start shopping to see your orders here!</p>
+                <a href="{% url 'home' %}" style="display: inline-block; background: #3b82f6; color: #fff; padding: 12px 24px; border-radius: 8px; text-decoration: none; margin-top: 20px;">Start Shopping</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

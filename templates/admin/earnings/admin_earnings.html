@@ -1,0 +1,464 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Admin Earnings{% endblock title %}
+
+{% block content %}
+<style>
+/* ========================= */
+/* ADMIN EARNINGS STYLING */
+/* ========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f8fafc;
+    color: #1e293b;
+    line-height: 1.6;
+}
+
+.main-content {
+    margin: 20px;
+    padding: 100px 30px 30px;
+    background: #f8fafc;
+}
+
+/* ========================= */
+/* DASHBOARD HEADER */
+/* ========================= */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+    padding: 25px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.header-title h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 5px;
+}
+
+.header-subtitle {
+    color: #64748b;
+    font-size: 16px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.btn-primary {
+    background: #3b82f6;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+}
+
+/* ========================= */
+/* EARNINGS CARDS */
+/* ========================= */
+.earnings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 35px;
+}
+
+.earnings-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border-left: 4px solid;
+}
+
+.earnings-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.earnings-card.total {
+    border-left-color: #10b981;
+}
+
+.earnings-card.completed {
+    border-left-color: #3b82f6;
+}
+
+.earnings-card.pending {
+    border-left-color: #f59e0b;
+}
+
+.earnings-card.monthly {
+    border-left-color: #8b5cf6;
+}
+
+.earnings-card.shop {
+    border-left-color: #06b6d4;
+}
+
+.earnings-card.vendor {
+    border-left-color: #f97316;
+}
+
+.earnings-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.earnings-card.total .earnings-icon {
+    background: #d1fae5;
+    color: #10b981;
+}
+
+.earnings-card.completed .earnings-icon {
+    background: #dbeafe;
+    color: #3b82f6;
+}
+
+.earnings-card.pending .earnings-icon {
+    background: #fed7aa;
+    color: #f59e0b;
+}
+
+.earnings-card.monthly .earnings-icon {
+    background: #ede9fe;
+    color: #8b5cf6;
+}
+
+.earnings-card.shop .earnings-icon {
+    background: #cffafe;
+    color: #06b6d4;
+}
+
+.earnings-card.vendor .earnings-icon {
+    background: #fed7aa;
+    color: #f97316;
+}
+
+.earnings-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+.earnings-label {
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.earnings-change {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.change-positive {
+    background: #d1fae5;
+    color: #10b981;
+}
+
+.change-negative {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* ========================= */
+/* ORDERS SUMMARY */
+/* ========================= */
+.orders-summary-section {
+    background: #fff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 35px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.orders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.order-stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: 10px;
+    border-left: 3px solid #3b82f6;
+}
+
+.order-stat-item.completed {
+    border-left-color: #10b981;
+}
+
+.order-stat-item.pending {
+    border-left-color: #f59e0b;
+}
+
+.stat-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #64748b;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+/* ========================= */
+/* CHARTS SECTION */
+/* ========================= */
+.charts-section {
+    background: #fff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 35px;
+}
+
+.chart-container {
+    height: 300px;
+    margin-top: 20px;
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    font-size: 16px;
+}
+
+/* ========================= */
+/* MOBILE RESPONSIVE */
+/* ========================= */
+@media (max-width: 768px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    .main-content {
+        margin: 0;
+        width: 100%;
+        padding: 90px 15px 20px;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+        padding: 20px;
+    }
+
+    .header-title h1 {
+        font-size: 28px;
+    }
+
+    .earnings-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .earnings-card {
+        padding: 20px;
+    }
+
+    .earnings-value {
+        font-size: 28px;
+    }
+
+    .orders-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .chart-container {
+        height: 250px;
+        padding: 15px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-header {
+        padding: 15px;
+    }
+
+    .header-title h1 {
+        font-size: 24px;
+    }
+
+    .earnings-card {
+        padding: 15px;
+    }
+
+    .earnings-value {
+        font-size: 24px;
+    }
+
+    .earnings-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+
+    .order-stat-item {
+        padding: 15px;
+    }
+
+    .stat-value {
+        font-size: 20px;
+    }
+
+    .chart-container {
+        height: 200px;
+        padding: 10px;
+        font-size: 12px;
+    }
+}
+</style>
+
+<!-- Main Content -->
+<main class="main-content">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div class="header-title">
+            <h1>Admin Earnings</h1>
+            <div class="header-subtitle">View complete earnings overview</div>
+        </div>
+        <div class="header-actions">
+            <a href="{% url 'admin_dashboard' %}" class="btn btn-primary">Back to Dashboard</a>
+        </div>
+    </div>
+
+    <!-- Earnings Cards -->
+    <div class="earnings-grid">
+        <div class="earnings-card total">
+            <div class="earnings-icon">💰</div>
+            <div class="earnings-value">Rs {{ total_earnings|default:"0.00"|floatformat:2 }}</div>
+            <div class="earnings-label">Total Earnings</div>
+        </div>
+        
+        <div class="earnings-card completed">
+            <div class="earnings-icon">✅</div>
+            <div class="earnings-value">Rs {{ completed_earnings|default:"0.00"|floatformat:2 }}</div>
+            <div class="earnings-label">Completed Orders Earnings</div>
+        </div>
+        
+        <div class="earnings-card pending">
+            <div class="earnings-icon">⏳</div>
+            <div class="earnings-value">Rs {{ pending_earnings|default:"0.00"|floatformat:2 }}</div>
+            <div class="earnings-label">Pending Orders Earnings</div>
+        </div>
+        
+        <div class="earnings-card monthly">
+            <div class="earnings-icon">📅</div>
+            <div class="earnings-value">Rs {{ monthly_earnings|default:"0.00"|floatformat:2 }}</div>
+            <div class="earnings-label">This Month Earnings</div>
+        </div>
+        
+        <div class="earnings-card shop">
+            <div class="earnings-icon">🛒</div>
+            <div class="earnings-value">Rs {{ shop_earnings|default:"0.00"|floatformat:2 }}</div>
+            <div class="earnings-label">Shop Orders Earnings</div>
+        </div>
+        
+        <div class="earnings-card vendor">
+            <div class="earnings-icon">🏪</div>
+            <div class="earnings-value">Rs {{ vendor_earnings|default:"0.00"|floatformat:2 }}</div>
+            <div class="earnings-label">Vendor Orders Earnings</div>
+        </div>
+    </div>
+
+    <!-- Orders Summary -->
+    <div class="orders-summary-section">
+        <div class="section-title">
+            📊 Orders Summary
+        </div>
+        <div class="orders-grid">
+            <div class="order-stat-item">
+                <div class="stat-label">Total Orders</div>
+                <div class="stat-value">{{ total_orders_count }}</div>
+            </div>
+            
+            <div class="order-stat-item completed">
+                <div class="stat-label">Completed Orders</div>
+                <div class="stat-value">{{ completed_orders_count }}</div>
+            </div>
+            
+            <div class="order-stat-item pending">
+                <div class="stat-label">Pending Orders</div>
+                <div class="stat-value">{{ pending_orders_count }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="charts-section">
+        <div class="section-title">
+            📈 Earnings Analytics
+        </div>
+        <div class="chart-container">
+            Chart functionality would be implemented here with JavaScript charting library
+            <br>
+            <small>Earnings breakdown by order type and time period</small>
+        </div>
+    </div>
+</main>
+
+{% endblock content %}

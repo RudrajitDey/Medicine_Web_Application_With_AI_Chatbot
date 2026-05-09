@@ -1,0 +1,359 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}All Customers - Vendor Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="page-header">
+        <h1 class="page-title">👥 All Customers</h1>
+    </div>
+
+    <div class="customers-container">
+        {% if customers %}
+            {% for customer in customers %}
+                <div class="customer-card">
+                    <div class="customer-header">
+                        <div class="customer-avatar">
+                            {{ customer.user.username.0|upper|default:"C" }}
+                        </div>
+                        <div class="customer-info">
+                            <h3 class="customer-name">
+                                {{ customer.user.first_name }} {{ customer.user.last_name }}
+                                <span class="customer-username">@{{ customer.user.username }}</span>
+                            </h3>
+                            <p class="customer-email">{{ customer.user.email }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="customer-stats">
+                        <div class="stat-item">
+                            <div class="stat-label">Total Orders</div>
+                            <div class="stat-value">{{ customer.total_orders }}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Total Spent</div>
+                            <div class="stat-value">₹{{ customer.total_spent|floatformat:2 }}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Last Order</div>
+                            <div class="stat-value">
+                                {% if customer.last_order %}
+                                    {{ customer.last_order|date:"M d, Y" }}
+                                {% else %}
+                                    No orders yet
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="customer-actions">
+                        <a href="{% url 'customer_detail' customer.user.id %}" class="view-btn">View Details</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                <h3>No customers found</h3>
+                <p>You haven't had any customers yet. Start by adding products to your store!</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.dashboard-container {
+    padding: 20px;
+    background: #f8fafc;
+    min-height: 100vh;
+    margin: 110px 20px 20px 20px;
+}
+
+.page-header {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+}
+
+.customers-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+.customer-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 4px solid #3b82f6;
+}
+
+.customer-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.customer-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.customer-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.customer-info {
+    flex: 1;
+}
+
+.customer-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 5px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.customer-username {
+    font-size: 12px;
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 2px 6px;
+    border-radius: 12px;
+}
+
+.customer-email {
+    color: #64748b;
+    font-size: 13px;
+    margin: 0;
+}
+
+.customer-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.stat-item {
+    background: #f8fafc;
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 3px solid #10b981;
+    transition: transform 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-1px);
+}
+
+.stat-label {
+    font-size: 11px;
+    color: #64748b;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.customer-actions {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.view-btn {
+    background: #3b82f6;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.view-btn:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #64748b;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.empty-state h3 {
+    margin-bottom: 10px;
+    color: #475569;
+    font-size: 18px;
+}
+
+.empty-state p {
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .dashboard-container {
+        margin: 110px 10px 20px 10px;
+        padding: 15px;
+    }
+    
+    .page-title {
+        font-size: 20px;
+    }
+    
+    .customers-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .customer-card {
+        padding: 15px;
+    }
+    
+    .customer-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+    
+    .customer-avatar {
+        width: 45px;
+        height: 45px;
+        font-size: 16px;
+    }
+    
+    .customer-name {
+        font-size: 15px;
+        justify-content: center;
+    }
+    
+    .customer-email {
+        font-size: 12px;
+        text-align: center;
+    }
+    
+    .customer-stats {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .stat-item {
+        padding: 10px;
+    }
+    
+    .stat-label {
+        font-size: 10px;
+    }
+    
+    .stat-value {
+        font-size: 14px;
+    }
+    
+    .view-btn {
+        font-size: 13px;
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-container {
+        margin: 110px 5px 15px 5px;
+        padding: 10px;
+    }
+    
+    .page-title {
+        font-size: 18px;
+    }
+    
+    .customer-card {
+        padding: 12px;
+    }
+    
+    .customer-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+    }
+    
+    .customer-name {
+        font-size: 14px;
+    }
+    
+    .customer-username {
+        font-size: 11px;
+    }
+    
+    .customer-email {
+        font-size: 11px;
+    }
+    
+    .stat-item {
+        padding: 8px;
+    }
+    
+    .stat-label {
+        font-size: 9px;
+    }
+    
+    .stat-value {
+        font-size: 13px;
+    }
+    
+    .view-btn {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+    
+    .empty-state {
+        padding: 40px 15px;
+    }
+    
+    .empty-state h3 {
+        font-size: 16px;
+    }
+    
+    .empty-state p {
+        font-size: 13px;
+    }
+}
+</style>
+{% endblock %}

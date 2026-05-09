@@ -1,0 +1,555 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Customer Details - Vendor Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="page-header">
+        <h1 class="page-title">👤 Customer Details</h1>
+        <a href="{% url 'all_customers' %}" class="back-btn">← Back to Customers</a>
+    </div>
+
+    <div class="customer-detail-container">
+        <!-- Customer Info Card -->
+        <div class="customer-info-card">
+            <div class="card-header">
+                <div class="customer-avatar">
+                    {{ customer.username.0|upper|default:"C" }}
+                </div>
+                <div class="customer-details">
+                    <h2 class="customer-name">{{ customer.first_name }} {{ customer.last_name }}</h2>
+                    <p class="customer-username">@{{ customer.username }}</p>
+                    <p class="customer-email">{{ customer.email }}</p>
+                    <p class="customer-phone">{{ customer.phone_number|default:"Not provided" }}</p>
+                    <div class="customer-addresses">
+                        <h4>📍 Shipping Address</h4>
+                        {% if customer_address %}
+                            <div class="address-item">
+                                {% if customer_address.address_line_1 %}
+                                    <p class="address-line">{{ customer_address.address_line_1 }}</p>
+                                {% endif %}
+                                {% if customer_address.address_line_2 %}
+                                    <p class="address-line">{{ customer_address.address_line_2 }}</p>
+                                {% endif %}
+                                {% if customer_address.city or customer_address.state or customer_address.postal_code %}
+                                    <p class="address-line">
+                                        {% if customer_address.city %}{{ customer_address.city }}{% endif %}
+                                        {% if customer_address.city and customer_address.state %}, {% endif %}
+                                        {% if customer_address.state %}{{ customer_address.state }}{% endif %}
+                                        {% if customer_address.postal_code %} - {{ customer_address.postal_code }}{% endif %}
+                                    </p>
+                                {% endif %}
+                                {% if customer_address.country %}
+                                    <p class="address-line">{{ customer_address.country }}</p>
+                                {% endif %}
+                            </div>
+                            <p class="address-note">From most recent order</p>
+                        {% else %}
+                            <p class="no-address">No address information available</p>
+                            <p class="address-note">Customer hasn't placed any orders yet</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Cards Grid -->
+        <div class="stats-section">
+            <h3>📊 Customer Statistics</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-content">
+                        <div class="stat-value">{{ orders|length }}</div>
+                        <div class="stat-label">Total Orders</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-content">
+                        <div class="stat-value">₹{{ total_spent|floatformat:0 }}</div>
+                        <div class="stat-label">Total Spent</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-content">
+                        <div class="stat-value">{{ customer.date_joined|date:"M Y" }}</div>
+                        <div class="stat-label">Member Since</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order History Cards -->
+        <div class="orders-section">
+            <h3>📋 Order History</h3>
+            <div class="orders-grid">
+                {% for order in orders %}
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div class="order-id">#{{ order.id }}</div>
+                            <div class="order-status">
+                                {% if order.ordered %}
+                                    <span class="status-badge status-completed">Completed</span>
+                                {% else %}
+                                    <span class="status-badge status-pending">Pending</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="order-product">
+                            <h4>{{ order.get_product.name|default:"Unknown Product" }}</h4>
+                            <p class="order-date">{{ order.created_at|date:"M d, Y" }}</p>
+                        </div>
+                        <div class="order-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Quantity:</span>
+                                <span class="detail-value">{{ order.quantity }}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Price:</span>
+                                <span class="detail-value">₹{{ order.product_price }}</span>
+                            </div>
+                            <div class="detail-item total">
+                                <span class="detail-label">Total:</span>
+                                <span class="detail-value">₹{{ order.total_price|floatformat:2 }}</span>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="empty-state">
+                        <h3>No orders found</h3>
+                        <p>This customer hasn't placed any orders yet.</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.dashboard-container {
+    padding: 20px;
+    background: #f8fafc;
+    min-height: 100vh;
+    margin: 110px 20px 20px 20px;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+}
+
+.back-btn {
+    background: #6b7280;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    background: #5c6ac0;
+    transform: translateY(-1px);
+}
+
+.customer-detail-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Customer Info Card */
+.customer-info-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid #3b82f6;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.customer-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.customer-details {
+    flex: 1;
+}
+
+.customer-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 5px 0;
+}
+
+.customer-username {
+    font-size: 13px;
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 3px 8px;
+    border-radius: 12px;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+.customer-email,
+.customer-phone {
+    color: #64748b;
+    font-size: 13px;
+    margin: 2px 0;
+}
+
+/* Customer Addresses */
+.customer-addresses {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.customer-addresses h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    margin: 0 0 8px 0;
+}
+
+.address-item {
+    background: #f8fafc;
+    padding: 10px;
+    border-radius: 8px;
+    border-left: 3px solid #10b981;
+}
+
+.address-line {
+    font-size: 12px;
+    color: #64748b;
+    margin: 2px 0;
+    line-height: 1.4;
+}
+
+.no-address {
+    font-size: 12px;
+    color: #9ca3af;
+    font-style: italic;
+    margin: 0 0 5px 0;
+}
+
+.address-note {
+    font-size: 11px;
+    color: #6b7280;
+    margin: 0;
+    font-style: normal;
+}
+
+/* Statistics Section */
+.stats-section h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 15px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.stat-icon {
+    font-size: 24px;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f9ff;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.stat-content {
+    flex: 1;
+}
+
+.stat-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 2px;
+}
+
+.stat-label {
+    font-size: 13px;
+    color: #64748b;
+}
+
+/* Order History Section */
+.orders-section h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 15px;
+}
+
+.orders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+}
+
+.order-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.order-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.order-id {
+    font-weight: 600;
+    color: #1f2937;
+    font-size: 14px;
+}
+
+.order-product h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 5px 0;
+}
+
+.order-date {
+    font-size: 12px;
+    color: #64748b;
+    margin: 0 0 12px 0;
+}
+
+.order-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-item.total {
+    background: #f8fafc;
+    margin: 0 -20px -20px -20px;
+    padding: 12px 20px;
+    border-radius: 0 0 12px 12px;
+    border-bottom: none;
+}
+
+.detail-label {
+    font-size: 13px;
+    color: #64748b;
+}
+
+.detail-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1f2937;
+}
+
+.detail-item.total .detail-value {
+    font-weight: 700;
+    color: #10b981;
+}
+
+.status-badge {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.status-completed {
+    background: #10b981;
+    color: white;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #64748b;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.empty-state h3 {
+    margin-bottom: 8px;
+    color: #475569;
+    font-size: 16px;
+}
+
+.empty-state p {
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .dashboard-container {
+        margin: 110px 10px 20px 10px;
+        padding: 15px;
+    }
+    
+    .page-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    
+    .page-title {
+        font-size: 20px;
+        text-align: center;
+    }
+    
+    .customer-info-card {
+        padding: 15px;
+    }
+    
+    .card-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+    
+    .customer-avatar {
+        width: 50px;
+        height: 50px;
+        font-size: 18px;
+    }
+    
+    .customer-name {
+        font-size: 16px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .stat-card {
+        padding: 15px;
+    }
+    
+    .orders-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .order-card {
+        padding: 15px;
+    }
+    
+    .order-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    
+    .order-id {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-container {
+        margin: 110px 5px 15px 5px;
+        padding: 10px;
+    }
+    
+    .customer-info-card,
+    .stat-card,
+    .order-card {
+        padding: 12px;
+    }
+    
+    .customer-avatar {
+        width: 45px;
+        height: 45px;
+        font-size: 16px;
+    }
+    
+    .customer-name {
+        font-size: 15px;
+    }
+    
+    .page-title {
+        font-size: 18px;
+    }
+}
+</style>
+{% endblock %}
