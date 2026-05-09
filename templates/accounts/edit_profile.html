@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'accounts/edit_profile.css' %}?v=2.0">
+<div class="dashboard-page">
+<div class="dashboard-wrapper">
+<div class="profile-container">
+
+   <!-- SIDEBAR -->
+    <div class="dashboard-sidebar">
+
+        <div class="profile-image">
+
+            {% if profile.profile_picture %}
+                <img src="{{ profile.profile_picture.url }}" alt="">
+            {% else %}
+                <img src="{% static 'default/default-user.png' %}" alt="">
+            {% endif %}
+
+            <h3>{{ request.user.first_name }} {{ request.user.last_name }}</h3>
+            <p>{{ request.user.email }}</p>
+
+        </div>
+
+        <div class="sidebar-menu">
+            <a href="#" class="active">
+                <i class="fa fa-home"></i> Dashboard
+            </a>
+
+            <a href="{% url 'my_orders' %}">
+                <i class="fa fa-shopping-bag"></i> My Orders
+            </a>
+
+            <a href="{% url 'edit_profile' %}">
+                <i class="fa fa-user"></i> Edit Profile
+            </a>
+
+            <a href="{% url 'change_password' %}">
+                <i class="fa fa-lock"></i> Change Password
+            </a>
+        </div>
+
+        <div class="logout-btn">
+            <a href="{% url 'logout' %}">
+                <i class="fa fa-sign-out"></i> Logout
+            </a>
+        </div>
+
+    </div>
+
+    <!-- RIGHT CONTENT -->
+    <div class="profile-content">
+
+        <div class="profile-card">
+
+            <div class="card-header">
+                <h2>Edit Profile</h2>
+                <p>Update your personal information</p>
+            </div>
+
+            <form method="POST" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>First Name</label>
+                        {{ user_form.first_name }}
+                    </div>
+
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        {{ user_form.last_name }}
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        {{ user_form.phone_number }}
+                    </div>
+
+                    <div class="form-group">
+                        <label>Profile Picture</label>
+                        {{ profile_form.profile_picture }}
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Address Line 1</label>
+                        {{ profile_form.address_line_1 }}
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Address Line 2</label>
+                        {{ profile_form.address_line_2 }}
+                    </div>
+
+                    <div class="form-group">
+                        <label>City</label>
+                        {{ profile_form.city }}
+                    </div>
+
+                    <div class="form-group">
+                        <label>State</label>
+                        {{ profile_form.state }}
+                    </div>
+
+                    <div class="form-group">
+                        <label>Country</label>
+                        {{ profile_form.country }}
+                    </div>
+
+                </div>
+
+                <button type="submit" class="save-btn">
+                    Save Changes
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+</div>
+</div>
+
+{% endblock %}

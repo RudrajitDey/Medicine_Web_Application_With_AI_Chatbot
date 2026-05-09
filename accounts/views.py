@@ -31,6 +31,13 @@ def register(request):
             user.set_password(password)
             user.save()
 
+            #CREATE_USER_PROFILE
+
+            profile = UserProfile()
+            profile.user_id = user.id
+            profile.profile_picture = 'default/default-user.png'
+            profile.save()
+
             #USER ACRIVATION
             current_site = get_current_site(request)
             mail_subject = 'Please activate your account'
@@ -86,7 +93,15 @@ def logout(request):
 
 @login_required(login_url = 'login')
 def dashboard(request):
-    return render(request, 'accounts/dashboard.html')
+    try:
+        profile = request.user.userprofile
+    except UserProfile.DoesNotExist:
+        profile = None
+    
+    context = {
+        'profile': profile,
+    }
+    return render(request, 'accounts/dashboard.html', context)
 
 def activate(request, uidb64, token):
     try:
@@ -166,6 +181,10 @@ def resetPassword(request):
 
 @login_required(login_url = 'login')
 def my_orders(request):
+
+    profile, created = UserProfile.objects.get_or_create(
+        user=request.user
+    )
     # My orders view - comprehensive order history with dynamic data
     from orders.models import Order, OrderProduct
     from django.db.models import Sum, Count
@@ -189,5 +208,60 @@ def my_orders(request):
         'shipped_orders': shipped_orders,
         'delivered_orders': delivered_orders,
         'cancelled_orders': cancelled_orders,
+        'profile': profile,
     }
     return render(request, 'accounts/my_orders.html', context)
+
+
+
+from .forms import UserForm, UserProfileForm
+from .models import UserProfile
+
+def edit_profile(request):
+
+    profile, created = UserProfile.objects.get_or_create(
+        user=request.user
+    )
+
+    if request.method == 'POST':
+
+        user_form = UserForm(
+            request.POST,
+            instance=request.user
+        )
+
+        profile_form = UserProfileForm(
+            request.POST,
+            request.FILES,
+            instance=profile
+        )
+
+        if user_form.is_valid() and profile_form.is_valid():
+
+            user_form.save()
+            profile_form.save()
+
+            return redirect('edit_profile')
+
+    else:
+
+        user_form = UserForm(instance=request.user)
+
+        profile_form = UserProfileForm(instance=profile)
+
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'profile': profile,
+    }
+
+
+    return render(request, 'accounts/edit_profile.html', context)
+
+def change_password(request):
+
+    profile, created = UserProfile.objects.get_or_create(
+        user=request.user
+    )
+
+    return render(request, 'accounts/change_password.html',{'profile':profile})

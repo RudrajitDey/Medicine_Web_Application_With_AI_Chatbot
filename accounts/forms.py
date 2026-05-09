@@ -1,5 +1,5 @@
 from django import forms
-from .models import Account
+from .models import Account, UserProfile
 import re
 
 
@@ -47,3 +47,82 @@ class RegistrationForm(forms.ModelForm):
             raise forms.ValidationError("Passwords do not match")
 
         return cleaned_data
+
+
+class UserForm(forms.ModelForm):
+
+    class Meta:
+        model = Account
+
+        fields = (
+            'first_name',
+            'last_name',
+            'phone_number',
+        )
+
+        widgets = {
+
+            'first_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter First Name'
+            }),
+
+            'last_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter Last Name'
+            }),
+
+            'phone_number': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter Phone Number'
+            }),
+
+        }
+
+
+class UserProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = UserProfile
+
+        fields = (
+            'profile_picture',
+            'address_line_1',
+            'address_line_2',
+            'city',
+            'state',
+            'country',
+        )
+
+        widgets = {
+
+            'profile_picture': forms.FileInput(attrs={
+                'class': 'form-control'
+            }),
+
+            'address_line_1': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Address Line 1'
+            }),
+
+            'address_line_2': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Address Line 2'
+            }),
+
+            'city': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'City'
+            }),
+
+            'state': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'State'
+            }),
+
+            'country': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Country'
+            }),
+
+        }
