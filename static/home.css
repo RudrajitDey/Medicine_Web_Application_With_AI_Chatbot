@@ -30,7 +30,7 @@ body {
 
     display:flex;
     align-items:center;
-    justify-content:space-between;
+    gap: 150px;
 
     padding:10px 15px;
 
@@ -81,7 +81,7 @@ body {
     display:flex;
     align-items:center;
 
-    width:100%;
+    width:500px;
     background:#fff;
 
     border:1px solid #ddd;
@@ -95,7 +95,7 @@ body {
     flex:1;
     border:none;
     outline:none;
-    padding:10px 14px;
+    padding:10px 10px;
     font-size:14px;
 }
 
@@ -125,7 +125,7 @@ body {
 .nav-right{
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:20px;
 
     flex-shrink:0;
     padding-right: 40px;
@@ -146,6 +146,20 @@ body {
     cursor:pointer;
 }
 
+.profile-imagee{
+   display: flex;
+   text-align: center;
+   
+}
+
+.profile-imagee img{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid #f1f1f1;
+}
+
 /* ========================= */
 /* ICONS */
 /* ========================= */
@@ -155,7 +169,7 @@ body {
     align-items:center;
     gap:14px;
 
-    font-size:22px;
+    font-size:28px;
 
     flex-wrap:nowrap;
 }
@@ -193,7 +207,7 @@ body {
 @media(max-width:992px){
 
     .navbar-center{
-        max-width:400px;
+       display: none;
     }
 
     .chatbot{
@@ -208,6 +222,13 @@ body {
 /* ========================= */
 /* MOBILE */
 /* ========================= */
+
+@media (max-width: 1200px) {
+  .navbar-center{
+    display: none;
+  }
+
+}
 
 @media(max-width:768px){
 
@@ -271,6 +292,14 @@ body {
     padding-right: 5px;
 }
 
+.profile-imagee img{
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid #f1f1f1;
+}
+
 
     .icons{
         font-size:20px;
@@ -281,10 +310,10 @@ body {
 /* ===== SIDEBAR ===== */
 .sidebar {
   position: fixed;
-  top: 0;
+  top: 1;
   left: -260px;
   width: 200px;
-  height: auto;
+  height: 200px;
   background: #faf8f8;
   color: #0c0c0c;
   padding: 20px;
@@ -467,7 +496,7 @@ body {
 
 /* HERO BACKGROUND */
 .hero {
-  margin: 100px 10px 10px 10px;
+  margin: 110px 10px 10px 10px;
   overflow: hidden;
   height: 340px; 
 }
@@ -504,15 +533,12 @@ body {
   }
 
   .hero {
-  margin: 100px 10px 10px 10px;
+  margin: 85px 10px 10px 10px;
   overflow: hidden;
-  height: 340px; 
+  height: 100px; 
 }
 
-  .hero{
-    margin: 75px 10px 10px 10px;
-    height: 100px;
-  }
+  
 }
 
 .features {

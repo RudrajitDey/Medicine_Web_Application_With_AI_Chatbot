@@ -130,6 +130,8 @@ body{
 /* ========================= */
 
 
+
+
 .orders-header {
     background: #fff;
     padding: 25px;
@@ -191,7 +193,7 @@ body{
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     margin: 10px 00px 30px 0px;
-    width: 900px;
+    width: 1000px;
 }
 
 .section-title {
@@ -364,39 +366,130 @@ body{
     }
 }
 
-@media (max-width: 480px) {
-    .orders-header {
-        padding: 20px;
-        margin: 0px;
+/* ========================= */
+/* MOBILE DEVICE */
+/* ========================= */
+
+@media (max-width: 480px){
+
+    body{
+        overflow-x: hidden;
     }
 
-    .header-title h1 {
-        font-size: 24px;
+    .dashboard-page{
+        margin: 0px 0px 0px;
     }
 
-    .orders-container {
-        padding: 20px;
+
+    .dashboard-wrapper{
+        padding: 0;
+        gap: 5px;
+        display: block;
+    }
+
+    .dashboard-sidebar{
+        width: 100%;
+        padding: 100px 100px 10px 100px;
+        border-radius: 8px;
+       
+    }
+
+    .profile-image{
+        margin-bottom: 0px;
+    }
+
+    .profile-image img{
+        width: 75px;
+        height: 75px;
+    }
+
+    .profile-image h3{
+        font-size: 16px;
+    }
+
+    .profile-image p{
+        font-size: 12px;
+    }
+
+    .sidebar-menu{
+        gap: 8px;
+    }
+
+    .sidebar-menu a{
+        font-size: 13px;
+        padding: 10px;
+    }
+
+    .logout-btn a{
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .orders-header{
+        padding: 15px;
+        border-radius: 8px;
+    }
+
+    .header-title{
+        gap: 5px;
+    }
+
+    .header-title h1{
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .order-stats{
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .stat-item{
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .orders-container{
+        width: 100%;
+        padding: 12px;
         margin: 0;
         overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+        border-radius: 8px;
     }
 
-    .section-title h2 {
-        font-size: 18px;
+    .section-title{
+        margin-bottom: 15px;
     }
 
-    .orders-table {
+    .section-title h2{
+        font-size: 17px;
+        text-align: center;
+    }
+
+    .orders-table{
+        min-width: 700px;
         font-size: 12px;
     }
 
     .orders-table th,
-    .orders-table td {
+    .orders-table td{
         padding: 8px;
+        white-space: nowrap;
     }
 
-    .order-status {
+    .order-status{
         font-size: 10px;
         padding: 3px 8px;
+    }
+
+    .order-actions{
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .action-btn{
+        font-size: 11px;
+        padding: 7px 10px;
     }
 }
 </style>

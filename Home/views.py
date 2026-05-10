@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Category, Product,SubCategory, faq, AdBanner
 
-from accounts.models import Account
+from accounts.models import Account, UserProfile
 from django.shortcuts import render, redirect
 from admin_panel.models import vendor, seller_Product
 from django.contrib import messages
@@ -17,11 +17,20 @@ def home(request):
     categories = Category.objects.prefetch_related('subcategories')
     faqs = faq.objects.all()
     banners = AdBanner.objects.all()
+    if request.user.is_authenticated:
+        profile, created = UserProfile.objects.get_or_create(
+        user=request.user
+    )
+
+    else:
+        profile = None
+   
 
     return render(request, "home.html", {
         'categories': categories,
         'faqs': faqs,
         'banners': banners,
+        'profile': profile,
     })
 def subcategory_products(request, slug):
     subcategory = get_object_or_404(SubCategory, slug=slug)

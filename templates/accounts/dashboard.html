@@ -5,7 +5,7 @@
 {% block title %}User Dashboard{% endblock title %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'accounts/dashboard.css' %}?v=2.0">
+<link rel="stylesheet" href="{% static 'accounts/dashboard.css' %}?v=3.0">
 <div class="dashboard-page">
 <div class="dashboard-wrapper">
 
@@ -70,7 +70,7 @@
                 <h2>Total Orders</h2>
                 <h1>{{ orders.count|default:"0" }}</h1>
 
-                <a href="#">
+                <a href="{% url 'my_orders' %}">
                     View Orders
                 </a>
             </div>
@@ -78,11 +78,28 @@
             <!-- PROFILE CARD -->
             <div class="dashboard-card profile-card">
 
-                <img src="{{ profile.profile_picture.url }}" alt="User">
-
                 <h3>{{ request.user.first_name }} {{ request.user.last_name }}</h3>
                 <h4>{{ request.user.email }}</h4>
                 <p>{{ request.user.phone_number }}</p>
+                
+                <div class="user-address">
+                    <p><strong>Address:</strong></p>
+                    {% if profile.address %}
+                        <p>{{ profile.address }}</p>
+                    {% endif %}
+                    {% if profile.city %}
+                        <p>{{ profile.city }}</p>
+                    {% endif %}
+                    {% if profile.state %}
+                        <p>{{ profile.state }}</p>
+                    {% endif %}
+                    {% if profile.country %}
+                        <p>{{ profile.country }}</p>
+                    {% endif %}
+                    {% if not profile.address and not profile.city and not profile.state and not profile.country %}
+                        <p>No address information available</p>
+                    {% endif %}
+                </div>
 
             </div>
 

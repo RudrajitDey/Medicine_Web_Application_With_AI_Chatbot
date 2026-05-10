@@ -7,6 +7,10 @@ from .models import Account
 from cart.views import merge_cart
 from urllib.parse import urlparse, parse_qs
 from admin_panel.models import vendor
+from orders.models import Order, OrderProduct
+from django.db.models import Sum, Count
+
+from django.contrib.auth import update_session_auth_hash
 
 #VERIFICATION EMAIL
 from django.contrib.sites.shortcuts import get_current_site
@@ -93,6 +97,8 @@ def logout(request):
 
 @login_required(login_url = 'login')
 def dashboard(request):
+
+    user_orders = Order.objects.filter(user=request.user).order_by('-created_at')
     try:
         profile = request.user.userprofile
     except UserProfile.DoesNotExist:
@@ -100,6 +106,8 @@ def dashboard(request):
     
     context = {
         'profile': profile,
+        'orders': user_orders,
+        'total_orders': user_orders.count(),
     }
     return render(request, 'accounts/dashboard.html', context)
 
@@ -186,8 +194,6 @@ def my_orders(request):
         user=request.user
     )
     # My orders view - comprehensive order history with dynamic data
-    from orders.models import Order, OrderProduct
-    from django.db.models import Sum, Count
     
     user_orders = Order.objects.filter(user=request.user).order_by('-created_at')
     
@@ -258,10 +264,43 @@ def edit_profile(request):
 
     return render(request, 'accounts/edit_profile.html', context)
 
+
+
+@login_required(login_url='login')
 def change_password(request):
 
     profile, created = UserProfile.objects.get_or_create(
         user=request.user
     )
 
-    return render(request, 'accounts/change_password.html',{'profile':profile})
+    if request.method == 'POST':
+
+        current_password = request.POST['current_password']
+        new_password = request.POST['new_password']
+        confirm_password = request.POST['confirm_password']
+
+        user = Account.objects.get(username__exact=request.user.username)
+
+        if new_password == confirm_password:
+
+            success = user.check_password(current_password)
+
+            if success:
+                user.set_password(new_password)
+                user.save()
+
+                # KEEP USER LOGGED IN
+                update_session_auth_hash(request, user)
+
+                messages.success(request, 'Password updated successfully.', extra_tags='password')
+                return redirect('change_password')
+
+            else:
+                messages.error(request, 'Please enter valid current password.', extra_tags='password')
+                return redirect('change_password')
+
+        else:
+            messages.error(request, 'Password does not match!', extra_tags='password')
+            return redirect('change_password')
+
+    return render(request, 'accounts/change_password.html',{'profile': profile})

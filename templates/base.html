@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medicine Web Store With Ai Assistent</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'home.css' %}?v=6.0">
+    <link rel="stylesheet" href="{% static 'home.css' %}?v=3.0">
     <link rel="stylesheet" href="{% static 'admin/admin_dashboard.css' %}?v=3.0">
     <link rel="stylesheet" href="{% static 'admin/seller/seller_list.css' %}?v=2.0">
     <link rel="stylesheet" href="{% static 'search/search_results.css' %}?v=2.0">
@@ -91,7 +91,21 @@
       {% endif %}
     </div></a>
 
-  </div>
+   
+
+<a href="{% if user.is_authenticated %}{% url 'edit_profile' %}{% else %}{% url 'login' %}{% endif %}">
+    <div class="profile-imagee">
+
+        {% if profile.profile_picture %}
+            <img src="{{ profile.profile_picture.url }}" alt="">
+        {% else %}
+            <img src="{% static 'default/default-user.png' %}" alt="">
+        {% endif %}
+
+    </div>
+</a>
+
+
 
 </div>
 </nav>
@@ -101,11 +115,20 @@
   <i class="fa fa-times close-btn" id="closeBtn"></i>
 
   <ul>
-    <li><a href="#">Home</a></li>
-    <li><a href="#">Furniture</a></li>
-    <li><a href="#">Decor</a></li>
-    <li><a href="#">Cart</a></li>
-    <li><a href="#">Login</a></li>
+    <li><a href="{% url 'chatbot' %}">Ai Chatbot</a></li>
+    <li><a href="{% url 'all_medicines' %}">Medicines</a></li>
+    <li><a href="{% url 'cart' %}">Cart</a></li>
+     {% if user.id is none %}
+    <li><a href="{% url 'login' %}">Login</a></li>
+    <li><a href="{% url 'register' %}">Register</a></li>
+    {% else %}
+    <li><a href="{% url 'logout' %}">Logout</a></li>
+    {% if user.vendor %}
+    <li><a href="{% url 'vendor_dashboard' %}">Seller Dashboard</a></li>
+    {% else %}
+    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+    {% endif %}
+    {% endif %}
   </ul>
 </div>
 
