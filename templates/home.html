@@ -5,7 +5,7 @@
 
 {% block title %}Medi Clinic{% endblock title %}
 
-<link rel="stylesheet" href="{% static 'home.css' %}?v=3.0">
+<link rel="stylesheet" href="{% static 'home.css' %}?v=6.0">
 
 {% block content %}
 
@@ -122,27 +122,55 @@
   <!-- ✅ SUBCATEGORY CARDS (IMPORTANT CHANGE) -->
   <div class="all-product">
 
-    {% for cat in categories %}
-      {% for sub in cat.subcategories.all %}
-      
-        <a href="{% url 'subcategory_products' sub.slug %}">
-          <div class="card-box" data-category="{{ cat.id }}">
-            
-            <div class="product-img">
-              <img src="{{ sub.image.url }}" alt="">
-            </div>
+  <!-- Default homepage: only 8 -->
+  {% for sub in subcategories %}
 
-            <div class="product-name">
-              <p>{{ sub.name }}</p>
-            </div>
+    <a href="{% url 'subcategory_products' sub.slug %}"
+       class="subcategory-item default-card">
 
+      <div class="card-box">
+
+        <div class="productt-img">
+          <img src="{{ sub.image.url }}" alt="">
+        </div>
+
+        <div class="productt-name">
+          <p>{{ sub.name }}</p>
+        </div>
+
+      </div>
+
+    </a>
+
+  {% endfor %}
+
+
+  <!-- All category subcategories -->
+  {% for cat in categories %}
+    {% for sub in cat.subcategories.all %}
+
+      <a href="{% url 'subcategory_products' sub.slug %}"
+         class="subcategory-item hidden-card"
+         data-category="{{ cat.id }}"
+         style="display:none;">
+
+        <div class="card-box">
+
+          <div class="productt-img">
+            <img src="{{ sub.image.url }}" alt="">
           </div>
-        </a>
 
-      {% endfor %}
+          <div class="productt-name">
+            <p>{{ sub.name }}</p>
+          </div>
+
+        </div>
+
+      </a>
+
     {% endfor %}
+  {% endfor %}
 
-  </div>
 </div>
 <div class="full-faq">
   <div class="faq-title">
@@ -243,25 +271,26 @@ setInterval(() => {
 }, 3000);
 
 function filterCategory(categoryId, element) {
-    let products = document.querySelectorAll('.card-box');
+
     let categories = document.querySelectorAll('.full-box');
 
-    // remove active
     categories.forEach(c => c.classList.remove('active'));
-
-    // highlight clicked
     element.classList.add('active');
 
-    // filter
-    products.forEach(product => {
-        if (product.getAttribute('data-category') == categoryId) {
-            product.style.display = "block";
-        } else {
-            product.style.display = "none";
-        }
+    // hide everything
+    document.querySelectorAll('.subcategory-item').forEach(card => {
+        card.style.display = "none";
+    });
+
+    // show selected category
+    const selectedCards = document.querySelectorAll(
+        `.hidden-card[data-category="${categoryId}"]`
+    );
+
+    selectedCards.forEach(card => {
+        card.style.display = "block";
     });
 }
-
 function toggleFAQ(element) {
     let item = element.parentElement;
 

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RegistrationForm
 from django.contrib import messages
 from django.contrib import auth
@@ -217,6 +217,20 @@ def my_orders(request):
         'profile': profile,
     }
     return render(request, 'accounts/my_orders.html', context)
+
+@login_required(login_url='login')
+def customer_order_detail(request, order_id):
+    # Get the specific order for the logged-in user
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    
+    # Get all order products for this order
+    order_products = OrderProduct.objects.filter(order=order)
+    
+    context = {
+        'order': order,
+        'order_products': order_products,
+    }
+    return render(request, 'accounts/customer_order_detail.html', context)
 
 
 

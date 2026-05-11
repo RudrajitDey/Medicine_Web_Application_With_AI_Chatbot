@@ -1,0 +1,345 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="manage-container">
+    <div class="banner-faq-header">
+    <h1 class="page-title">Banner & FAQ Management</h1>
+    </div>
+    <div class="grid-layout">
+
+        <!-- ADD FAQ -->
+        <div class="card-box">
+
+            <h2>Add FAQ</h2>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <input type="hidden" name="add_faq">
+
+                <label>FAQ Question</label>
+                <input type="text"
+                       name="faq_question"
+                       placeholder="Enter FAQ question"
+                       required>
+
+                <label>FAQ Answer</label>
+                <textarea name="faq_answer"
+                          rows="5"
+                          placeholder="Enter FAQ answer"
+                          required></textarea>
+
+                <button type="submit" class="submit-btn">
+                    Add FAQ
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ADD BANNER -->
+        <div class="card-box">
+
+            <h2>Add Banner</h2>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <input type="hidden" name="add_banner">
+
+                <label>Banner Name</label>
+                <input type="text"
+                       name="banner_name"
+                       placeholder="Enter banner name"
+                       required>
+
+                <label>Banner Image</label>
+                <input type="file"
+                       name="banner_image"
+                       accept="image/*"
+                       required>
+
+                <button type="submit" class="submit-btn">
+                    Upload Banner
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- FAQ LIST -->
+    <div class="list-card">
+
+        <h2>All FAQs</h2>
+
+        {% for f in faqs %}
+
+        <div class="faq-item">
+
+            <h3>{{ f.faq_question }}</h3>
+            <p>{{ f.faq_answer }}</p>
+
+            <a href="{% url 'delete_faq' f.id %}" class="delete-btn">
+                Delete
+            </a>
+
+        </div>
+
+        {% empty %}
+
+        <p>No FAQs added yet.</p>
+
+        {% endfor %}
+
+    </div>
+
+
+    <!-- BANNER LIST -->
+    <div class="list-card">
+
+        <h2>All Banners</h2>
+
+        <div class="banner-grid">
+
+            {% for banner in banners %}
+
+            <div class="banner-item">
+
+                <img src="{{ banner.image.url }}"
+                     alt="{{ banner.name }}">
+
+                <h4>{{ banner.name }}</h4>
+
+                <a href="{% url 'delete_banner' banner.id %}"
+                   class="delete-btn">
+                    Delete
+                </a>
+
+            </div>
+
+            {% empty %}
+
+            <p>No banners added yet.</p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+.manage-container{
+    width: 95%;
+    max-width: 1300px;
+    margin: 130px auto;
+}
+
+.banner-faq-header{
+    display: flex;
+    justify-content: center;
+}
+
+.page-title{
+    font-size: 34px;
+    margin-bottom: 30px;
+    font-weight: 700;
+    color: #222;
+}
+
+.grid-layout{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.card-box{
+    background: #fff;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    height: 400px;
+}
+
+.card-box h2{
+    margin-bottom: 20px;
+    color: #111;
+}
+
+.card-box label{
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.card-box input,
+.card-box textarea{
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    font-size: 15px;
+}
+
+.card-box textarea{
+    resize: vertical;
+}
+
+.submit-btn{
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    border: none;
+    background: #111827;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.submit-btn:hover{
+    background: #000;
+}
+
+.list-card{
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    margin-bottom: 35px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.list-card h2{
+    margin-bottom: 25px;
+}
+
+.faq-item{
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.faq-item h3{
+    margin-bottom: 10px;
+    color: #111;
+}
+
+.faq-item p{
+    line-height: 1.7;
+    color: #555;
+}
+
+.delete-btn{
+    display: inline-block;
+    margin-top: 15px;
+    background: crimson;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 7px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.banner-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.banner-item{
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.banner-item img{
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.banner-item h4{
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+
+/* TABLET */
+@media (max-width: 992px){
+
+    .grid-layout{
+        grid-template-columns: 1fr;
+    }
+
+    .banner-grid{
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+/* MOBILE */
+@media (max-width: 600px){
+
+    .manage-container{
+        width: 94%;
+        margin-top: 100px;
+    }
+
+    .page-title{
+        font-size: 24px;
+    }
+
+    .card-box,
+    .list-card{
+        padding: 18px;
+    }
+
+    .card-box input,
+    .card-box textarea{
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .submit-btn{
+        padding: 11px;
+        font-size: 14px;
+    }
+
+    .banner-grid{
+        grid-template-columns: 1fr;
+    }
+
+    .banner-item img{
+        height: 200px;
+    }
+
+    .faq-item h3{
+        font-size: 18px;
+    }
+
+    .faq-item p{
+        font-size: 14px;
+    }
+
+}
+
+</style>
+
+{% endblock %}

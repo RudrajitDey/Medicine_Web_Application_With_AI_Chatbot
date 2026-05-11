@@ -5,12 +5,12 @@
 
 {% block title %}Medi Clinic{% endblock title %}
 
-<link rel="stylesheet" href="{% static 'search/search_results.css' %}?v=1.0">
+<link rel="stylesheet" href="{% static 'search/search_results.css' %}?v=2.0">
 
 
 
 {% block content %}
-
+<div class="search-result-page">
 <p class="result-count">
   {{ total_results }} products found
 </p>
@@ -70,6 +70,7 @@
     </div>
     {% endfor %}
 
+</div>
 </div>
 
 {% else %}

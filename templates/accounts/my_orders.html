@@ -607,7 +607,7 @@ body{
                         </td>
                         <td>
                             <div class="order-actions">
-                                <a href="{% url 'order_detail' order.id %}" class="action-btn view-btn">View Details</a>
+                                <a href="{% url 'customer_order_detail' order.id %}" class="action-btn view-btn">View Details</a>
                                 {% if order.status == 'Shipped' %}
                                 <a href="#" class="action-btn track-btn">Track Order</a>
                                 {% endif %}

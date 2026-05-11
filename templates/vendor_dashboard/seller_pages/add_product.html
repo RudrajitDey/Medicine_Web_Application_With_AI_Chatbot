@@ -76,12 +76,7 @@
 <div class="form-container">
     <h2>Add Product</h2>
 
-    {% if messages %}
-        {% for message in messages %}
-            <p class="success">{{ message }}</p>
-        {% endfor %}
-    {% endif %}
-
+    
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 

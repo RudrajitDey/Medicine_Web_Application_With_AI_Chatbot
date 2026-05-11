@@ -1,0 +1,285 @@
+{% extends "base.html" %}
+
+{% block title %}Store Products Page{% endblock title %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Products</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            padding: 20px 0px 0px 80px;
+        }
+
+        .table-container {
+            background: #fff;
+            margin: 80px 80px ;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #2c3e50;
+            color: white;
+            padding: 10px;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background: #f1f1f1;
+        }
+
+        .p-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .btn {
+            padding: 5px 8px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
+            font-size: 12px;
+        }
+
+        .edit {
+            background: #27ae60;
+        }
+
+        .delete {
+            background: #e74c3c;
+        }
+
+        .top-bar {
+            margin-top: 100px;
+            margin-bottom: 15px;
+            padding-left: 80px;
+        }
+
+        .add-btn {
+            padding: 8px 12px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .add-btn:hover {
+            background: #2980b9;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+                margin: 0;
+            }
+
+            h2 {
+                padding: 15px 20px 0px 20px;
+                margin-bottom: 15px;
+                font-size: 24px;
+            }
+
+            .top-bar {
+                margin-top: 80px;
+                margin-bottom: 15px;
+                padding: 0 20px;
+                text-align: center;
+            }
+
+            .add-btn {
+                display: inline-block;
+                padding: 10px 20px;
+                font-size: 14px;
+                background: linear-gradient(135deg, #3498db, #2980b9);
+                box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+            }
+
+            .table-container {
+                margin: 20px;
+                padding: 15px;
+                border-radius: 15px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 600px;
+                font-size: 14px;
+            }
+
+            th {
+                background: linear-gradient(135deg, #2c3e50, #34495e);
+                padding: 12px 8px;
+                font-size: 12px;
+                white-space: nowrap;
+            }
+
+            td {
+                padding: 12px 8px;
+                font-size: 13px;
+                white-space: nowrap;
+            }
+
+            .p-img {
+                width: 40px;
+                height: 40px;
+            }
+
+            .btn {
+                padding: 6px 10px;
+                font-size: 11px;
+                margin: 2px;
+                border-radius: 6px;
+                transition: all 0.3s ease;
+            }
+
+            .edit {
+                background: linear-gradient(135deg, #27ae60, #229954);
+            }
+
+            .edit:hover {
+                background: linear-gradient(135deg, #229954, #1e8449);
+                transform: translateY(-1px);
+            }
+
+            .delete {
+                background: linear-gradient(135deg, #e74c3c, #c0392b);
+            }
+
+            .delete:hover {
+                background: linear-gradient(135deg, #c0392b, #a93226);
+                transform: translateY(-1px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            h2 {
+                padding: 10px 15px 0px 15px;
+                font-size: 20px;
+            }
+
+            .top-bar {
+                margin-top: 70px;
+                padding: 0 15px;
+            }
+
+            .add-btn {
+                padding: 8px 16px;
+                font-size: 13px;
+                width: 100%;
+                max-width: 200px;
+            }
+
+            .table-container {
+                margin: 15px;
+                padding: 10px;
+                border-radius: 12px;
+            }
+
+            table {
+                min-width: 500px;
+                font-size: 12px;
+            }
+
+            th {
+                padding: 10px 6px;
+                font-size: 11px;
+            }
+
+            td {
+                padding: 10px 6px;
+                font-size: 11px;
+            }
+
+            .p-img {
+                width: 35px;
+                height: 35px;
+            }
+
+            .btn {
+                padding: 4px 8px;
+                font-size: 10px;
+                margin: 1px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<h2>My Products</h2>
+
+<div class="top-bar">
+    <a href="{% url 'add_store_product' %}" class="add-btn">+ Add Store Product</a>
+</div>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Brand</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Subcategory</th>
+                <th>Expiry</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for p in store_products %}
+            <tr>
+                <td>{{ p.id }}</td>
+                <td>
+                    {% if p.product_image %}
+                        <img class="p-img" src="{{ p.product_image.url }}">
+                    {% endif %}
+                </td>
+                <td>{{ p.product_name }}</td>
+                 <td>{{ p.brand }}</td>
+                <td>₹{{ p.price }}</td>
+                <td>{{ p.stock }}</td>
+                <td>{{ p.subcategory.name }}</td>
+                <td>{{ p.expiry_date }}</td>
+
+                <td>
+                    <a href="{% url 'edit_store_product' p.id  %}" class="btn edit">Edit</a>
+                    <a href="{% url 'delete_store_product' p.id %}" class="btn delete"
+                        onclick="return confirm('Delete product?')">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
+
+{% endblock content %}

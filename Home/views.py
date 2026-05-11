@@ -15,6 +15,7 @@ from django.contrib import auth
 
 def home(request):
     categories = Category.objects.prefetch_related('subcategories')
+    subcategories = SubCategory.objects.all()[:8]
     faqs = faq.objects.all()
     banners = AdBanner.objects.all()
     if request.user.is_authenticated:
@@ -28,6 +29,7 @@ def home(request):
 
     return render(request, "home.html", {
         'categories': categories,
+        'subcategories': subcategories,
         'faqs': faqs,
         'banners': banners,
         'profile': profile,
@@ -35,6 +37,13 @@ def home(request):
 def subcategory_products(request, slug):
     subcategory = get_object_or_404(SubCategory, slug=slug)
     products = subcategory.products.all()
+
+    for product in products:
+        if product.discount_price:
+            product.total_save = product.price - product.discount_price
+        else:
+            product.total_save = 0
+
 
     return render(request, 'products/subcategory_products.html', {
         'subcategory': subcategory,

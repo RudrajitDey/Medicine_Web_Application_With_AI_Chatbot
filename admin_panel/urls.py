@@ -34,6 +34,20 @@ urlpatterns = [
     path('all_customers/', views.all_customers, name='all_customers'),
     path('customer_detail/<int:customer_id>/', views.customer_detail, name='customer_detail'),
     path('earnings/', views.earnings, name='earnings'),
+    path('add_store_product/', views.add_store_product, name='add_store_product'),
+    path('get_subcategories/<int:category_id>/', views.get_subcategories, name='get_subcategories'),
+    path('store_all_products/', views.store_all_products, name='store_all_products'),
+    path('edit_store_product/<int:id>/', views.edit_store_product, name='edit_store_product'),
+    path('delete_store_product/<int:id>/', views.delete_product, name='delete_store_product'),
+    path('manage_banner_faq/', views.manage_banner_faq, name='manage_banner_faq'),
+    path('delete_faq/<int:id>/', views.delete_faq, name='delete_faq'),
+    path('delete_banner/<int:id>/', views.delete_banner, name='delete_banner'),
+
+    path('manage_category_subcategory/',views.manage_category_subcategory,name='manage_category_subcategory'),
+    path('delete_category/<int:id>/',views.delete_category,name='delete_category'),
+    path('delete_subcategory/<int:id>/',views.delete_subcategory,name='delete_subcategory'),
+    path('edit_category/<int:id>/',views.edit_category,name='edit_category'),
+    path('edit_subcategory/<int:id>/',views.edit_subcategory, name='edit_subcategory'),
 
 ]   
 

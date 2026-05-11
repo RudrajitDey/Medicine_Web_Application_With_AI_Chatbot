@@ -1,0 +1,325 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Product{% endblock title %}
+
+{% block content %}
+<style>
+    body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 10px;
+    color: #2c3e50;
+}
+
+.edit-form {
+    width: 700px;
+    margin: 140px auto;
+    background: #ffffff;
+    padding: 25px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 600;
+    color: #34495e;
+}
+.edit-textarea
+input[type="text"],
+input[type="number"],
+input[type="date"],
+textarea,
+.edit-select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+textarea {
+    resize: none;
+    height: 80px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+.edit-img {
+    margin-top: 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+input[type="file"] {
+    margin-top: 10px;
+}
+
+#mybtn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background: #27ae60;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#mybtn:hover {
+    background: #219150;
+}
+
+#mybtn:active {
+    transform: scale(0.98);
+}
+</style>
+
+
+
+<form class="edit-form" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="edit-textarea">
+
+        <h2>Edit Product</h2>
+
+        <!-- Product Name + Brand -->
+        <div class="form-row">
+
+            <div>
+                <label>Product Name</label>
+                <input type="text"
+                       name="product_name"
+                       value="{{ product.product_name }}">
+            </div>
+
+            <div>
+                <label>Brand</label>
+                <input type="text"
+                       name="brand"
+                       value="{{ product.brand }}">
+            </div>
+
+        </div>
+
+        <!-- Description -->
+        <label>Description</label>
+
+        <textarea name="description">{{ product.description }}</textarea>
+
+        <!-- Subcategory -->
+        <label>Subcategory</label>
+
+        <select name="subcategory">
+
+            {% for subcategory in subcategories %}
+
+                <option value="{{ subcategory.id }}"
+                    {% if product.subcategory.id == subcategory.id %}
+                        selected
+                    {% endif %}
+                >
+                    {{ subcategory.name }}
+                </option>
+
+            {% endfor %}
+
+        </select>
+
+        <!-- Pricing -->
+        <div class="section-header">
+            <h3>Pricing Information</h3>
+        </div>
+
+        <div class="form-row">
+
+            <div>
+                <label>Price</label>
+                <input type="number"
+                       name="price"
+                       value="{{ product.price }}"
+                       step="0.01">
+            </div>
+
+            <div>
+                <label>Discount Price</label>
+                <input type="number"
+                       name="discount_price"
+                       value="{{ product.discount_price }}"
+                       step="0.01">
+            </div>
+
+        </div>
+
+        <!-- Stock -->
+        <div class="section-header">
+            <h3>Stock Information</h3>
+        </div>
+
+        <div class="form-row">
+
+            <div>
+                <label>Stock</label>
+                <input type="number"
+                       name="stock"
+                       value="{{ product.stock }}">
+            </div>
+
+            <div>
+                <label>Minimum Stock Alert</label>
+                <input type="number"
+                       name="min_stock_alert"
+                       value="{{ product.min_stock_alert }}">
+            </div>
+
+        </div>
+
+        <!-- Medicine Info -->
+        <div class="form-row">
+
+            <div>
+                <label>Expiry Date</label>
+                <input type="date"
+                       name="expiry_date"
+                       value="{{ product.expiry_date|date:'Y-m-d' }}">
+            </div>
+
+            <div>
+                <label>Prescription Required</label>
+
+                <select name="prescription_required">
+
+                    <option value="False"
+                        {% if not product.prescription_required %}
+                            selected
+                        {% endif %}
+                    >
+                        No
+                    </option>
+
+                    <option value="True"
+                        {% if product.prescription_required %}
+                            selected
+                        {% endif %}
+                    >
+                        Yes
+                    </option>
+
+                </select>
+            </div>
+
+        </div>
+
+        <!-- Product Image -->
+        <label>Product Image</label><br>
+
+        {% if product.product_image %}
+            <img class="edit-img"
+                 src="{{ product.product_image.url }}"
+                 width="100">
+            <br><br>
+        {% endif %}
+
+        <input type="file" name="image">
+
+    <label>Availability</label>
+    <select class="edit-select" name="is_available">
+        <option value="True" {% if product.is_available %}selected{% endif %}>Available</option>
+        <option value="False" {% if not product.is_available %}selected{% endif %}>Not Available</option>
+    </select>
+
+    <h3>Medicine Details</h3>
+
+    <div id="content-wrapper">
+
+        <div class="content-block">
+            <label>Section Type</label>
+            <select name="section_type[]">
+                <option value="uses">Uses</option>
+                <option value="dosage">Dosage</option>
+                <option value="side_effects">Side Effects</option>
+                <option value="warnings">Warnings</option>
+                <option value="precautions">Precautions</option>
+                <option value="interactions">Interactions</option>
+                <option value="storage">Storage</option>
+                <option value="quick_tips">Quick Tips</option>
+            </select>
+
+            <label>Title</label>
+            <input type="text" name="section_title[]" placeholder="Optional title">
+
+            <label>Content (One point per line)</label>
+            <textarea name="section_content[]" placeholder="Enter details"></textarea>
+        </div>
+
+    </div>
+
+    <button type="button" onclick="addMore()">+ Add More Section</button>
+
+    <button id="mybtn" type="submit">Update Product</button>
+    </div>
+</form>
+
+<script>
+function addMore() {
+    const contentWrapper = document.getElementById('content-wrapper');
+    
+    const newBlock = document.createElement('div');
+    newBlock.className = 'content-block';
+    newBlock.style.marginTop = '20px';
+    newBlock.style.padding = '15px';
+    newBlock.style.border = '1px solid #ddd';
+    newBlock.style.borderRadius = '6px';
+    newBlock.style.backgroundColor = '#f9f9f9';
+    
+    newBlock.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h4 style="margin: 0; color: #2c3e50;">New Section</h4>
+            <button type="button" onclick="removeSection(this)" style="background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Remove</button>
+        </div>
+        
+        <label>Section Type</label>
+        <select name="section_type[]" style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px;">
+            <option value="uses">Uses</option>
+            <option value="dosage">Dosage</option>
+            <option value="side_effects">Side Effects</option>
+            <option value="warnings">Warnings</option>
+            <option value="precautions">Precautions</option>
+            <option value="interactions">Interactions</option>
+            <option value="storage">Storage</option>
+            <option value="quick_tips">Quick Tips</option>
+        </select>
+
+        <label>Title</label>
+        <input type="text" name="section_title[]" placeholder="Optional title" style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px;">
+
+        <label>Content (One point per line)</label>
+        <textarea name="section_content[]" placeholder="Enter details" style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; resize: none; height: 80px;"></textarea>
+    `;
+    
+    contentWrapper.appendChild(newBlock);
+}
+
+function removeSection(button) {
+    const block = button.closest('.content-block');
+    if (block) {
+        block.remove();
+    }
+}
+</script>
+
+{% endblock content %}

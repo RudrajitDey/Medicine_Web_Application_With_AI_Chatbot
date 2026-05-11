@@ -1,4 +1,5 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import JsonResponse
 from django.contrib import messages
 from django.db import models
 from .models import vendor, seller_Product, ProductContent, ProductPoint
@@ -6,15 +7,20 @@ from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
 from orders.models import OrderProduct, Order
 from accounts.models import Account
+from Home.models import Category, SubCategory, Product
 
+from Home.models import faq, AdBanner
+from Home.models import Category, SubCategory
+
+from django.db.models import Count, Sum, Avg
+from datetime import datetime, timedelta
+from accounts.models import Account
+from orders.models import Order, OrderProduct
 
 # Create your views here.
 
 def admin_dashboard(request):
-    from django.db.models import Count, Sum, Avg
-    from datetime import datetime, timedelta
-    from accounts.models import Account
-    from orders.models import Order, OrderProduct
+
     
     # Get total counts
     total_users = Account.objects.count()
@@ -791,3 +797,362 @@ def earnings(request):
     }
     
     return render(request, 'vendor_dashboard/seller_pages/earnings.html', context)
+
+def store_all_products(request):
+    store_products = Product.objects.all()
+    return render(request, 'admin/store_all_products.html', {'store_products':store_products})
+
+@login_required(login_url='login')
+def add_store_product(request):
+    if not request.user.is_staff and not request.user.is_admin:
+        messages.error(request, 'You do not have permission to access this page.')
+        return redirect('admin_dashboard')
+    
+    if request.method == 'POST':
+        try:
+            # Get basic product information
+            product_name = request.POST.get('product_name')
+            description = request.POST.get('description')
+            brand = request.POST.get('brand')
+            subcategory_id = request.POST.get('subcategory')
+            price = request.POST.get('price')
+            discount_price = request.POST.get('discount_price')
+            stock = request.POST.get('stock')
+            min_stock_alert = request.POST.get('min_stock_alert')
+            expiry_date = request.POST.get('expiry_date')
+            prescription_required = request.POST.get('prescription_required') == 'True'
+            is_available = request.POST.get('is_available') == 'True'
+            is_featured = request.POST.get('is_featured') == 'True'
+            image = request.FILES.get('image')
+            
+            # Validate required fields
+            if not product_name or not subcategory_id or not price or not stock:
+                messages.error(request, 'Please fill in all required fields.')
+                return render(request, 'admin/add_store_product.html', {
+                    'subcategories': SubCategory.objects.all(),
+                })
+            
+            # Get subcategory object
+            subcategory = get_object_or_404(SubCategory, id=subcategory_id)
+            
+            # Create slug
+            slug = slugify(product_name)
+            original_slug = slug
+            counter = 1
+            while Product.objects.filter(slug=slug).exists():
+                slug = f"{original_slug}-{counter}"
+                counter += 1
+            
+            # Create product
+            product = Product.objects.create(
+                product_name=product_name,
+                slug=slug,
+                subcategory=subcategory,
+                price=float(price) if price else 0.00,
+                stock=int(stock) if stock else 0,
+                product_image=image
+            )
+            
+                        
+            messages.success(request, f'Store product "{product_name}" has been added successfully!')
+            return redirect('admin_dashboard')
+            
+        except Exception as e:
+            messages.error(request, f'Error adding product: {str(e)}')
+            return render(request, 'admin/add_store_product.html', {
+                'subcategories': SubCategory.objects.all(),
+            })
+    
+    # GET request - show the form
+    return render(request, 'admin/add_store_product.html', {
+        'subcategories': SubCategory.objects.all(),
+    })
+
+def get_subcategories(request, category_id):
+    """AJAX endpoint to get subcategories for a category"""
+    if not request.user.is_staff and not request.user.is_admin:
+        return JsonResponse({'error': 'Permission denied'}, status=403)
+    
+    try:
+        category = get_object_or_404(Category, id=category_id)
+        subcategories = SubCategory.objects.filter(category=category)
+        
+        subcategory_list = []
+        for sub in subcategories:
+            subcategory_list.append({
+                'id': sub.id,
+                'name': sub.name
+            })
+        
+        return JsonResponse({'subcategories': subcategory_list})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+    
+@login_required(login_url='login')
+def edit_store_product(request, id):
+    product = get_object_or_404(Product, id=id)
+
+    if request.method == "POST":
+        product.product_name = request.POST.get('product_name')
+        product.description = request.POST.get('description')
+        product.brand = request.POST.get('brand')
+        product.subcategory = get_object_or_404(SubCategory, id=request.POST.get('subcategory'))
+        product.price = float(request.POST.get('price')) if request.POST.get('price') else 0.00
+        product.discount_price = float(request.POST.get('discount_price')) if request.POST.get('discount_price') else None
+        product.stock = int(request.POST.get('stock')) if request.POST.get('stock') else 0
+        product.expiry_date = request.POST.get('expiry_date') if request.POST.get('expiry_date') else None
+        product.is_available = True if request.POST.get('is_available') == "True" else False
+
+        # Image update (optional)
+        if request.FILES.get('image'):
+            product.product_image = request.FILES.get('image')
+
+        product.save()
+        messages.success(request, "Store product updated successfully ✅")
+        return redirect('store_all_products')
+
+    return render(request, 'admin/edit_store_product.html', {
+        'product': product,
+        'subcategories': SubCategory.objects.all()
+    })
+
+@login_required(login_url='login')
+def delete_product(request, id):
+    product = get_object_or_404(Product, id=id)
+    
+    product.delete()
+    messages.success(request, "Store product deleted successfully ❌")
+    return redirect('store_all_products')
+
+
+
+@login_required(login_url='login')
+def manage_banner_faq(request):
+
+    if not request.user.is_staff:
+        messages.error(request, 'Permission denied')
+        return redirect('home')
+
+    if request.method == 'POST':
+
+        # ADD FAQ
+        if 'add_faq' in request.POST:
+
+            question = request.POST.get('faq_question')
+            answer = request.POST.get('faq_answer')
+
+            if question and answer:
+                faq.objects.create(
+                    faq_question=question,
+                    faq_answer=answer
+                )
+
+                messages.success(request, 'FAQ added successfully!')
+                return redirect('manage_banner_faq')
+
+        # ADD BANNER
+        elif 'add_banner' in request.POST:
+
+            name = request.POST.get('banner_name')
+            image = request.FILES.get('banner_image')
+
+            if name and image:
+                AdBanner.objects.create(
+                    name=name,
+                    image=image
+                )
+
+                messages.success(request, 'Banner added successfully!')
+                return redirect('manage_banner_faq')
+
+    faqs = faq.objects.all().order_by('-id')
+    banners = AdBanner.objects.all().order_by('-id')
+
+    context = {
+        'faqs': faqs,
+        'banners': banners,
+    }
+
+    return render(request, 'admin/admin_dashboard/manage_banner_faq.html', context)
+
+
+@login_required(login_url='login')
+def delete_faq(request, id):
+
+    faq_item = get_object_or_404(faq, id=id)
+    faq_item.delete()
+
+    messages.success(request, 'FAQ deleted successfully!')
+    return redirect('manage_banner_faq')
+
+
+@login_required(login_url='login')
+def delete_banner(request, id):
+
+    banner = get_object_or_404(AdBanner, id=id)
+    banner.delete()
+
+    messages.success(request, 'Banner deleted successfully!')
+    return redirect('manage_banner_faq')
+
+
+
+
+@login_required(login_url='login')
+def manage_category_subcategory(request):
+
+    if not request.user.is_staff:
+        messages.error(request, 'Permission denied')
+        return redirect('home')
+
+    if request.method == 'POST':
+
+        # ADD CATEGORY
+        if 'add_category' in request.POST:
+
+            category_name = request.POST.get('category_name')
+            category_image = request.FILES.get('category_image')
+
+            if category_name and category_image:
+
+                Category.objects.create(
+                    category_name=category_name,
+                    category_image=category_image
+                )
+
+                messages.success(request, 'Category added successfully!')
+                return redirect('manage_category_subcategory')
+
+
+        # ADD SUBCATEGORY
+        elif 'add_subcategory' in request.POST:
+
+            subcategory_name = request.POST.get('subcategory_name')
+            category_id = request.POST.get('category')
+            subcategory_image = request.FILES.get('subcategory_image')
+
+            if subcategory_name and category_id and subcategory_image:
+
+                category = get_object_or_404(Category, id=category_id)
+
+                SubCategory.objects.create(
+                    category=category,
+                    name=subcategory_name,
+                    image=subcategory_image
+                )
+
+                messages.success(request, 'Subcategory added successfully!')
+                return redirect('manage_category_subcategory')
+
+
+    categories = Category.objects.all().order_by('-id')
+    subcategories = SubCategory.objects.all().order_by('-id')
+
+    context = {
+        'categories': categories,
+        'subcategories': subcategories,
+    }
+
+    return render(
+        request,
+        'admin/admin_dashboard/manage_category_subcategory.html',
+        context
+    )
+
+
+@login_required(login_url='login')
+def edit_category(request, id):
+
+    if not request.user.is_staff:
+        messages.error(request, 'Permission denied')
+        return redirect('home')
+
+    category = get_object_or_404(Category, id=id)
+
+    if request.method == 'POST':
+
+        category_name = request.POST.get('category_name')
+        category_image = request.FILES.get('category_image')
+
+        category.category_name = category_name
+
+        if category_image:
+            category.category_image = category_image
+
+        category.save()
+
+        messages.success(request, 'Category updated successfully!')
+        return redirect('manage_category_subcategory')
+
+    context = {
+        'category': category
+    }
+
+    return render(
+        request,
+        'admin/admin_dashboard/edit_category.html',
+        context
+    )
+
+
+
+@login_required(login_url='login')
+def edit_subcategory(request, id):
+
+    if not request.user.is_staff:
+        messages.error(request, 'Permission denied')
+        return redirect('home')
+
+    subcategory = get_object_or_404(SubCategory, id=id)
+
+    if request.method == 'POST':
+
+        subcategory_name = request.POST.get('subcategory_name')
+        category_id = request.POST.get('category')
+        subcategory_image = request.FILES.get('subcategory_image')
+
+        category = get_object_or_404(Category, id=category_id)
+
+        subcategory.name = subcategory_name
+        subcategory.category = category
+
+        if subcategory_image:
+            subcategory.image = subcategory_image
+
+        subcategory.save()
+
+        messages.success(request, 'Subcategory updated successfully!')
+        return redirect('manage_category_subcategory')
+
+    context = {
+        'subcategory': subcategory,
+        'categories': Category.objects.all()
+    }
+
+    return render(
+        request,
+        'admin/admin_dashboard/edit_subcategory.html',
+        context
+    )
+
+
+@login_required(login_url='login')
+def delete_category(request, id):
+
+    category = get_object_or_404(Category, id=id)
+    category.delete()
+
+    messages.success(request, 'Category deleted successfully!')
+    return redirect('manage_category_subcategory')
+
+
+@login_required(login_url='login')
+def delete_subcategory(request, id):
+
+    subcategory = get_object_or_404(SubCategory, id=id)
+    subcategory.delete()
+
+    messages.success(request, 'Subcategory deleted successfully!')
+    return redirect('manage_category_subcategory')
+
+

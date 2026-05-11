@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medicine Web Store With Ai Assistent</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'home.css' %}?v=3.0">
+    <link rel="stylesheet" href="{% static 'home.css' %}?v=5.0">
     <link rel="stylesheet" href="{% static 'admin/admin_dashboard.css' %}?v=3.0">
     <link rel="stylesheet" href="{% static 'admin/seller/seller_list.css' %}?v=2.0">
-    <link rel="stylesheet" href="{% static 'search/search_results.css' %}?v=2.0">
+    <link rel="stylesheet" href="{% static 'search/search_results.css' %}?v=3.0">
     <link rel="stylesheet" href="{% static 'admin/seller/seller_product_list.css' %}?v=2.0">
 
    <script src="https://www.paypal.com/sdk/js?client-id=Ac0Od556aUEX1pzwe6NeS4bjMBlJlQ4AJfOpyTXXFM4_k4wCFJqTEbEX3WRmPLg9xmHW2Fdcdr8c58BJ&currency=USD"></script>
@@ -109,6 +109,120 @@
 
 </div>
 </nav>
+
+<!-- ===== MESSAGES ===== -->
+{% if messages %}
+<div class="messages-container">
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+            <button type="button" class="close-btn" onclick="this.parentElement.remove()">×</button>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<style>
+.messages-container {
+    position: fixed;
+    top: 120px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 400px;
+}
+
+.alert {
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border-left: 4px solid;
+    position: relative;
+    animation: slideIn 0.3s ease-out;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-left-color: #28a745;
+    color: #155724;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    border-left-color: #dc3545;
+    color: #721c24;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    border-left-color: #17a2b8;
+    color: #0c5460;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border-left-color: #ffc107;
+    color: #856404;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: inherit;
+    opacity: 0.7;
+}
+
+.close-btn:hover {
+    opacity: 1;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .messages-container {
+        position: relative;
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 482px) {
+
+  .messages-container {
+    position: fixed;
+    top: 90px;
+    right: 100px;
+    left: auto; 
+    z-index: 9999;
+    max-width: 260px;
+  }
+
+  .alert {
+    padding: 6px 10px;   /* reduced height */
+    font-size: 13px;
+    line-height: 1.2;
+    margin: 0 0 6px 0;;
+    border-radius: 6px;
+  }
+
+}
+
+</style>
 
 <!-- ===== SIDEBAR ===== -->
 <div class="sidebar" id="sidebar">

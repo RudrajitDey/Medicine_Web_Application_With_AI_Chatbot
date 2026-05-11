@@ -1,107 +1,383 @@
+{% extends "base.html" %}
+
+{% block title %}Subcategory Products{% endblock title %}
+
+{% block content %}
+
 <style>
-    .page-title {
+
+.store-subcategory-page{
+    margin: 100px 0;
+}
+
+/* HEADER */
+
+.store-subcategory-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.store-subcategory-title{
     font-size: 28px;
     margin: 20px 0;
     font-weight: 600;
+    color: #111;
 }
 
-/* GRID */
-.product-grid {
-  margin: 35px 100px 0px 100px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-evenly;
-  gap: 15px;
+
+/* PRODUCT GRID */
+
+.store-subcategory-grid{
+    margin: 35px 100px 0 100px;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    align-items: center;
+    justify-content: space-evenly;
+
+    gap: 18px;
 }
 
-/* CARD */
-.card {
-  height: auto;
-  width:250px;
-  overflow: hidden;
-  background-color:white;
-  border-radius: 1rem;
-  margin-bottom: 20px;
-  border: 1px solid rgb(230, 228, 228);
+
+/* PRODUCT CARD */
+
+.store-subcategory-card{
+    width: 250px;
+    overflow: hidden;
+
+    background: white;
+
+    border-radius: 16px;
+
+    margin-bottom: 20px;
+
+    border: 1px solid rgb(230, 228, 228);
+
+    transition: 0.3s;
+
+    position: relative;
 }
 
-.card:hover {
+.store-subcategory-card:hover{
     transform: translateY(-8px);
+
     box-shadow: 0 15px 30px rgba(0,0,0,0.1);
 }
 
+
+/* SAVE BADGE */
+
+.store-subcategory-save-badge{
+    position: absolute;
+
+    top: 10px;
+    left: 10px;
+
+    background: crimson;
+
+    color: white;
+
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    z-index: 5;
+}
+
+
 /* IMAGE */
-.card-img {
+
+.store-subcategory-card-image{
     background: #f8f8f8;
+
     padding: 20px;
+
     text-align: center;
 }
 
-.card-img img {
+.store-subcategory-card-image img{
     height: 160px;
+
     object-fit: cover;
+
     transition: 0.3s;
 }
 
-.card:hover img {
+.store-subcategory-card:hover img{
     transform: scale(1.08);
 }
 
+
 /* BODY */
-.card-body {
+
+.subcategory-product-name-brand{
+    display: flex;
+    justify-content: space-between;
+}
+
+.store-subcategory-card-body{
     padding: 15px;
+
     text-align: center;
 }
 
-.card-body h4 {
+.store-subcategory-card-body h4{
     font-size: 16px;
-    margin-bottom: 10px;
+
+    margin-bottom: 8px;
+
+    color: #111;
 }
 
-/* PRICE */
-.price {
-    font-size: 18px;
-    font-weight: bold;
-    color: #2e7d32;
+
+/* BRAND */
+
+.store-subcategory-brand{
+    color: #777;
+
+    font-size: 14px;
+
     margin-bottom: 12px;
 }
 
+
+/* PRICE */
+
+.store-subcategory-price-section{
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.store-subcategory-discount-price{
+    font-size: 20px;
+
+    font-weight: bold;
+
+    color: #2e7d32;
+}
+
+.store-subcategory-original-price{
+    font-size: 14px;
+
+    color: #888;
+
+    text-decoration: line-through;
+
+    margin-top: 4px;
+}
+
+
 /* BUTTON */
-.btn {
-    background: #2e7d32;
-    color: #fff;
-    border: none;
+
+.store-subcategory-btn{
+    background: #fbf0f3;
+
+    color: #fd4a83;
+    font-weight: 700;
+
+    border: 1.5px solid  #ff6294;
+
     padding: 10px 15px;
-    border-radius: 25px;
+
+    border-radius: 10px;
+
     cursor: pointer;
+
     transition: 0.3s;
+
     width: 100%;
 }
 
-.btn:hover {
-    background: #1b5e20;
+.store-subcategory-btn:hover{
+    background:  #fce2e9;
 }
+
+
+
+/* TABLET */
+
+@media (max-width: 992px){
+
+    .store-subcategory-grid{
+        margin: 35px 40px 0 40px;
+    }
+
+}
+
+
+
+/* MOBILE */
+
+@media (max-width: 600px){
+
+    .store-subcategory-page{
+        margin: 90px 0 60px 0;
+    }
+
+    .store-subcategory-title{
+        font-size: 22px;
+    }
+
+    .store-subcategory-grid{
+
+        margin: 25px 15px 0 15px;
+
+        justify-content: center;
+
+        gap: 15px;
+    }
+
+    .store-subcategory-card{
+        width: 47%;
+    }
+
+    .store-subcategory-card-image{
+        padding: 12px;
+    }
+
+    .store-subcategory-card-image img{
+        height: 110px;
+    }
+
+    .store-subcategory-card-body{
+        padding: 12px;
+    }
+
+    .store-subcategory-card-body h4{
+        font-size: 14px;
+    }
+
+    .store-subcategory-brand{
+        font-size: 12px;
+    }
+
+    .store-subcategory-discount-price{
+        font-size: 16px;
+    }
+
+    .store-subcategory-original-price{
+        font-size: 12px;
+    }
+
+    .store-subcategory-btn{
+        padding: 8px 12px;
+
+        font-size: 13px;
+    }
+
+    .store-subcategory-save-badge{
+        font-size: 10px;
+
+        padding: 5px 8px;
+    }
+
+}
+
 </style>
 
-<h2 class="page-title">{{ subcategory.name }}</h2>
 
-<div class="product-grid">
-    {% for product in products %}
-    
-    <div class="card" data-url="{% url 'store_product_detail' product.slug %}" style="cursor:pointer;" onclick="window.location.href=this.dataset.url;">
-        <div class="card-img">
-            <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}">
-        </div>
 
-        <div class="card-body">
-            <h4>{{ product.product_name }}</h4>
+<div class="store-subcategory-page">
 
-            <div class="price">₹299</div>
+    <div class="store-subcategory-header">
 
-            <a href="{% url 'add_to_cart' product.id 'store' %}"><button class="btn">Add to Cart</button></a>
-        </div>
+        <h2 class="store-subcategory-title">
+            {{ subcategory.name }}
+        </h2>
+
     </div>
 
-    {% endfor %}
+
+    <div class="store-subcategory-grid">
+
+        {% for product in products %}
+
+        <div class="store-subcategory-card"
+             data-url="{% url 'store_product_detail' product.slug %}"
+             style="cursor:pointer;"
+             onclick="window.location.href=this.dataset.url;">
+
+            <!-- SAVE BADGE -->
+            {% if product.discount_price %}
+
+            <div class="store-subcategory-save-badge">
+
+                Save ₹{{ product.total_save|floatformat:0 }}
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- IMAGE -->
+            <div class="store-subcategory-card-image">
+
+                <img src="{{ product.product_image.url }}"
+                     alt="{{ product.product_name }}">
+
+            </div>
+
+
+            <!-- BODY -->
+            <div class="store-subcategory-card-body">
+                <div class="subcategory-product-name-brand">
+                <h4>{{ product.product_name }}</h4>
+
+                <!-- BRAND -->
+                <div class="store-subcategory-brand">
+                    {{ product.brand }}
+                </div>
+                </div>
+
+
+                <!-- PRICE -->
+                <div class="store-subcategory-price-section">
+
+                    {% if product.discount_price %}
+
+                        <div class="store-subcategory-discount-price">
+                            ₹{{ product.discount_price }}
+                        </div>
+
+                        <div class="store-subcategory-original-price">
+                            ₹{{ product.price }}
+                        </div>
+
+                    {% else %}
+
+                        <div class="store-subcategory-discount-price">
+                            ₹{{ product.price }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- BUTTON -->
+                <a href="{% url 'add_to_cart' product.id 'store' %}">
+
+                    <button class="store-subcategory-btn">
+                        Add to Cart
+                    </button>
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
 </div>
+
+{% endblock content %}

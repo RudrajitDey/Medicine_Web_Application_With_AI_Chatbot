@@ -1,0 +1,420 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="manage-container">
+    <div class="category-subcategory-header">
+    <h1 class="page-title">
+        Category & Subcategory Management
+    </h1>
+    </div>
+
+    <div class="grid-layout">
+
+        <!-- ADD CATEGORY -->
+        <div class="card-box">
+
+            <h2>Add Category</h2>
+
+            <form method="POST" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                <input type="hidden" name="add_category">
+
+                <label>Category Name</label>
+
+                <input type="text"
+                       name="category_name"
+                       placeholder="Enter category name"
+                       required>
+
+                <label>Category Image</label>
+
+                <input type="file"
+                       name="category_image"
+                       accept="image/*"
+                       required>
+
+                <button type="submit" class="submit-btn">
+                    Add Category
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ADD SUBCATEGORY -->
+        <div class="card-box">
+
+            <h2>Add Subcategory</h2>
+
+            <form method="POST" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                <input type="hidden" name="add_subcategory">
+
+                <label>Select Category</label>
+
+                <select name="category" required>
+
+                    <option value="">
+                        Select Category
+                    </option>
+
+                    {% for category in categories %}
+
+                    <option value="{{ category.id }}">
+                        {{ category.category_name }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+                <label>Subcategory Name</label>
+
+                <input type="text"
+                       name="subcategory_name"
+                       placeholder="Enter subcategory name"
+                       required>
+
+                <label>Subcategory Image</label>
+
+                <input type="file"
+                       name="subcategory_image"
+                       accept="image/*"
+                       required>
+
+                <button type="submit" class="submit-btn">
+                    Add Subcategory
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- CATEGORY LIST -->
+    <div class="list-card">
+
+        <h2>All Categories</h2>
+
+        <div class="category-grid">
+
+            {% for category in categories %}
+
+            <div class="category-item">
+
+                <img src="{{ category.category_image.url }}"
+                     alt="{{ category.category_name }}">
+
+                <h3>{{ category.category_name }}</h3>
+
+                <div class="action-buttons">
+
+                    <a href="{% url 'edit_category' category.id %}"
+                    class="edit-btn">
+                        Edit
+                    </a>
+
+                    <a href="{% url 'delete_category' category.id %}"
+                    class="delete-btn">
+                        Delete
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <p>No categories found.</p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+
+    <!-- SUBCATEGORY LIST -->
+    <div class="list-card">
+
+        <h2>All Subcategories</h2>
+
+        <div class="subcategory-grid">
+
+            {% for sub in subcategories %}
+
+            <div class="subcategory-card">
+
+                <img src="{{ sub.image.url }}"
+                     alt="{{ sub.name }}">
+
+                <h3>{{ sub.name }}</h3>
+
+                <p>{{ sub.category.category_name }}</p>
+
+                <small>{{ sub.slug }}</small>
+
+                <div class="action-buttons">
+
+                    <a href="{% url 'edit_subcategory' sub.id %}"
+                    class="edit-btn">
+                        Edit
+                    </a>
+
+                    <a href="{% url 'delete_subcategory' sub.id %}"
+                    class="delete-btn">
+                        Delete
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <p>No subcategories found.</p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<style>
+
+.manage-container{
+    width: 95%;
+    max-width: 1300px;
+    margin: 40px auto;
+    margin-top: 130px;
+}
+
+.category-subcategory-header{
+    display: flex;
+    justify-content: center;
+}
+
+.page-title{
+    font-size: 34px;
+    margin-bottom: 30px;
+    font-weight: 700;
+    color: #111;
+}
+
+.grid-layout{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.card-box,
+.list-card{
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    height: 400px;
+}
+
+.card-box h2,
+.list-card h2{
+    margin-bottom: 20px;
+}
+
+.card-box label{
+    display: block;
+    margin-top: 14px;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.card-box input,
+.card-box select{
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+}
+
+.submit-btn{
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    border: none;
+    background: #111827;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.submit-btn:hover{
+    background: black;
+}
+
+
+
+/* CATEGORY GRID */
+
+.category-grid{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 20px;
+}
+
+.category-item{
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+}
+
+.category-item img{
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.category-item h3{
+    margin-top: 12px;
+}
+
+
+
+/* SUBCATEGORY GRID */
+
+.subcategory-grid{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 20px;
+}
+
+.subcategory-card{
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+}
+
+.subcategory-card img{
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.subcategory-card h3{
+    margin-top: 12px;
+}
+
+.subcategory-card p{
+    margin: 8px 0;
+    color: #666;
+}
+
+.subcategory-card small{
+    display: block;
+    margin-bottom: 12px;
+    color: gray;
+}
+
+
+
+/* DELETE BUTTON */
+
+.action-buttons{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.edit-btn{
+    background: #2563eb;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 7px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.delete-btn{
+    background: crimson;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 7px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+
+
+/* TABLET */
+
+@media (max-width: 992px){
+
+    .grid-layout{
+        grid-template-columns: 1fr;
+    }
+
+    .category-grid,
+    .subcategory-grid{
+        grid-template-columns: repeat(2,1fr);
+    }
+
+}
+
+
+
+/* MOBILE */
+
+@media (max-width: 600px){
+
+    .manage-container{
+        width: 94%;
+        margin-top: 20px;
+    }
+
+    .page-title{
+        font-size: 24px;
+    }
+
+    .card-box,
+    .list-card{
+        padding: 18px;
+    }
+
+    .category-grid,
+    .subcategory-grid{
+        grid-template-columns: 1fr;
+    }
+
+    .category-item img,
+    .subcategory-card img{
+        height: 220px;
+    }
+
+}
+
+</style>
+
+{% endblock %}

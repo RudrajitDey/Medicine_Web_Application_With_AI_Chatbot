@@ -40,10 +40,15 @@ class SubCategory(models.Model):
 class Product(models.Model):
     subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, related_name='products')
     product_name = models.CharField(max_length=100)
+    brand = models.CharField(max_length=100, blank=True, null=True)
     product_image = models.ImageField(upload_to="products/")
     slug = models.SlugField(blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
     stock = models.IntegerField(blank=True, null=True)
+    expiry_date = models.DateField(blank=True, null=True)
+    discount_price = models.FloatField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    is_available = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:

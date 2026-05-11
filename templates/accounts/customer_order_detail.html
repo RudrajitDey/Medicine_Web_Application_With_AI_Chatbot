@@ -1,0 +1,328 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Order Details{% endblock title %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'accounts/dashboard.css' %}?v=3.0">
+
+<div class="dashboard-page">
+<div class="dashboard-wrapper">
+
+    <!-- SIDEBAR -->
+    <div class="dashboard-sidebar">
+
+        <div class="profile-image">
+            {% if profile.profile_picture %}
+                <img src="{{ profile.profile_picture.url }}" alt="">
+            {% else %}
+                <img src="{% static 'default/default-user.png' %}" alt="">
+            {% endif %}
+
+            <h3>{{ request.user.first_name }} {{ request.user.last_name }}</h3>
+            <p>{{ request.user.email }}</p>
+        </div>
+
+        <div class="sidebar-menu">
+            <a href="{% url 'dashboard' %}">
+                <i class="fa fa-home"></i> Dashboard
+            </a>
+            <a href="{% url 'my_orders' %}">
+                <i class="fa fa-shopping-bag"></i> My Orders
+            </a>
+            <a href="{% url 'edit_profile' %}">
+                <i class="fa fa-user"></i> Edit Profile
+            </a>
+            <a href="{% url 'change_password' %}">
+                <i class="fa fa-lock"></i> Change Password
+            </a>
+        </div>
+
+        <div class="logout-btn">
+            <a href="{% url 'logout' %}">
+                <i class="fa fa-sign-out"></i> Logout
+            </a>
+        </div>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="dashboard-content">
+
+        <!-- ORDER DETAILS -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h2>Order Details</h2>
+                <p>Order #{{ order.id }}</p>
+            </div>
+
+            <div class="order-info-section">
+                <div class="info-row">
+                    <div class="info-group">
+                        <div class="info-label">Order Date</div>
+                        <div class="info-value">{{ order.created_at|date:"F d, Y" }} at {{ order.created_at|time:"g:i A" }}</div>
+                    </div>
+                    
+                    <div class="info-group">
+                        <div class="info-label">Order Status</div>
+                        <div class="info-value">
+                            <span class="status-badge status-{{ order.status|lower|default:'pending' }}">
+                                {{ order.status|default:"Pending"|title }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-group">
+                        <div class="info-label">Payment Status</div>
+                        <div class="info-value">
+                            {% if order.order.payment %}
+                                {% if order.order.payment.status|lower == "completed" or order.order.payment.status|lower == "success" %}
+                                    <span class="status-badge status-completed">Paid ✓</span>
+                                {% else %}
+                                    <span class="status-badge status-pending">{{ order.order.payment.status|title }}</span>
+                                {% endif %}
+                            {% else %}
+                                <span class="status-badge status-pending">Payment Pending</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="info-group">
+                        <div class="info-label">Total Amount</div>
+                        <div class="info-value">Rs {{ order.order_total|default:"0.00" }}</div>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-group">
+                        <div class="info-label">Shipping Address</div>
+                        <div class="info-value">
+                            <div class="address-line">{{ order.order.first_name }} {{ order.order.last_name }}</div>
+                    <div class="address-line">{{ order.order.address_line_1 }}</div>
+                    {% if order.order.address_line_2 %}
+                    <div class="address-line">{{ order.order.address_line_2 }}</div>
+                    {% endif %}
+                    <div class="address-line">{{ order.order.city }}, {{ order.order.state }} {{ order.order.pin_code }}</div>
+                    <div class="address-line">{{ order.order.country }}</div>
+                    <div class="address-line">📞 {{ order.order.phone }}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-group">
+                        <div class="info-label">Contact</div>
+                        <div class="info-value">
+                            {{ order.shipping_address.phone|default:order.user.phone_number }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ORDERED PRODUCTS -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h2>Ordered Products</h2>
+                <p>{{ order_products.count }} item{{ order_products.count|pluralize }}</p>
+            </div>
+
+            <div class="products-table">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order_products %}
+                        <tr>
+                            <td>
+                                <div class="product-info">
+                                    {% if item.seller_product %}
+                                        {% if item.seller_product.image %}
+                                            <img src="{{ item.seller_product.image.url }}" alt="{{ item.seller_product.name }}" class="product-thumb">
+                                        {% endif %}
+                                        <div class="product-details">
+                                            <strong>{{ item.seller_product.name }}</strong>
+                                            {% if item.seller_product.description %}
+                                                <p>{{ item.seller_product.description|truncatewords:10 }}</p>
+                                            {% endif %}
+                                        </div>
+                                    {% else %}
+                                        <strong>{{ item.product_name|default:"Product" }}</strong>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td>{{ item.quantity }}</td>
+                            <td>Rs {{ item.product_price|default:"0.00" }}</td>
+                            <td>Rs {{ item.total_price|default:"0.00" }}</td>
+                            <td>
+                                <span class="status-badge status-{{ item.status|lower|default:'pending' }}">
+                                    {{ item.status|default:"Pending"|title }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="order-actions">
+            {% if order.status == 'Pending' or order.status == 'New' %}
+                <a href="#" class="action-btn cancel-btn" onclick="return confirm('Are you sure you want to cancel this order?')">
+                    <i class="fa fa-times"></i> Cancel Order
+                </a>
+            {% endif %}
+            
+            {% if order.status == 'Shipped' %}
+                <a href="#" class="action-btn track-btn">
+                    <i class="fa fa-truck"></i> Track Order
+                </a>
+            {% endif %}
+            
+            <a href="{% url 'my_orders' %}" class="action-btn back-btn">
+                <i class="fa fa-arrow-left"></i> Back to Orders
+            </a>
+        </div>
+
+    </div>
+</div>
+</div>
+
+<style>
+.order-info-section {
+    margin-bottom: 30px;
+}
+
+.info-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.info-group {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.info-label {
+    font-size: 12px;
+    color: #6c757d;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.info-value {
+    font-size: 14px;
+    color: #2c3e50;
+}
+
+.products-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.product-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.product-thumb {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+}
+
+.product-details {
+    flex: 1;
+}
+
+.product-details strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.product-details p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 12px;
+}
+
+.order-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.cancel-btn {
+    background: #dc3545;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background: #c82333;
+}
+
+.track-btn {
+    background: #17a2b8;
+    color: white;
+}
+
+.track-btn:hover {
+    background: #138496;
+}
+
+.back-btn {
+    background: #6c757d;
+    color: white;
+}
+
+.back-btn:hover {
+    background: #5a6268;
+}
+
+@media (max-width: 768px) {
+    .info-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .order-actions {
+        flex-direction: column;
+    }
+    
+    .product-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+</style>
+
+{% endblock content %}

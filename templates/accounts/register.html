@@ -225,16 +225,6 @@
 
             <h2>Create Account</h2>
 
-            {% if messages %}
-                <div class="messages">
-                    {% for message in messages %}
-                        <div class="message {{ message.tags }}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-
             <form action="{% url 'register' %}" method="POST">
                 {% csrf_token %}
                 {% if form.non_field_errors %}
