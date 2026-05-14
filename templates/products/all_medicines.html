@@ -4,117 +4,370 @@
 
 {% block content %}
 <style>
-    body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #f5f7fa;
+ .store-subcategory-page{
+    margin: 150px 0;
 }
 
-.container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 20px;
+/* HEADER */
+
+.store-subcategory-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Grid Layout */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 20px;
-  padding:20px;
+.store-subcategory-title{
+    font-size: 28px;
+    margin: 20px 0;
+    font-weight: 600;
+    color: #111;
 }
 
-/* Card */
-.medicine-card {
-  background: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  transition: 0.3s;
+
+/* PRODUCT GRID */
+
+.store-subcategory-grid{
+    margin: 35px 100px 0 100px;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    align-items: center;
+    justify-content: space-evenly;
+
+    gap: 18px;
 }
 
-.medicine-card:hover {
-  transform: translateY(-5px);
+
+/* PRODUCT CARD */
+
+.store-subcategory-card{
+    width: 250px;
+    overflow: hidden;
+
+    background: white;
+
+    border-radius: 16px;
+
+    margin-bottom: 20px;
+
+    border: 1px solid rgb(230, 228, 228);
+
+    transition: 0.3s;
+
+    position: relative;
 }
 
-/* Image */
-.medicine-card img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
+.store-subcategory-card:hover{
+    transform: translateY(-8px);
+
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
 }
 
-/* Body */
-.card-body {
-  padding: 15px;
+
+/* SAVE BADGE */
+
+.store-subcategory-save-badge{
+    position: absolute;
+
+    top: 10px;
+    left: 10px;
+
+    background: crimson;
+
+    color: white;
+
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    z-index: 5;
 }
 
-.medicine-name {
-  font-size: 18px;
-  margin: 0;
+
+/* IMAGE */
+
+.store-subcategory-card-image{
+    background: #f8f8f8;
+
+    padding: 20px;
+
+    text-align: center;
 }
 
-.medicine-brand {
-  font-size: 14px;
-  color: #777;
-  margin: 5px 0;
+.store-subcategory-card-image img{
+    height: 160px;
+
+    object-fit: cover;
+
+    transition: 0.3s;
 }
 
-.medicine-price {
-  font-size: 16px;
-  font-weight: bold;
-  color: #28a745;
+.store-subcategory-card:hover img{
+    transform: scale(1.08);
 }
 
-/* Buttons */
-.card-actions {
-  margin-top: 10px;
-  display: flex;
-  justify-content: space-between;
+
+/* BODY */
+
+.subcategory-product-name-brand{
+    display: flex;
+    justify-content: space-between;
 }
 
-.btn {
-  border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
+.store-subcategory-card-body{
+    padding: 15px;
+
+    text-align: center;
 }
 
-.view-btn {
-  background: #007bff;
-  color: white;
+.store-subcategory-card-body h4{
+    font-size: 16px;
+
+    margin-bottom: 8px;
+
+    color: #111;
 }
 
-.cart-btn {
-  background: #28a745;
-  color: white;
+
+/* BRAND */
+
+.store-subcategory-brand{
+    color: #777;
+
+    font-size: 14px;
+
+    margin-bottom: 12px;
 }
 
-.btn:hover {
-  opacity: 0.9;
+
+/* PRICE */
+
+.store-subcategory-price-section{
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.store-subcategory-discount-price{
+    font-size: 20px;
+
+    font-weight: bold;
+
+    color: #2e7d32;
+}
+
+.store-subcategory-original-price{
+    font-size: 14px;
+
+    color: #888;
+
+    text-decoration: line-through;
+
+    margin-top: 4px;
+}
+
+
+/* BUTTON */
+
+.store-subcategory-btn{
+    background: #fbf0f3;
+
+    color: #fd4a83;
+    font-weight: 700;
+
+    border: 1.5px solid  #ff6294;
+
+    padding: 10px 15px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    width: 100%;
+}
+
+.store-subcategory-btn:hover{
+    background:  #fce2e9;
+}
+
+
+
+/* TABLET */
+
+@media (max-width: 992px){
+
+    .store-subcategory-grid{
+        margin: 35px 40px 0 40px;
+    }
+
+}
+
+
+
+/* MOBILE */
+
+@media (max-width: 600px){
+
+    .store-subcategory-page{
+        margin: 10px 0 60px 0;
+    }
+
+    .store-subcategory-title{
+        font-size: 22px;
+    }
+
+    .store-subcategory-grid{
+
+        margin: 25px 15px 0 15px;
+
+        justify-content: center;
+
+        gap: 15px;
+    }
+
+    .store-subcategory-card{
+        width: 47%;
+    }
+
+    .store-subcategory-card-image{
+        padding: 12px;
+    }
+
+    .store-subcategory-card-image img{
+        height: 110px;
+    }
+
+    .store-subcategory-card-body{
+        padding: 12px;
+    }
+
+    .store-subcategory-card-body h4{
+        font-size: 14px;
+    }
+
+    .store-subcategory-brand{
+        font-size: 12px;
+    }
+
+    .store-subcategory-discount-price{
+        font-size: 16px;
+    }
+
+    .store-subcategory-original-price{
+        font-size: 12px;
+    }
+
+    .store-subcategory-btn{
+        padding: 8px 12px;
+
+        font-size: 13px;
+    }
+
+    .store-subcategory-save-badge{
+        font-size: 10px;
+
+        padding: 5px 8px;
+    }
+
 }
 </style>
 
 
-<div class="card-grid">
-  {% for p in seller_products %}
-  <div class="medicine-card" onclick="window.location.href='{% url 'product_detail' p.slug %}'" style="cursor:pointer;">
+<div class="store-subcategory-page">
 
-    <img src="{{ p.image.url }}" alt="Medicine">
 
-    <div class="card-body">
-      <h3 class="medicine-name">{{ p.name }}</h3>
-      <p class="medicine-brand">{{ p.brand }}</p>
-      <p class="medicine-price">₹{{ p.price }}</p>
+    <div class="store-subcategory-grid">
 
-      <div class="card-actions">
-        <a href="{% url 'product_detail' p.slug %}" class="btn view-btn">View</a>
-        <a href="{% url 'add_to_cart' p.id 'seller' %}" class="btn cart-btn">Add to Cart</a>
-      </div>
+        {% for product in seller_products %}
+
+        <div class="store-subcategory-card"
+             data-url="{% url 'product_detail' product.slug %}"
+             style="cursor:pointer;"
+             onclick="window.location.href=this.dataset.url;">
+
+            <!-- SAVE BADGE -->
+            {% if product.discount_price %}
+
+            <div class="store-subcategory-save-badge">
+
+                Save ₹{{ product.total_save|floatformat:0 }}
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- IMAGE -->
+            <div class="store-subcategory-card-image">
+
+                <img src="{{ product.image.url }}"
+                     alt="{{ product.name }}">
+
+            </div>
+
+
+            <!-- BODY -->
+            <div class="store-subcategory-card-body">
+                <div class="subcategory-product-name-brand">
+                <h4>{{ product.name }}</h4>
+
+                <!-- BRAND -->
+                <div class="store-subcategory-brand">
+                    {{ product.brand }}
+                </div>
+                </div>
+
+
+                <!-- PRICE -->
+                <div class="store-subcategory-price-section">
+
+                    {% if product.discount_price %}
+
+                        <div class="store-subcategory-discount-price">
+                            ₹{{ product.discount_price }}
+                        </div>
+
+                        <div class="store-subcategory-original-price">
+                            ₹{{ product.price }}
+                        </div>
+
+                    {% else %}
+
+                        <div class="store-subcategory-discount-price">
+                            ₹{{ product.price }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- BUTTON -->
+                <a href="{% url 'add_to_cart' product.id 'store' %}">
+
+                    <button class="store-subcategory-btn">
+                        Add to Cart
+                    </button>
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
     </div>
 
-  </div>
-  {% endfor %}
 </div>
+
+
 
 {% endblock content %}

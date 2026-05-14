@@ -7,11 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medicine Web Store With Ai Assistent</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'home.css' %}?v=5.0">
+    <link rel="stylesheet" href="{% static 'home.css' %}?v=7.0">
     <link rel="stylesheet" href="{% static 'admin/admin_dashboard.css' %}?v=3.0">
     <link rel="stylesheet" href="{% static 'admin/seller/seller_list.css' %}?v=2.0">
-    <link rel="stylesheet" href="{% static 'search/search_results.css' %}?v=3.0">
+    <link rel="stylesheet" href="{% static 'search/search_results.css' %}?v=4.0">
     <link rel="stylesheet" href="{% static 'admin/seller/seller_product_list.css' %}?v=2.0">
+
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
    <script src="https://www.paypal.com/sdk/js?client-id=Ac0Od556aUEX1pzwe6NeS4bjMBlJlQ4AJfOpyTXXFM4_k4wCFJqTEbEX3WRmPLg9xmHW2Fdcdr8c58BJ&currency=USD"></script>
     
@@ -39,12 +41,6 @@
           placeholder="Search medicines, brands, categories..."
           autocomplete="off">
 
-      <select>
-        <option>All Categories</option>
-        {% for cat in categories %}
-        <option>{{cat.category_name}}</option>
-        {% endfor %}
-      </select>
 
       <button type="submit">
         <i class="fa fa-search"></i>
@@ -109,6 +105,24 @@
 
 </div>
 </nav>
+
+ <!-- SEARCH BAR -->
+  <form action="{% url 'search' %}" method="GET">
+  <div class="navbar-center-mobile">
+    <div class="nav-search-box">
+      <input  type="text" 
+          name="q" 
+          value="{{ request.GET.q }}" 
+          placeholder="Search medicines, brands, categories..."
+          autocomplete="off">
+
+
+      <button type="submit">
+        <i class="fa fa-search"></i>
+      </button>
+     
+    </div>
+  </div> </form>
 
 <!-- ===== MESSAGES ===== -->
 {% if messages %}
@@ -353,5 +367,18 @@ overlay.addEventListener("click", () => {
 
     </div>
   </div>
+
+  <div class="footer-bottom">
+    
+    <p>© 2026 PlatinumRX. All Rights Reserved.</p>
+
+    <div class="social-links">
+        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+    </div>
+
+</div>
 </footer>
 

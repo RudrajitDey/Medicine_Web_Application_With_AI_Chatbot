@@ -5,25 +5,50 @@
 
 {% block title %}Medi Clinic{% endblock title %}
 
-<link rel="stylesheet" href="{% static 'search/search_results.css' %}?v=2.0">
+<link rel="stylesheet" href="{% static 'search/search_results.css' %}?v=3.0">
 
 
 
 {% block content %}
-<div class="search-result-page">
-<p class="result-count">
-  {{ total_results }} products found
-</p>
+
+
+<div class="store-subcategory-page">
+
+    <div class="result-count-secction">
+        <p class="result-count">
+            {{ total_results }} products found
+        </p>
+    </div>
 
 {% if results %}
-<div class="product-grid">
+    <div class="store-subcategory-grid">
 
-    {% for product in results %}
-    <div class="product-card">
+        {% for product in results %}
 
-        <!-- IMAGE -->
-        <div class="product-img">
-            <img src="
+        <div class="store-subcategory-card"
+            {% if product.name %}
+                data-url="{% url 'product_detail' product.slug %}"
+            {% else %}
+                data-url="{% url 'store_product_detail' product.slug %}"
+            {% endif %}
+             style="cursor:pointer;"
+            onclick="window.location.href=this.dataset.url;">
+            <!-- SAVE BADGE -->
+            {% if product.discount_price %}
+
+            <div class="store-subcategory-save-badge">
+
+                Save ₹{{ product.total_save|floatformat:0 }}
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- IMAGE -->
+            <div class="store-subcategory-card-image">
+
+                <img src="
                 {% if product.product_image %}
                     {{ product.product_image.url }}
                 {% elif product.image %}
@@ -31,47 +56,72 @@
                 {% else %}
                     /static/images/default.png
                 {% endif %}
-            " alt="">
+                " alt="Product_Image">"
+                    
+
+            </div>
+
+
+            <!-- BODY -->
+            <div class="store-subcategory-card-body">
+                <div class="subcategory-product-name-brand">
+                    {% if product.name %}
+                        {{ product.name }}
+                    {% else %}
+                        {{ product.product_name }}
+                    {% endif %}
+
+                <!-- BRAND -->
+                <div class="store-subcategory-brand">
+                    {{ product.brand }}
+                </div>
+                </div>
+
+
+                <!-- PRICE -->
+                <div class="store-subcategory-price-section">
+
+                    {% if product.discount_price %}
+
+                        <div class="store-subcategory-discount-price">
+                            ₹{{ product.discount_price }}
+                        </div>
+
+                        <div class="store-subcategory-original-price">
+                            ₹{{ product.price }}
+                        </div>
+
+                    {% else %}
+
+                        <div class="store-subcategory-discount-price">
+                            ₹{{ product.price }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- BUTTON -->
+                <a href="{% url 'add_to_cart' product.id 'store' %}">
+
+                    <button class="store-subcategory-btn">
+                        Add to Cart
+                    </button>
+
+                </a>
+
+            </div>
+
         </div>
 
-        <!-- DETAILS -->
-        <div class="product-info">
-
-            <h4 class="product-name">
-                {% if product.name %}
-                    {{ product.name }}
-                {% else %}
-                    {{ product.product_name }}
-                {% endif %}
-            </h4>
-
-            <p class="product-price">
-                ₹
-                {% if product.price %}
-                    {{ product.price }}
-                {% else %}
-                    {{ product.selling_price }}
-                {% endif %}
-            </p>
-
-            <!-- BUTTON -->
-            <a href="
-                {% if product.name %}
-                    {% url 'store_product_detail' product.slug %}
-                {% else %}
-                    {% url 'product_detail' product.slug %}
-                {% endif %}
-            " class="view-btn">
-                View Details
-            </a>
-
-        </div>
+        {% endfor %}
 
     </div>
-    {% endfor %}
 
 </div>
-</div>
+
+
 
 {% else %}
 

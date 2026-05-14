@@ -180,13 +180,55 @@ input[type="file"] {
             </div>
 
             <div>
-                <label>Minimum Stock Alert</label>
+                <label>Medicine Quantity</label>
                 <input type="number"
-                       name="min_stock_alert"
-                       value="{{ product.min_stock_alert }}">
+                       name="quantity"
+                       value="{{ product.quantity }}">
             </div>
 
-        </div>
+            </div>
+
+            <div>
+
+                <label>
+                    Unit Type
+                </label>
+
+                <select name="unit_type">
+
+                    <option value="tablet"
+                        {% if product.unit_type == 'tablet' %}
+                            selected
+                        {% endif %}>
+                        Tablet
+                    </option>
+
+                    <option value="capsule"
+                        {% if product.unit_type == 'capsule' %}
+                            selected
+                        {% endif %}>
+                        Capsule
+                    </option>
+
+                    <option value="ml"
+                        {% if product.unit_type == 'ml' %}
+                            selected
+                        {% endif %}>
+                        ML
+                    </option>
+
+                    <option value="gm"
+                        {% if product.unit_type == 'gm' %}
+                            selected
+                        {% endif %}>
+                        Gram
+                    </option>
+
+                </select>
+
+            </div>
+
+
 
         <!-- Medicine Info -->
         <div class="form-row">

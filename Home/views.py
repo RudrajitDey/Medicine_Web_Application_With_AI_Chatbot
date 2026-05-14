@@ -230,18 +230,68 @@ def vendor_dashboard(request):
     )
 def all_medicines(request):
     seller_products = seller_Product.objects.filter(status='approved')
+
+    for product in seller_products:
+        if product.discount_price:
+            product.total_save = product.price - product.discount_price
+        else:
+            product.total_save = 0
     return render(request, 'products/all_medicines.html',{'seller_products':seller_products})
 
 def product_detail(request, slug):
     product = get_object_or_404(seller_Product, slug=slug)
-    related_products = seller_Product.objects.exclude(id=product.id)[:10]
+
+    if product.discount_price:
+        product.total_save = product.price - product.discount_price
+    else:
+        product.total_save = 0
+    
+    if product.quantity and product.discount_price:
+
+        try:
+
+            product.per_unit = (
+            float(product.discount_price) / int(product.quantity)
+    )
+
+        except:
+
+            product.per_unit = 0
+
+    else:
+
+        product.per_unit = 0
+
+    related_products = seller_Product.objects.exclude(id=product.id)[:8]
     return render(request, 'products/product_detail.html', {
         'product': product,
         'related_products': related_products
-     })
+    })
 
 def store_product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug)
+
+
+    if product.discount_price:
+        product.total_save = product.price - product.discount_price
+    else:
+        product.total_save = 0
+    
+    if product.quantity and product.discount_price:
+
+        try:
+
+            product.per_unit = (
+            float(product.discount_price) / int(product.quantity)
+    )
+
+        except:
+
+            product.per_unit = 0
+
+    else:
+
+        product.per_unit = 0
 
     related_products = Product.objects.filter(
         subcategory=product.subcategory
@@ -271,6 +321,14 @@ def search(request):
         results = list(store_products) + list(seller_products)
 
         total_results = len(results) 
+
+        for product in results:
+            if product.discount_price:
+                product.total_save = product.price - product.discount_price
+            else:
+                product.total_save = 0
+
+        
 
     return render(request, 'products/search_results.html', {
         'query': query,

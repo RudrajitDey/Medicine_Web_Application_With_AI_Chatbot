@@ -477,6 +477,8 @@ def add_product(request):
         brand = request.POST.get('brand')
         price = request.POST.get('price')
         stock = request.POST.get('stock')
+        quantity = request.POST.get('quantity')
+        unit_type = request.POST.get('unit_type')
         expiry_date = request.POST.get('expiry_date')
         image = request.FILES.get('image')
         discount_price = request.POST.get('discount_price')
@@ -491,6 +493,8 @@ def add_product(request):
             brand=brand,
             price=price,
             stock=stock,
+            quantity=quantity,
+            unit_type=unit_type,
             expiry_date=expiry_date,
             image=image,
             discount_price=discount_price,
@@ -818,7 +822,8 @@ def add_store_product(request):
             price = request.POST.get('price')
             discount_price = request.POST.get('discount_price')
             stock = request.POST.get('stock')
-            min_stock_alert = request.POST.get('min_stock_alert')
+            quantity = request.POST.get('quantity')
+            unit_type = request.POST.get('unit_type')
             expiry_date = request.POST.get('expiry_date')
             prescription_required = request.POST.get('prescription_required') == 'True'
             is_available = request.POST.get('is_available') == 'True'
@@ -846,11 +851,18 @@ def add_store_product(request):
             # Create product
             product = Product.objects.create(
                 product_name=product_name,
+                description=description,
+                brand=brand,
+                discount_price=discount_price,
+                quantity=quantity,
+                unit_type=unit_type,
+                expiry_date=expiry_date,
+                is_available=is_available,
                 slug=slug,
                 subcategory=subcategory,
                 price=float(price) if price else 0.00,
                 stock=int(stock) if stock else 0,
-                product_image=image
+                product_image=image,
             )
             
                         
@@ -902,6 +914,10 @@ def edit_store_product(request, id):
         product.stock = int(request.POST.get('stock')) if request.POST.get('stock') else 0
         product.expiry_date = request.POST.get('expiry_date') if request.POST.get('expiry_date') else None
         product.is_available = True if request.POST.get('is_available') == "True" else False
+        quantity = request.POST.get('quantity')
+        product.quantity = (int(quantity)if quantity else None)
+        product.unit_type = request.POST.get('unit_type')
+
 
         # Image update (optional)
         if request.FILES.get('image'):
