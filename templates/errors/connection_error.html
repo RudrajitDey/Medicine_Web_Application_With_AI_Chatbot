@@ -1,0 +1,16 @@
+{% extends "errors/error_base.html" %}
+
+{% block error_title %}Connection Problem{% endblock error_title %}
+{% block error_icon_class %}icon-connection{% endblock error_icon_class %}
+{% block error_icon %}fa-wifi{% endblock error_icon %}
+{% block error_heading %}Something went wrong{% endblock error_heading %}
+{% block error_message %}Please check your internet connection and try again. Email and payment services need an active connection.{% endblock error_message %}
+
+{% block error_extra %}
+<p class="error-hint">If you are online, wait a moment and retry — the service may be temporarily unavailable.</p>
+{% endblock error_extra %}
+
+{% block error_actions %}
+<button type="button" class="error-btn primary" onclick="window.location.reload()">Try Again</button>
+<a href="{% url 'home' %}" class="error-btn secondary">Go to Home</a>
+{% endblock error_actions %}

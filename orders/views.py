@@ -8,6 +8,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
+from django.urls import reverse
+
+from Medicine_Store.network_utils import is_network_error
 
 import json
 
@@ -267,7 +270,19 @@ def payments(request):
             })
             
         except Exception as e:
-            messages.error(request, f'Payment processing failed: {str(e)}')
+            if is_network_error(e):
+                is_json_request = (
+                    request.content_type == 'application/json'
+                    or request.headers.get('Content-Type', '').startswith('application/json')
+                )
+                if is_json_request:
+                    return JsonResponse({
+                        'success': False,
+                        'network_error': True,
+                        'redirect_url': reverse('connection_error'),
+                    }, status=503)
+                return redirect('connection_error')
+            messages.error(request, 'Payment processing failed. Please try again.')
             return redirect('payments')
     
     # GET request - show payment page with order details

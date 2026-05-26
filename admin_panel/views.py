@@ -18,7 +18,7 @@ from accounts.models import Account
 from orders.models import Order, OrderProduct
 
 # Create your views here.
-
+@login_required(login_url='login')
 def admin_dashboard(request):
 
     

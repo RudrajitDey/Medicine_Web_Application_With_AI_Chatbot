@@ -14,6 +14,8 @@ urlpatterns = [
     path('subcategory/<slug:slug>/', views.subcategory_products, name='subcategory_products'),
     path('product/<slug:slug>/', views.store_product_detail, name='store_product_detail'),
     path('search/', views.search, name='search'),
+
+    path('how_to_buy/', views.how_to_buy, name='how_to_buy'),
 ]
 
 if settings.DEBUG:

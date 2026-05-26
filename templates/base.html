@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medicine Web Store With Ai Assistent</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'home.css' %}?v=7.0">
+    <link rel="stylesheet" href="{% static 'home.css' %}?v=6.0">
     <link rel="stylesheet" href="{% static 'admin/admin_dashboard.css' %}?v=3.0">
     <link rel="stylesheet" href="{% static 'admin/seller/seller_list.css' %}?v=2.0">
     <link rel="stylesheet" href="{% static 'search/search_results.css' %}?v=4.0">
@@ -27,7 +27,7 @@
    <!-- LEFT -->
     <div class="nav-left">
       <i class="fa fa-bars toggle-btn"></i>
-      <img src="{% static 'images/logor.png' %}" alt="logo">
+      <img src="{% static 'images/vitamind2.png' %}" alt="logo">
     </div>
 
 
@@ -70,6 +70,10 @@
     {% if user.vendor %}
     <div class="login">
       <a href="{% url 'vendor_dashboard' %}"><button>Seller Dashboard</button></a>
+    </div>
+    {% elif user.is_superadmin %}
+    <div class="login">
+      <a href="{% url 'admin_dashboard' %}"><button>Admin Dashboard</button></a>
     </div>
     {% else %}
     <div class="login">
@@ -288,16 +292,16 @@ overlay.addEventListener("click", () => {
 {% block content %}
 {% endblock content %}
 
-<footer class="footer-Section">
+<footer class="footer-Section" style="position: relative; z-index: 6;">
   <div class="outer-footer">
     <div class="footer-logo-section">
       <div class="outer-logo">
         <div class="full-logo">
           <img src="{% static 'pherma.png' %}" alt="">
-          <p>PlatinumRX</p>
+          <p>VitaMind</p>
         </div>
       </div>
-      <p>RUDRAJIT PRIVATE LIMITED</p>
+      <p>vITAMIND PRIVATE LIMITED</p>
     </div>
     <div class="footer-allitem">
       <div class="footer-item-box">
@@ -307,7 +311,7 @@ overlay.addEventListener("click", () => {
        <div class="all-item">
           <ul>
             <li><a href="{% url 'become_seller' %}">Start Selling</a></li>
-            <li><a href="#">How to buy Medicines</a></li>
+            <li><a href="{% url 'how_to_buy' %}">How to buy Medicines</a></li>
             <li><a href="#">Terms & Conditions</a></li>
             <li><a href="#">Privacy Policy</a></li>
             <li><a href="#">Editorial Policy</a></li>

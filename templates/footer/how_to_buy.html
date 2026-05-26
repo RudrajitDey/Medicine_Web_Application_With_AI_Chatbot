@@ -1,0 +1,331 @@
+{% extends "base.html" %}
+{% block title %}How To Buy Medicines{% endblock title %}
+{% block content %}
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body{
+        background:#f4f7fb;
+        color:#222;
+        line-height:1.7;
+    }
+
+    .medbuy-hero-section{
+        background:linear-gradient(135deg,#0f172a,#1e3a8a);
+        color:white;
+        padding:70px 20px;
+        text-align:center;
+        margin-top: 110px;
+    }
+
+    .medbuy-hero-title{
+        font-size:48px;
+        margin-bottom:15px;
+    }
+
+    .medbuy-hero-text{
+        max-width:700px;
+        margin:auto;
+        font-size:18px;
+        opacity:0.9;
+    }
+
+    .medbuy-main-container{
+        width:90%;
+        max-width:1200px;
+        margin:auto;
+        padding:60px 0;
+    }
+
+    .medbuy-section-heading{
+        text-align:center;
+        margin-bottom:50px;
+    }
+
+    .medbuy-section-heading h2{
+        font-size:36px;
+        color:#0f172a;
+        margin-bottom:10px;
+    }
+
+    .medbuy-steps-wrapper{
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+        gap:25px;
+    }
+
+    .medbuy-step-box{
+        background:white;
+        padding:30px;
+        border-radius:16px;
+        box-shadow:0 5px 20px rgba(0,0,0,0.08);
+        transition:0.3s;
+    }
+
+    .medbuy-step-box:hover{
+        transform:translateY(-8px);
+    }
+
+    .medbuy-step-count{
+        width:60px;
+        height:60px;
+        background:#2563eb;
+        color:white;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border-radius:50%;
+        font-size:24px;
+        font-weight:bold;
+        margin-bottom:20px;
+    }
+
+    .medbuy-step-box h3{
+        margin-bottom:15px;
+        color:#0f172a;
+    }
+
+    .medbuy-step-box p{
+        color:#555;
+        font-size:15px;
+    }
+
+    .medbuy-feature-grid{
+        margin-top:70px;
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+        gap:25px;
+    }
+
+    .medbuy-feature-card{
+        background:#ffffff;
+        padding:25px;
+        border-radius:14px;
+        text-align:center;
+        box-shadow:0 5px 15px rgba(0,0,0,0.06);
+    }
+
+    .medbuy-feature-card h4{
+        margin:15px 0;
+        color:#1e3a8a;
+    }
+
+    .medbuy-cta-section{
+        margin-top:80px;
+        background:linear-gradient(135deg,#2563eb,#1d4ed8);
+        color:white;
+        text-align:center;
+        padding:60px 20px;
+        border-radius:20px;
+    }
+
+    .medbuy-cta-title{
+        font-size:40px;
+        margin-bottom:20px;
+    }
+
+    .medbuy-cta-text{
+        max-width:700px;
+        margin:auto;
+        margin-bottom:30px;
+        opacity:0.95;
+    }
+
+    .medbuy-cta-btn{
+        display:inline-block;
+        padding:14px 35px;
+        background:white;
+        color:#1d4ed8;
+        text-decoration:none;
+        border-radius:50px;
+        font-weight:bold;
+        transition:0.3s;
+    }
+
+    .medbuy-cta-btn:hover{
+        background:#e5e7eb;
+    }
+
+    .medbuy-footer{
+        margin-top:60px;
+        background:#0f172a;
+        color:white;
+        text-align:center;
+        padding:25px;
+    }
+
+    @media(max-width:768px){
+
+        .medbuy-hero-title{
+            font-size:34px;
+        }
+
+        .medbuy-section-heading h2{
+            font-size:28px;
+        }
+
+        .medbuy-cta-title{
+            font-size:30px;
+        }
+    }
+</style>
+
+<!-- HERO SECTION -->
+
+<section class="medbuy-hero-section">
+    <h1 class="medbuy-hero-title">How to Buy Medicines</h1>
+
+    <p class="medbuy-hero-text">
+        Buy medicines safely and easily through our AI-powered Medicine Web Application.
+        Follow these simple steps to order healthcare products online.
+    </p>
+</section>
+
+<!-- MAIN SECTION -->
+
+<div class="medbuy-main-container">
+
+    <div class="medbuy-section-heading">
+        <h2>Easy Buying Process</h2>
+        <p>Simple and secure medicine ordering system</p>
+    </div>
+
+    <div class="medbuy-steps-wrapper">
+
+        <div class="medbuy-step-box">
+            <div class="medbuy-step-count">1</div>
+
+            <h3>Create an Account</h3>
+
+            <p>
+                Register using your email and password to access medicine purchasing,
+                AI assistance, and order tracking features.
+            </p>
+        </div>
+
+        <div class="medbuy-step-box">
+            <div class="medbuy-step-count">2</div>
+
+            <h3>Search Medicines</h3>
+
+            <p>
+                Browse medicines category-wise or use the smart search option
+                to quickly find your required products.
+            </p>
+        </div>
+
+        <div class="medbuy-step-box">
+            <div class="medbuy-step-count">3</div>
+
+            <h3>Use AI Assistant</h3>
+
+            <p>
+                Ask medicine-related questions through our AI assistant using
+                text or image-based queries.
+            </p>
+        </div>
+
+        <div class="medbuy-step-box">
+            <div class="medbuy-step-count">4</div>
+
+            <h3>Add to Cart</h3>
+
+            <p>
+                Select medicines and add them to your shopping cart
+                for secure checkout and payment.
+            </p>
+        </div>
+
+        <div class="medbuy-step-box">
+            <div class="medbuy-step-count">5</div>
+
+            <h3>Online Payment</h3>
+
+            <p>
+                Complete your order using secure online payment methods
+                such as PayPal or card payment systems.
+            </p>
+        </div>
+
+        <div class="medbuy-step-box">
+            <div class="medbuy-step-count">6</div>
+
+            <h3>Order Delivery</h3>
+
+            <p>
+                Your medicines are processed by verified sellers and delivered
+                safely to your location.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- FEATURES -->
+
+    <div class="medbuy-section-heading" style="margin-top:80px;">
+        <h2>Why Choose Us?</h2>
+    </div>
+
+    <div class="medbuy-feature-grid">
+
+        <div class="medbuy-feature-card">
+            <h4>AI Healthcare Support</h4>
+
+            <p>
+                Get instant assistance for medicine-related queries anytime.
+            </p>
+        </div>
+
+        <div class="medbuy-feature-card">
+            <h4>Secure Payment</h4>
+
+            <p>
+                Safe and encrypted online transaction system for users.
+            </p>
+        </div>
+
+        <div class="medbuy-feature-card">
+            <h4>Verified Sellers</h4>
+
+            <p>
+                Only approved medicine stores can sell products on the platform.
+            </p>
+        </div>
+
+        <div class="medbuy-feature-card">
+            <h4>Fast Delivery</h4>
+
+            <p>
+                Quick and reliable medicine delivery service for customers.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- CTA SECTION -->
+
+    <div class="medbuy-cta-section">
+
+        <h2 class="medbuy-cta-title">
+            Start Ordering Medicines Today
+        </h2>
+
+        <p class="medbuy-cta-text">
+            Experience smart healthcare with our AI-powered medicine platform.
+            Buy medicines easily, securely, and efficiently.
+        </p>
+
+        <a href="#" class="medbuy-cta-btn">
+            Shop Now
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock content %}

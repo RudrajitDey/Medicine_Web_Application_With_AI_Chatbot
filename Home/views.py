@@ -335,3 +335,6 @@ def search(request):
         'results': results,
         'total_results':  total_results,
     })
+
+def how_to_buy(request):
+    return render(request, 'footer/how_to_buy.html')

@@ -1,225 +1,98 @@
+{% extends "base.html" %}
 {% load static %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Medical AI Assistant</title>
+{% block title %}Medical AI Assistant{% endblock title %}
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+{% block content %}
+<link rel="stylesheet" href="{% static 'chatbot/chat.css' %}?v=1.0">
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+<div class="chat-app" id="chatApp">
+    <aside class="chat-sidebar" id="chatSidebar">
+        <div class="chat-sidebar-header">
+            <button type="button" class="chat-new-btn" id="chatNewBtn">
+                <i class="fa fa-plus"></i> New chat
+            </button>
+        </div>
 
-        body {
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: white;
-            min-height: 100vh;
-        }
+        {% if is_authenticated %}
+        <div class="chat-history-label">Chat history</div>
+        <div class="chat-history" id="chatHistoryList">
+            {% for s in sessions %}
+            <div class="chat-history-item" data-id="{{ s.id }}">
+                <span class="title">{{ s.title }}</span>
+                <button type="button" class="chat-delete-btn" title="Delete chat" data-id="{{ s.id }}">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </div>
+            {% empty %}
+            <p style="padding:12px;color:#b4b4b4;font-size:13px;">No chats yet</p>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="chat-sidebar-guest">
+            <p><strong>Log in</strong> to save chats and view your history.</p>
+            <p><a href="{% url 'login' %}?next={% url 'chatbot' %}">Sign in</a> to continue.</p>
+        </div>
+        {% endif %}
+    </aside>
 
-        .container {
-            width: 90%;
-            max-width: 1000px;
-            margin: auto;
-            padding-top: 40px;
-        }
+    <div class="chat-overlay" id="chatOverlay"></div>
+    <button type="button" class="chat-mobile-toggle" id="chatMobileToggle" aria-label="Open chat history">
+        <i class="fa fa-bars"></i>
+    </button>
 
-        h1 {
-            text-align: center;
-            margin-bottom: 10px;
-        }
+    <main class="chat-main">
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-messages-inner" id="chatMessagesInner">
+                <div class="chat-welcome" id="chatWelcome">
+                    <h2>Medical AI Assistant</h2>
+                    <p>Ask health questions or upload a medical image for AI-powered insights.</p>
+                    <div class="chat-suggestions">
+                        <button type="button" class="chat-suggestion" data-prompt="What are common symptoms of fever?">Fever symptoms</button>
+                        <button type="button" class="chat-suggestion" data-prompt="How to manage seasonal allergies?">Seasonal allergies</button>
+                        <button type="button" class="chat-suggestion" data-prompt="When should I see a doctor for headaches?">Headache guidance</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        p.subtitle {
-            text-align: center;
-            color: #bbb;
-            margin-bottom: 30px;
-        }
-
-        /* Tabs */
-        .tabs {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .tabs button {
-            padding: 12px 25px;
-            border: none;
-            margin: 5px;
-            cursor: pointer;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border-radius: 8px;
-            transition: 0.3s;
-        }
-
-        .tabs button:hover {
-            background: #00d4ff;
-        }
-
-        /* Card */
-        .card {
-            background: rgba(255,255,255,0.08);
-            backdrop-filter: blur(12px);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-            margin-top: 20px;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            margin-top: 10px;
-            margin-bottom: 15px;
-        }
-
-        button.submit-btn {
-            background: #00d4ff;
-            border: none;
-            padding: 12px;
-            width: 100%;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        button.submit-btn:hover {
-            background: #00aacc;
-        }
-
-        .response-box {
-        width: 75%;
-        margin: 40px auto;
-        background: #212121;
-        padding: 30px;
-        border-radius: 14px;
-        line-height: 1.8;
-        font-size: 16px;
-        color: #e6e6e6;
-    }
-
-    /* Headings like ChatGPT */
-    .response-box h3 {
-        font-size: 22px;
-        margin-top: 25px;
-        margin-bottom: 10px;
-        color: #ffffff;
-        font-weight: 600;
-    }
-
-    .response-box h4 {
-        font-size: 18px;
-        margin-top: 15px;
-        color: #cccccc;
-    }
-
-    /* Paragraph spacing */
-    .response-box p {
-        margin: 12px 0;
-    }
-
-    /* Bullet points */
-    .response-box ul {
-        margin: 10px 0 10px 25px;
-    }
-
-    .response-box li {
-        margin-bottom: 8px;
-    }
-
-    /* Bold text */
-    .response-box strong {
-        color: #ffffff;
-    }
-
-/* Section spacing */
-.response-box hr {
-    border: none;
-    border-top: 1px solid #444;
-    margin: 20px 0;
-}
-
-        /* Loader */
-        .loader {
-            display: none;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-    </style>
-
-    <script>
-        function openTab(tab) {
-            document.getElementById("imageTab").style.display = "none";
-            document.getElementById("textTab").style.display = "none";
-
-            document.getElementById(tab).style.display = "block";
-        }
-
-        function showLoader() {
-            document.getElementById("loader").style.display = "block";
-        }
-    </script>
-</head>
-
-<body>
-
-<div class="container">
-
-    <h1>🧠 MEDICAL AI Assistant</h1>
-    <p class="subtitle">Analyze medical images & get health insights instantly</p>
-
-    <div class="tabs">
-        <button onclick="openTab('imageTab')">🖼 Image Analysis</button>
-        <button onclick="openTab('textTab')">💬 Text Query</button>
-    </div>
-
-    <!-- IMAGE TAB -->
-    <div id="imageTab" class="card">
-        <h2>Upload Medical Image</h2>
-
-        <form method="POST" enctype="multipart/form-data" onsubmit="showLoader()">
-            {% csrf_token %}
-            <input type="file" name="image" required>
-            <button class="submit-btn" type="submit">Analyze Image</button>
-        </form>
-    </div>
-
-    <!-- TEXT TAB -->
-    <div id="textTab" class="card" style="display:none;">
-        <h2>Ask Medical Question</h2>
-
-        <form method="POST" onsubmit="showLoader()">
-            {% csrf_token %}
-            <textarea name="query" placeholder="Describe symptoms, medicine, or condition..." required></textarea>
-            <button class="submit-btn" type="submit">Get Answer</button>
-        </form>
-    </div>
-
-    <!-- Loader -->
-    <div id="loader" class="loader">
-        ⏳ Processing... Please wait
-    </div>
-
-    <!-- RESPONSE -->
-    {% if response %}
-    <div class="response-box">
-        {{ response|safe }}
-    </div>
-    {% endif %}
-
+        <div class="chat-input-area">
+            <div class="chat-image-preview" id="chatImagePreview">
+                <img id="chatPreviewImg" src="" alt="Preview">
+                <button type="button" id="chatClearImage">Remove</button>
+            </div>
+            <div class="chat-input-wrap">
+                <textarea id="chatInput" rows="1" placeholder="Message Medical AI…" {% if not is_authenticated %}disabled{% endif %}></textarea>
+                <div class="chat-input-actions">
+                    <label class="chat-icon-btn" title="Upload medical image">
+                        <i class="fa fa-image"></i>
+                        <input type="file" id="chatImageInput" accept="image/*" hidden {% if not is_authenticated %}disabled{% endif %}>
+                    </label>
+                    <button type="button" class="chat-send-btn" id="chatSendBtn" title="Send" {% if not is_authenticated %}disabled{% endif %}>
+                        <i class="fa fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+            {% if not is_authenticated %}
+            <p style="text-align:center;margin-top:10px;font-size:13px;color:#b4b4b4;">
+                <a href="{% url 'login' %}?next={% url 'chatbot' %}" style="color:#10a37f;">Log in</a> to start chatting
+            </p>
+            {% endif %}
+        </div>
+    </main>
 </div>
 
 <script>
-    openTab('imageTab');
+window.CHAT_CONFIG = {
+    isAuthenticated: {{ is_authenticated|yesno:"true,false" }},
+    urls: {
+        send: "{% url 'chat_send_message' %}",
+        list: "{% url 'chat_sessions_list' %}",
+        detail: "{% url 'chat_session_detail' 0 %}",
+        delete: "{% url 'chat_session_delete' 0 %}",
+        login: "{% url 'login' %}?next={% url 'chatbot' %}"
+    }
+};
 </script>
-
-</body>
-</html>
+<script src="{% static 'chatbot/chat.js' %}?v=1.0"></script>
+{% endblock content %}

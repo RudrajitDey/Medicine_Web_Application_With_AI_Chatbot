@@ -1,0 +1,12 @@
+{% extends "errors/error_base.html" %}
+
+{% block error_title %}Page Not Found{% endblock error_title %}
+{% block error_icon_class %}icon-404{% endblock error_icon_class %}
+{% block error_icon %}fa-compass{% endblock error_icon %}
+{% block error_heading %}404 — Page Not Found{% endblock error_heading %}
+{% block error_message %}The page you are looking for does not exist or may have been moved.{% endblock error_message %}
+
+{% block error_actions %}
+<a href="{% url 'home' %}" class="error-btn primary">Go to Home</a>
+<a href="{% url 'all_medicines' %}" class="error-btn secondary">Browse Medicines</a>
+{% endblock error_actions %}

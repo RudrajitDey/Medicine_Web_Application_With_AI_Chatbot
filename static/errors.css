@@ -1,0 +1,132 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.error-body {
+    min-height: 100vh;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(160deg, #f0f7ff 0%, #f8f9fa 50%, #fff 100%);
+    color: #212529;
+}
+
+.error-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 20px;
+}
+
+.error-card {
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+    background: #fff;
+    border-radius: 16px;
+    padding: 48px 32px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e9ecef;
+}
+
+.error-icon {
+    width: 88px;
+    height: 88px;
+    margin: 0 auto 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+}
+
+.error-icon.icon-404 {
+    background: #e7f1ff;
+    color: #0d6efd;
+}
+
+.error-icon.icon-500 {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.error-icon.icon-connection {
+    background: #f8d7da;
+    color: #dc3545;
+}
+
+.error-card h1 {
+    font-size: 1.75rem;
+    color: #212529;
+    margin-bottom: 12px;
+}
+
+.error-message {
+    color: #6c757d;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.error-hint {
+    color: #868e96;
+    font-size: 0.9rem;
+    margin-top: 8px;
+    margin-bottom: 24px;
+}
+
+.error-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 28px;
+}
+
+.error-btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.error-btn.primary {
+    background: #28a745;
+    color: #fff;
+}
+
+.error-btn.primary:hover {
+    background: #218838;
+}
+
+.error-btn.secondary {
+    background: #f8f9fa;
+    color: #495057;
+    border: 1px solid #dee2e6;
+}
+
+.error-btn.secondary:hover {
+    background: #e9ecef;
+}
+
+@media (max-width: 576px) {
+    .error-card {
+        padding: 36px 20px;
+    }
+
+    .error-actions {
+        flex-direction: column;
+    }
+
+    .error-btn {
+        width: 100%;
+    }
+}

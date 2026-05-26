@@ -88,85 +88,10 @@
                         
                 
                         
-                        {% comment %} <label class="payment-option">
-                            <input type="radio" name="payment_method" value="cod">
-                            <div class="option-content">
-                                <span class="icon">💰</span>
-                                <div>
-                                    <strong>Cash on Delivery</strong>
-                                    <p>Pay when you receive</p>
-                                </div>
-                            </div>
-                        </label> {% endcomment %}
+                       
                     </div>
                 </div>
 
-                {% comment %} <!-- Card Payment Details -->
-                <div class="card-details" id="card-details">
-                    <h3>Card Information</h3>
-                    <div class="form-group">
-                        <label for="card_number">Card Number</label>
-                        <input type="text" id="card_number" name="card_number" 
-                               placeholder="1234 5678 9012 3456" maxlength="19" required>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="expiry">Expiry Date</label>
-                            <input type="text" id="expiry" name="expiry" 
-                                   placeholder="MM/YY" maxlength="5" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="cvv">CVV</label>
-                            <input type="text" id="cvv" name="cvv" 
-                                   placeholder="123" maxlength="3" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="card_name">Name on Card</label>
-                        <input type="text" id="card_name" name="card_name" 
-                               placeholder="John Doe" required>
-                    </div>
-                </div>
-
-                <!-- UPI Payment Details -->
-                <div class="upi-details" id="upi-details" style="display: none;">
-                    <h3>UPI Information</h3>
-                    <div class="form-group">
-                        <label for="upi_id">UPI ID</label>
-                        <input type="text" id="upi_id" name="upi_id" 
-                               placeholder="yourname@upi" required>
-                    </div>
-                    <p class="upi-note">You will receive a payment request on your UPI app</p>
-                </div>
-
-                <!-- Net Banking Details -->
-                <div class="netbanking-details" id="netbanking-details" style="display: none;">
-                    <h3>Select Bank</h3>
-                    <div class="form-group">
-                        <select id="bank_name" name="bank_name" required>
-                            <option value="">Select your bank</option>
-                            <option value="sbi">State Bank of India</option>
-                            <option value="hdfc">HDFC Bank</option>
-                            <option value="icici">ICICI Bank</option>
-                            <option value="pnb">Punjab National Bank</option>
-                            <option value="axis">Axis Bank</option>
-                            <option value="kotak">Kotak Mahindra Bank</option>
-                            <option value="other">Other Bank</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- COD Details -->
-                <div class="cod-details" id="cod-details" style="display: none;">
-                    <h3>Cash on Delivery</h3>
-                    <div class="cod-info">
-                        <p>✓ Pay when you receive your order</p>
-                        <p>✓ No additional charges</p>
-                        <p>✓ Cash or UPI accepted at delivery</p>
-                    </div>
-                </div> {% endcomment %}
 
                 <!-- Billing Address -->
                 <div class="billing-address">
@@ -579,21 +504,29 @@
                     status: details.status,
                 }),
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok && (response.status === 503 || response.status === 0)) {
+                    window.location.href = "{% url 'connection_error' %}";
+                    return null;
+                }
+                return response.json();
+            })
             .then(data => {
+                if (!data) return;
                 console.log('Payment response:', data);
+                if (data.network_error && data.redirect_url) {
+                    window.location.href = data.redirect_url;
+                    return;
+                }
                 if (data.success || data.redirect_url) {
-                    // Redirect to order confirmation page
                     window.location.href = data.redirect_url || '/orders/order_confirmation/';
                 } else {
-                    alert('Payment processed but redirect failed. Please check your orders.');
-                    window.location.href = '/orders/order_confirmation/';
+                    window.location.href = "{% url 'connection_error' %}";
                 }
             })
             .catch(error => {
                 console.error('Payment processing error:', error);
-                alert('Payment processed with errors. Please check your orders.');
-                window.location.href = '/orders/order_confirmation/';
+                window.location.href = "{% url 'connection_error' %}";
             });
 
            }
@@ -603,7 +536,7 @@
     // Error Handling (IMPORTANT)
     onError: function (err) {
         console.error('PayPal Error:', err);
-        alert('Payment failed. Check console.');
+        window.location.href = "{% url 'connection_error' %}";
     }
 
 }).render('#paypal-button-container');

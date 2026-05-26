@@ -19,6 +19,9 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
+from django.urls import reverse
+
+from Medicine_Store.network_utils import is_network_error
 
 import requests
 
@@ -53,7 +56,16 @@ def register(request):
             })
             to_email = email
             send_email = EmailMessage(mail_subject, message, to=[to_email])
-            send_email.send()
+            try:
+                send_email.send()
+            except Exception as e:
+                if is_network_error(e):
+                    messages.warning(
+                        request,
+                        'Account created, but verification email could not be sent. Check your internet and try logging in later.',
+                    )
+                    return redirect(reverse('connection_error'))
+                raise
 
             # messages.success(request, 'Thank you for regestering with us. we have send you a verification email to your email address. Please verify it.')
             return redirect('/accounts/login/?command=verification&email='+email)
@@ -67,25 +79,39 @@ def register(request):
     }
     return render(request, 'accounts/register.html', context)
 
+from django.contrib.auth import authenticate
+
 def login(request):
     if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
+        email = request.POST.get('email')
+        password = request.POST.get('password')
 
-        # Authenticate with email as username for custom user model
-        user = auth.authenticate(request, username=email, password=password)
-        
+        # Authenticate user
+        user = authenticate(request, username=email, password=password)
+
         if user is not None:
+
+            # Super Admin Login
+            if user.is_superadmin and user.is_staff:
+                auth.login(request, user)
+                messages.success(request, 'Super Admin login successful!')
+                return redirect('admin_dashboard')   # Django admin panel
+
+            # Normal User Login
             auth.login(request, user)
 
-            merge_cart(request, user) 
+            merge_cart(request, user)
 
             messages.success(request, 'Login successful!')
             return redirect('home')
+
         else:
-            messages.error(request, 'Login failed. Please Enter Correct Email & Password.')
+            messages.error(
+                request,
+                'Login failed. Please Enter Correct Email & Password.'
+            )
             return redirect('login')
-           
+
     return render(request, 'accounts/login.html')
 
 @login_required(login_url = 'login')
@@ -144,7 +170,12 @@ def forgotPassword(request):
             })
             to_email = email
             send_email = EmailMessage(mail_subject, message, to=[to_email])
-            send_email.send()
+            try:
+                send_email.send()
+            except Exception as e:
+                if is_network_error(e):
+                    return redirect(reverse('connection_error'))
+                raise
 
             messages.success(request, 'Password reset email has been sent to your email address')
             return redirect('login')

@@ -15,7 +15,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
+from . import error_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,5 +25,11 @@ urlpatterns = [
     path('admin_dashboard/', include('admin_panel.urls')),
     path('cart/', include('cart.urls')),
     path('accounts/', include('accounts.urls')),
-    path('orders/', include('orders.urls'))
+    path('orders/', include('orders.urls')),
+    path('errors/connection/', error_views.connection_error, name='connection_error'),
+    # Catch unmatched URLs (works even when DEBUG=True)
+    re_path(r'^.*$', error_views.page_not_found),
 ]
+
+handler404 = 'Medicine_Store.error_views.page_not_found'
+handler500 = 'Medicine_Store.error_views.server_error'

@@ -1337,7 +1337,7 @@ body {
 .footer-logo-section p{
     color: #cbd5e1;
     line-height: 1.8;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 /* ================= FOOTER LINKS ================= */
@@ -1402,7 +1402,7 @@ body {
     padding-top: 22px;
 
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     gap: 20px;
     flex-wrap: wrap;

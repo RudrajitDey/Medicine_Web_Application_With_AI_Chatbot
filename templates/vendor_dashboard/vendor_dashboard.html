@@ -485,7 +485,7 @@ body{
     }
 
     .mobile-menu-btn{
-        display:block;
+        display:none;
     }
 
     .sidebar-close{
@@ -507,6 +507,7 @@ body{
         margin-left:0;
         width:100%;
         padding:90px 15px 20px;
+        margin-top: 0px;
     }
 
     .dashboard-header{
@@ -562,7 +563,8 @@ body{
 @media(max-width:480px){
 
     .main-content{
-        padding:85px 10px 20px;
+        padding:0px 10px 20px;
+        margin-top: 0px;
     }
 
     .dashboard-header{
@@ -590,11 +592,11 @@ body{
     }
 }
 </style>
-
+<div class="full-page">
 <div class="dashboard-wrapper">
     <!-- Mobile Menu Button -->
     <button class="mobile-menu-btn" id="mobileMenuBtn">
-        ☰
+        ☰ sdfsd
     </button>
 
     <!-- Sidebar -->
@@ -605,7 +607,7 @@ body{
         
         <div class="sidebar-header">
             <div class="sidebar-logo">
-                💊 MediStore
+                💊 VitaMind
             </div>
             <div class="sidebar-subtitle">
                 Vendor Dashboard
@@ -619,7 +621,7 @@ body{
 
         <ul class="sidebar-menu">
             <li>
-                <a href="#" class="active">
+                <a href="{% url 'vendor_dashboard' %}" class="active">
                     <span class="icon">📊</span>
                     Dashboard
                 </a>
@@ -654,16 +656,11 @@ body{
                     Add Product
                 </a>
             </li>
+            
             <li>
-                <a href="#">
-                    <span class="icon">📈</span>
-                    Analytics
-                </a>
-            </li>
-            <li>
-                <a href="#">
+                <a href="{% url 'logout' %}">
                     <span class="icon">⚙️</span>
-                    Settings
+                    Logout
                 </a>
             </li>
             <li>
@@ -851,6 +848,7 @@ body{
             </div>
         </div>
     </main>
+</div>
 </div>
 
 <script>
