@@ -1,0 +1,317 @@
+<!-- templates/contact_us.html -->
+
+{% extends "base.html" %}
+{% block title %}Contact Us{% endblock title %}
+
+{% block content %}
+
+<style>
+
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:Arial, Helvetica, sans-serif;
+    }
+
+    body{
+        background:#f4f7fb;
+        color:#222;
+        line-height:1.7;
+    }
+
+    .contact-hero-section{
+        background:linear-gradient(135deg,#0f172a,#1e3a8a);
+        color:white;
+        padding:70px 20px;
+        text-align:center;
+        margin-top:110px;
+    }
+
+    .contact-hero-title{
+        font-size:48px;
+        margin-bottom:15px;
+    }
+
+    .contact-hero-text{
+        max-width:750px;
+        margin:auto;
+        font-size:18px;
+        opacity:0.92;
+    }
+
+    .contact-main-container{
+        width:90%;
+        max-width:1200px;
+        margin:auto;
+        padding:60px 0;
+    }
+
+    .contact-wrapper{
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+        gap:30px;
+    }
+
+    .contact-info-box,
+    .contact-form-box{
+        background:white;
+        padding:35px;
+        border-radius:18px;
+        box-shadow:0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .contact-info-box h2,
+    .contact-form-box h2{
+        color:#0f172a;
+        margin-bottom:25px;
+        font-size:32px;
+    }
+
+    .contact-info-item{
+        margin-bottom:25px;
+    }
+
+    .contact-info-item h4{
+        color:#2563eb;
+        margin-bottom:8px;
+        font-size:20px;
+    }
+
+    .contact-info-item p{
+        color:#555;
+        font-size:15px;
+    }
+
+    .contact-form-group{
+        margin-bottom:20px;
+    }
+
+    .contact-form-group label{
+        display:block;
+        margin-bottom:8px;
+        font-weight:bold;
+        color:#0f172a;
+    }
+
+    .contact-form-group input,
+    .contact-form-group textarea{
+        width:100%;
+        padding:14px;
+        border:1px solid #d1d5db;
+        border-radius:10px;
+        outline:none;
+        font-size:15px;
+    }
+
+    .contact-form-group textarea{
+        resize:none;
+        height:140px;
+    }
+
+    .contact-submit-btn{
+        width:100%;
+        padding:15px;
+        border:none;
+        background:#2563eb;
+        color:white;
+        border-radius:50px;
+        font-size:16px;
+        font-weight:bold;
+        cursor:pointer;
+        transition:0.3s;
+    }
+
+    .contact-submit-btn:hover{
+        background:#1d4ed8;
+    }
+
+    .contact-highlight-section{
+        margin-top:80px;
+        background:linear-gradient(135deg,#2563eb,#1d4ed8);
+        color:white;
+        text-align:center;
+        padding:60px 20px;
+        border-radius:20px;
+    }
+
+    .contact-highlight-section h2{
+        font-size:40px;
+        margin-bottom:20px;
+    }
+
+    .contact-highlight-section p{
+        max-width:800px;
+        margin:auto;
+        font-size:17px;
+        opacity:0.95;
+    }
+
+    .contact-footer{
+        margin-top:60px;
+        background:#0f172a;
+        color:white;
+        text-align:center;
+        padding:25px;
+        border-radius:12px 12px 0 0;
+    }
+
+    @media(max-width:768px){
+
+        .contact-hero-title{
+            font-size:34px;
+        }
+
+        .contact-info-box h2,
+        .contact-form-box h2{
+            font-size:28px;
+        }
+
+        .contact-highlight-section h2{
+            font-size:30px;
+        }
+    }
+
+</style>
+
+<!-- HERO SECTION -->
+
+<section class="contact-hero-section">
+
+    <h1 class="contact-hero-title">
+        Contact Us
+    </h1>
+
+    <p class="contact-hero-text">
+        Have questions about medicines, orders, or our AI healthcare assistant?
+        Our support team is always ready to help you.
+    </p>
+
+</section>
+
+<!-- MAIN SECTION -->
+
+<div class="contact-main-container">
+
+    <div class="contact-wrapper">
+
+        <!-- CONTACT INFO -->
+
+        <div class="contact-info-box">
+
+            <h2>Get In Touch</h2>
+
+            <div class="contact-info-item">
+
+                <h4>Email Address</h4>
+
+                <p>
+                    support@medicareai.com
+                </p>
+
+            </div>
+
+            <div class="contact-info-item">
+
+                <h4>Phone Number</h4>
+
+                <p>
+                    +91 9876543210
+                </p>
+
+            </div>
+
+            <div class="contact-info-item">
+
+                <h4>Office Address</h4>
+
+                <p>
+                    Guwahati, Assam, India
+                </p>
+
+            </div>
+
+            <div class="contact-info-item">
+
+                <h4>Working Hours</h4>
+
+                <p>
+                    Monday - Saturday : 9:00 AM - 8:00 PM
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- CONTACT FORM -->
+
+        <div class="contact-form-box">
+
+            <h2>Send Message</h2>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="contact-form-group">
+
+                    <label>Full Name</label>
+
+                    <input type="text" name="name" placeholder="Enter your name">
+
+                </div>
+
+                <div class="contact-form-group">
+
+                    <label>Email Address</label>
+
+                    <input type="email" name="email" placeholder="Enter your email">
+
+                </div>
+
+                <div class="contact-form-group">
+
+                    <label>Subject</label>
+
+                    <input type="text" name="subject" placeholder="Enter subject">
+
+                </div>
+
+                <div class="contact-form-group">
+
+                    <label>Message</label>
+
+                    <textarea name="message" placeholder="Write your message"></textarea>
+
+                </div>
+
+                <button type="submit" class="contact-submit-btn">
+                    Send Message
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- HIGHLIGHT SECTION -->
+
+    <div class="contact-highlight-section">
+
+        <h2>
+            24/7 AI Healthcare Support
+        </h2>
+
+        <p>
+            Our AI-powered medicine platform is designed to provide
+            smart healthcare assistance and a seamless medicine
+            purchasing experience for all users.
+        </p>
+
+    </div>
+
+</div>
+
+
+{% endblock content %}

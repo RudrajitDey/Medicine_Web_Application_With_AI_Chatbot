@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}All Medicines{% endblock title %}
+
+{% block content %}
+
+<style>
+
+.med-hero{
+    margin-top:110px;
+    padding:70px 20px;
+    background:linear-gradient(135deg,#0f172a,#1e3a8a);
+    color:white;
+    text-align:center;
+}
+
+.med-grid{
+    width:90%;
+    max-width:1200px;
+    margin:60px auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+.med-card{
+    background:white;
+    padding:30px;
+    border-radius:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+.med-card h3{
+    color:#2563eb;
+    margin-bottom:10px;
+}
+
+</style>
+
+<section class="med-hero">
+
+    <h1>All Medicines</h1>
+
+    <p>
+        Browse all available medicines on our platform.
+    </p>
+
+</section>
+
+<div class="med-grid">
+
+    <div class="med-card">
+        <h3>Paracetamol 500mg</h3>
+        <p>Pain relief and fever medicine.</p>
+    </div>
+
+    <div class="med-card">
+        <h3>Azithromycin</h3>
+        <p>Antibiotic medicine for infections.</p>
+    </div>
+
+    <div class="med-card">
+        <h3>Cetirizine</h3>
+        <p>Allergy relief tablet.</p>
+    </div>
+
+</div>
+
+{% endblock content %}

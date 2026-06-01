@@ -1,0 +1,192 @@
+<!-- templates/faq.html -->
+
+{% extends "base.html" %}
+{% block title %}FAQ{% endblock title %}
+
+{% block content %}
+
+<style>
+
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:Arial, Helvetica, sans-serif;
+    }
+
+    body{
+        background:#f4f7fb;
+    }
+
+    .faq-container{
+        width:90%;
+        max-width:1000px;
+        margin:140px auto 60px;
+    }
+
+    .faq-title{
+        text-align:center;
+        margin-bottom:50px;
+    }
+
+    .faq-title h1{
+        font-size:48px;
+        color:#0f172a;
+        margin-bottom:10px;
+    }
+
+    .faq-title p{
+        color:#555;
+        font-size:18px;
+    }
+
+    .faq-box{
+        background:white;
+        border-radius:15px;
+        margin-bottom:20px;
+        overflow:hidden;
+        box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    }
+
+    .faq-question{
+        padding:22px 25px;
+        background:#2563eb;
+        color:white;
+        cursor:pointer;
+        font-size:20px;
+        font-weight:bold;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+    }
+
+    .faq-answer{
+        padding:0 25px;
+        max-height:0;
+        overflow:hidden;
+        background:white;
+        color:#444;
+        transition:max-height 0.4s ease,padding 0.4s ease;
+        font-size:16px;
+        line-height:1.8;
+    }
+
+    .faq-box.active .faq-answer{
+        max-height:300px;
+        padding:20px 25px;
+    }
+
+    .faq-icon{
+        font-size:24px;
+    }
+
+    @media(max-width:768px){
+
+        .faq-title h1{
+            font-size:34px;
+        }
+
+        .faq-question{
+            font-size:17px;
+        }
+    }
+
+</style>
+
+<div class="faq-container">
+
+    <div class="faq-title">
+
+        <h1>Frequently Asked Questions</h1>
+
+        <p>
+            Find answers about our AI-powered medicine platform
+        </p>
+
+    </div>
+
+    <!-- FAQ 1 -->
+
+    <div class="faq-box">
+
+        <div class="faq-question">
+            How can I buy medicines online?
+            <span class="faq-icon">+</span>
+        </div>
+
+        <div class="faq-answer">
+            Create an account, search medicines, add products to cart,
+            and complete secure online payment to place your order.
+        </div>
+
+    </div>
+
+    <!-- FAQ 2 -->
+
+    <div class="faq-box">
+
+        <div class="faq-question">
+            Is prescription required?
+            <span class="faq-icon">+</span>
+        </div>
+
+        <div class="faq-answer">
+            Yes, prescription medicines require valid doctor prescriptions
+            before order approval.
+        </div>
+
+    </div>
+
+    <!-- FAQ 3 -->
+
+    <div class="faq-box">
+
+        <div class="faq-question">
+            What does AI assistant do?
+            <span class="faq-icon">+</span>
+        </div>
+
+        <div class="faq-answer">
+            The AI assistant helps users with healthcare guidance,
+            medicine search, and medicine-related questions.
+        </div>
+
+    </div>
+
+    <!-- FAQ 4 -->
+
+    <div class="faq-box">
+
+        <div class="faq-question">
+            Are payments secure?
+            <span class="faq-icon">+</span>
+        </div>
+
+        <div class="faq-answer">
+            Yes, all transactions are processed through secure encrypted
+            payment systems for maximum safety.
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    const faqBoxes = document.querySelectorAll(".faq-box");
+
+    faqBoxes.forEach(box => {
+
+        const question = box.querySelector(".faq-question");
+
+        question.addEventListener("click", () => {
+
+            box.classList.toggle("active");
+
+        });
+
+    });
+
+</script>
+
+{% endblock content %}

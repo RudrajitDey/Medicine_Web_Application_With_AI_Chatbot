@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}All Health Products{% endblock title %}
+
+{% block content %}
+
+<style>
+
+.health-hero{
+    margin-top:110px;
+    padding:70px 20px;
+    background:linear-gradient(135deg,#0f172a,#2563eb);
+    color:white;
+    text-align:center;
+}
+
+.health-grid{
+    width:90%;
+    max-width:1200px;
+    margin:60px auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+.health-card{
+    background:white;
+    padding:30px;
+    border-radius:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+.health-card h3{
+    color:#2563eb;
+    margin-bottom:10px;
+}
+
+</style>
+
+<section class="health-hero">
+
+    <h1>All Health Products</h1>
+
+    <p>
+        Explore wellness and healthcare products.
+    </p>
+
+</section>
+
+<div class="health-grid">
+
+    <div class="health-card">
+        <h3>Vitamin C Tablets</h3>
+        <p>Boost immunity and overall health.</p>
+    </div>
+
+    <div class="health-card">
+        <h3>Protein Powder</h3>
+        <p>Nutrition supplement for fitness.</p>
+    </div>
+
+    <div class="health-card">
+        <h3>Face Mask</h3>
+        <p>Personal healthcare protection product.</p>
+    </div>
+
+</div>
+
+{% endblock content %}

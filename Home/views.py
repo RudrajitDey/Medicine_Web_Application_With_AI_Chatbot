@@ -338,3 +338,33 @@ def search(request):
 
 def how_to_buy(request):
     return render(request, 'footer/how_to_buy.html')
+
+def terms_conditions(request):
+    return render(request, 'footer/terms_conditions.html')
+
+def privacy_policy(request):
+    return render(request, 'footer/privacy_policy.html')
+
+def contact_us(request):
+    return render(request, 'footer/contact_us.html')
+
+def faq_page(request):
+    return render(request, 'footer/faq.html')
+
+def all_blogs(request):
+    return render(request, 'footer/all_blogs.html')
+
+def all_salts(request):
+    return render(request, 'footer/all_salts.html')
+
+def all_diseases(request):
+    return render(request, 'footer/all_diseases.html')
+
+def all_brands(request):
+    return render(request, 'footer/all_brands.html')
+
+def all_medicines(request):
+    return render(request, 'footer/all_medicines.html')
+
+def all_health_products(request):
+    return render(request, 'footer/all_health_products.html')

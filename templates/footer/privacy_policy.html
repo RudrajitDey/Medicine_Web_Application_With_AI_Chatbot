@@ -1,0 +1,378 @@
+{% extends "base.html" %}
+{% block title %}Privacy Policy{% endblock title %}
+
+{% block content %}
+
+<style>
+
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:Arial, Helvetica, sans-serif;
+    }
+
+    body{
+        background:#f4f7fb;
+        color:#222;
+        line-height:1.7;
+    }
+
+    .privacy-hero-section{
+        background:linear-gradient(135deg,#0f172a,#1e3a8a);
+        color:white;
+        padding:70px 20px;
+        text-align:center;
+        margin-top:110px;
+    }
+
+    .privacy-hero-title{
+        font-size:48px;
+        margin-bottom:15px;
+    }
+
+    .privacy-hero-text{
+        max-width:750px;
+        margin:auto;
+        font-size:18px;
+        opacity:0.92;
+    }
+
+    .privacy-main-container{
+        width:90%;
+        max-width:1200px;
+        margin:auto;
+        padding:60px 0;
+    }
+
+    .privacy-section-heading{
+        text-align:center;
+        margin-bottom:50px;
+    }
+
+    .privacy-section-heading h2{
+        font-size:38px;
+        color:#0f172a;
+        margin-bottom:10px;
+    }
+
+    .privacy-grid{
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+        gap:25px;
+    }
+
+    .privacy-card{
+        background:white;
+        padding:30px;
+        border-radius:18px;
+        box-shadow:0 5px 20px rgba(0,0,0,0.08);
+        transition:0.3s;
+        border-top:5px solid #2563eb;
+    }
+
+    .privacy-card:hover{
+        transform:translateY(-8px);
+    }
+
+    .privacy-number{
+        width:60px;
+        height:60px;
+        background:#2563eb;
+        color:white;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border-radius:50%;
+        font-size:24px;
+        font-weight:bold;
+        margin-bottom:20px;
+    }
+
+    .privacy-card h3{
+        color:#0f172a;
+        margin-bottom:15px;
+        font-size:24px;
+    }
+
+    .privacy-card p{
+        color:#555;
+        font-size:15px;
+        margin-bottom:10px;
+    }
+
+    .privacy-card ul{
+        padding-left:20px;
+    }
+
+    .privacy-card ul li{
+        margin-bottom:10px;
+        color:#444;
+    }
+
+    .privacy-highlight-section{
+        margin-top:80px;
+        background:linear-gradient(135deg,#2563eb,#1d4ed8);
+        color:white;
+        padding:60px 30px;
+        border-radius:20px;
+        text-align:center;
+    }
+
+    .privacy-highlight-section h2{
+        font-size:40px;
+        margin-bottom:20px;
+    }
+
+    .privacy-highlight-section p{
+        max-width:800px;
+        margin:auto;
+        opacity:0.95;
+        font-size:17px;
+    }
+
+    .privacy-contact-btn{
+        display:inline-block;
+        margin-top:30px;
+        padding:14px 35px;
+        background:white;
+        color:#1d4ed8;
+        text-decoration:none;
+        border-radius:50px;
+        font-weight:bold;
+        transition:0.3s;
+    }
+
+    .privacy-contact-btn:hover{
+        background:#e5e7eb;
+    }
+
+    .privacy-footer{
+        margin-top:60px;
+        background:#0f172a;
+        color:white;
+        text-align:center;
+        padding:25px;
+        border-radius:12px 12px 0 0;
+    }
+
+    @media(max-width:768px){
+
+        .privacy-hero-title{
+            font-size:34px;
+        }
+
+        .privacy-section-heading h2{
+            font-size:30px;
+        }
+
+        .privacy-highlight-section h2{
+            font-size:30px;
+        }
+    }
+
+</style>
+
+<!-- HERO SECTION -->
+
+<section class="privacy-hero-section">
+
+    <h1 class="privacy-hero-title">
+        Privacy Policy
+    </h1>
+
+    <p class="privacy-hero-text">
+        Your privacy and data security are important to us.
+        Learn how our AI-powered medicine platform collects,
+        uses, and protects your information.
+    </p>
+
+</section>
+
+<!-- MAIN CONTENT -->
+
+<div class="privacy-main-container">
+
+    <div class="privacy-section-heading">
+
+        <h2>User Privacy & Data Protection</h2>
+
+        <p>
+            We are committed to keeping your personal information safe.
+        </p>
+
+    </div>
+
+    <div class="privacy-grid">
+
+        <!-- CARD 1 -->
+
+        <div class="privacy-card">
+
+            <div class="privacy-number">1</div>
+
+            <h3>Information We Collect</h3>
+
+            <p>
+                We may collect personal details such as:
+            </p>
+
+            <ul>
+                <li>Name and email address</li>
+                <li>Phone number and address</li>
+                <li>Medicine orders and prescriptions</li>
+                <li>Payment and transaction details</li>
+            </ul>
+
+        </div>
+
+        <!-- CARD 2 -->
+
+        <div class="privacy-card">
+
+            <div class="privacy-number">2</div>
+
+            <h3>How We Use Information</h3>
+
+            <p>
+                Your information is used to:
+            </p>
+
+            <ul>
+                <li>Process medicine orders</li>
+                <li>Improve AI healthcare assistance</li>
+                <li>Provide customer support</li>
+                <li>Enhance platform security</li>
+            </ul>
+
+        </div>
+
+        <!-- CARD 3 -->
+
+        <div class="privacy-card">
+
+            <div class="privacy-number">3</div>
+
+            <h3>Data Security</h3>
+
+            <p>
+                We use secure technologies and encryption
+                methods to protect user information from
+                unauthorized access or misuse.
+            </p>
+
+        </div>
+
+        <!-- CARD 4 -->
+
+        <div class="privacy-card">
+
+            <div class="privacy-number">4</div>
+
+            <h3>Prescription Privacy</h3>
+
+            <p>
+                Uploaded medical prescriptions are kept confidential
+                and are only accessible to authorized sellers
+                and administrators.
+            </p>
+
+        </div>
+
+        <!-- CARD 5 -->
+
+        <div class="privacy-card">
+
+            <div class="privacy-number">5</div>
+
+            <h3>Cookies & Tracking</h3>
+
+            <p>
+                Our platform may use cookies to improve
+                user experience, website performance,
+                and personalized services.
+            </p>
+
+        </div>
+
+        <!-- CARD 6 -->
+
+        <div class="privacy-card">
+
+            <div class="privacy-number">6</div>
+
+            <h3>Third-Party Services</h3>
+
+            <p>
+                Secure payment gateways and delivery services
+                may access limited required information
+                for order processing purposes.
+            </p>
+
+        </div>
+
+        <!-- CARD 7 -->
+
+        <div class="privacy-card">
+
+            <div class="privacy-number">7</div>
+
+            <h3>User Responsibilities</h3>
+
+            <p>
+                Users should maintain account confidentiality
+                and avoid sharing passwords or sensitive
+                login information with others.
+            </p>
+
+        </div>
+
+        <!-- CARD 8 -->
+
+        <div class="privacy-card">
+
+            <div class="privacy-number">8</div>
+
+            <h3>Policy Updates</h3>
+
+            <p>
+                We may update this Privacy Policy periodically.
+                Continued use of the platform indicates
+                acceptance of updated policies.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- HIGHLIGHT SECTION -->
+
+    <div class="privacy-highlight-section">
+
+        <h2>
+            Your Data, Our Responsibility
+        </h2>
+
+        <p>
+            We are dedicated to building a secure,
+            transparent, and trusted AI-powered healthcare platform
+            for all users.
+        </p>
+
+        <a href="#" class="privacy-contact-btn">
+            Contact Support
+        </a>
+
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="privacy-footer">
+
+    © 2026 MediCare AI | All Rights Reserved
+
+</div>
+
+{% endblock content %}

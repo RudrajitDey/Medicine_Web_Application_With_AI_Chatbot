@@ -1,0 +1,4 @@
+category,subcategory,product_name,brand,product_image,price,stock,expiry_date,discount_price,description,quantity,unit_type,is_available
+Pain Relief,Painkillers,Panadol,Glaxo,painadol.jpg,120.0,50,2025-12-31,100.0,Effective relief for headaches,20,tablet,True
+Vitamins,Vitamins,Vitamin C,HealthPlus,vitamin_c.jpg,250.0,100,2026-06-30,,Boosts immunity,30,tablet,True
+Personal Care,Skincare,Nivea Cream,Nivea,nivea_cream.jpg,180.0,40,2027-03-31,150.0,Moisturizing skin care cream,1,gm,True

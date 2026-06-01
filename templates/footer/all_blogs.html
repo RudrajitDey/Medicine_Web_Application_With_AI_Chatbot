@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}All Blogs{% endblock title %}
+
+{% block content %}
+
+<style>
+
+.page-section{
+    margin-top:110px;
+    padding:70px 20px;
+    background:linear-gradient(135deg,#0f172a,#1e3a8a);
+    color:white;
+    text-align:center;
+}
+
+.page-section h1{
+    font-size:48px;
+    margin-bottom:15px;
+}
+
+.page-container{
+    width:90%;
+    max-width:1200px;
+    margin:60px auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:25px;
+}
+
+.page-card{
+    background:white;
+    padding:30px;
+    border-radius:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+.page-card h3{
+    color:#1e3a8a;
+    margin-bottom:15px;
+}
+
+.page-card p{
+    color:#555;
+}
+
+</style>
+
+<section class="page-section">
+
+    <h1>All Blogs</h1>
+
+    <p>
+        Explore healthcare articles, medicine awareness,
+        and wellness blogs.
+    </p>
+
+</section>
+
+<div class="page-container">
+
+    <div class="page-card">
+
+        <h3>Benefits of Daily Vitamins</h3>
+
+        <p>
+            Learn how vitamins support your immune system and health.
+        </p>
+
+    </div>
+
+    <div class="page-card">
+
+        <h3>AI in Healthcare</h3>
+
+        <p>
+            Discover how AI is transforming online healthcare systems.
+        </p>
+
+    </div>
+
+    <div class="page-card">
+
+        <h3>Healthy Lifestyle Tips</h3>
+
+        <p>
+            Simple habits to improve your daily health and fitness.
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock content %}

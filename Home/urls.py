@@ -16,6 +16,16 @@ urlpatterns = [
     path('search/', views.search, name='search'),
 
     path('how_to_buy/', views.how_to_buy, name='how_to_buy'),
+    path('terms-and-conditions/', views.terms_conditions, name='terms_conditions'),
+    path('privacy-policy/', views.privacy_policy, name='privacy_policy'),
+    path('contact-us/', views.contact_us, name='contact_us'),
+    path('faqss/', views.faq_page, name='faq_page'),
+    path('all-blogs/', views.all_blogs, name='all_blogs'),
+    path('all-salts/', views.all_salts, name='all_salts'),
+    path('all-diseases/', views.all_diseases, name='all_diseases'),
+    path('all-brands/', views.all_brands, name='all_brands'),
+    path('all-medicines/', views.all_medicines, name='all_medicines'),
+    path('all-health-products/', views.all_health_products, name='all_health_products'),
 ]
 
 if settings.DEBUG:

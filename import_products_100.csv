@@ -1,0 +1,101 @@
+category,subcategory,product_name,brand,product_image,price,stock,expiry_date,discount_price,description,quantity,unit_type,is_available
+Pain Relief,Painkillers,Panadol Max,Glaxo,products/placeholder.png,120.0,80,2026-12-31,100.0,Fast pain relief for headaches,20,tablet,True
+Pain Relief,Painkillers,Dolo 650,Micro Labs,products/placeholder.png,95.0,150,2026-09-30,85.0,Fever and pain relief,10,tablet,True
+Pain Relief,Painkillers,Ibugesic Plus,Cipla,products/placeholder.png,180.0,60,2027-01-31,160.0,For severe body pain,10,tablet,True
+Pain Relief,Anti-Inflammatory,Volini Gel,Sun Pharma,products/placeholder.png,150.0,70,2027-05-15,130.0,Topical relief for muscle pain,50,gm,True
+Pain Relief,Anti-Inflammatory,Moov Spray,Marico,products/placeholder.png,240.0,40,2027-03-30,220.0,Spray for joint pain,50,ml,True
+Pain Relief,Anti-Inflammatory,Bioflor Pain Balm,Mankind,products/placeholder.png,90.0,100,2027-02-28,80.0,Ayurvedic balm for pain,20,gm,True
+Vitamins,General Vitamins,Healthvit C,HealthVit,products/placeholder.png,210.0,90,2027-07-31,180.0,Vitamin C tablets for immunity,10,tablet,True
+Vitamins,General Vitamins,Supradyn,Bayer,products/placeholder.png,290.0,65,2027-11-30,250.0,Multivitamin tablet support,10,tablet,True
+Vitamins,Immunity,Zandu Chyawanprash,Zandu,products/placeholder.png,260.0,120,2028-01-31,230.0,Daily immunity supplement,250,gm,True
+Vitamins,Immunity,HealthKart Multivitamin,HealthKart,products/placeholder.png,280.0,80,2027-12-31,250.0,Comprehensive immunity care,30,tablet,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,195.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,197.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,199.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,201.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,203.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,205.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,207.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,209.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,211.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,213.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,175.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,177.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,179.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,181.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,183.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,185.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,187.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,189.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,191.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,193.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,195.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,197.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,199.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,201.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,203.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,205.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,207.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,209.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,211.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,213.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,175.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,177.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,179.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,181.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,183.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,185.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,187.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,189.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,191.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,193.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,195.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,197.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,199.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,201.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,203.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,205.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,207.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,209.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,211.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,213.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,175.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,177.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,179.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,181.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,183.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,185.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,187.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,189.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,191.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,193.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,195.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,197.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,199.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,201.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,203.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,205.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,207.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,209.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,211.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,213.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,175.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,177.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,179.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,181.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,183.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,185.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,187.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,189.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,191.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,193.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,195.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,197.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,199.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,201.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,203.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,205.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,207.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,209.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,211.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True
+Cough & Cold,Cough Syrups,Dulcolax Cough Syrup,Abbott,products/placeholder.png,213.0,55,2027-08-31,150.0,Soothes cough and throat irritation,100,ml,True

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}All Diseases{% endblock title %}
+
+{% block content %}
+
+<style>
+
+.disease-hero{
+    margin-top:110px;
+    padding:70px 20px;
+    text-align:center;
+    background:linear-gradient(135deg,#0f172a,#1e40af);
+    color:white;
+}
+
+.disease-grid{
+    width:90%;
+    max-width:1200px;
+    margin:60px auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+.disease-card{
+    background:white;
+    padding:30px;
+    border-radius:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+.disease-card h3{
+    color:#2563eb;
+    margin-bottom:10px;
+}
+
+</style>
+
+<section class="disease-hero">
+
+    <h1>All Diseases</h1>
+
+    <p>
+        Learn about diseases, symptoms, and treatments.
+    </p>
+
+</section>
+
+<div class="disease-grid">
+
+    <div class="disease-card">
+        <h3>Diabetes</h3>
+        <p>Blood sugar related chronic disease.</p>
+    </div>
+
+    <div class="disease-card">
+        <h3>Fever</h3>
+        <p>Common illness caused by infection.</p>
+    </div>
+
+    <div class="disease-card">
+        <h3>Asthma</h3>
+        <p>Respiratory condition affecting breathing.</p>
+    </div>
+
+</div>
+
+{% endblock content %}
